@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honicove - Loading</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loader Honicove -->
+    <div class="loader">
+        <svg viewBox="0 0 600 100" width="450" height="150" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="gradient-honicove" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="600" y2="0">
+                    <stop stop-color="#973BED" />
+                    <stop stop-color="#007CFF" offset="0.3" />
+                    <stop stop-color="#FFC800" offset="0.6" />
+                    <stop stop-color="#00E0ED" offset="1" />
+                </linearGradient>
+            </defs>
+
+            <text
+                x="50%"
+                y="50%"
+                text-anchor="middle"
+                alignment-baseline="middle"
+                fill="none"
+                stroke="url(#gradient-honicove)"
+                stroke-width="2"
+                font-size="60"
+                font-family="Poppins, sans-serif"
+                class="dash-text"
+            >
+                Honicove
+            </text>
+        </svg>
+    </div>
+
+    <style>
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #0b1724; /* fond foncé */
+        }
+
+        .dash-text {
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+            animation: draw 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Reset default margins and padding */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</body>
+</html>
