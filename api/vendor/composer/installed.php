@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'gravity-framework/gravity',
-        'pretty_version' => 'v0.8.5',
-        'version' => '0.8.5.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'e54e431cc4879e5c8f6b2825ac8715e35c2e88ed',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'gravity-framework/gravity' => array(
-            'pretty_version' => 'v0.8.5',
-            'version' => '0.8.5.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'e54e431cc4879e5c8f6b2825ac8715e35c2e88ed',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

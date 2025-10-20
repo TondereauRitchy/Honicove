@@ -17,7 +17,7 @@
             },
             "time": "2025-08-08T22:40:22+00:00",
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Gravity\\Core\\": "src/",
