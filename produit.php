@@ -86,9 +86,7 @@
   <div class="product-info">
     <h1 id="product-name">The Signature Sports Bra</h1>
     <p id="product-price" class="product-price">$124.00</p>
-    
-    <!-- <div id="product-rating" class="stars">★★★★★</div> -->
-
+   
     <p class="product-desc">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis dictum purus.
     </p>

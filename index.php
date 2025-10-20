@@ -562,7 +562,7 @@
   });
 </script>
 
-<!-- Cart Modal -->
+<!-- Cart Modal
 <div id="cart-modal" class="cart-modal">
   <div class="cart-modal-content">
     <div class="cart-modal-header">
@@ -579,7 +579,7 @@
       <button id="checkout-btn" class="checkout-btn">Checkout</button>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Cart Modal JS -->
 <script>

@@ -115,7 +115,7 @@
     background: rgba(0, 128, 0, 0.514);
 }
 .sidebar:hover{
-    width: 240px;
+    width: 200px;
     transition: all 0.5s;
 }
 .logo{
@@ -172,8 +172,8 @@
 }
 .contenaire{
     position: absolute;
-    right: 5px;;
-    width: 85%;
+    left: 110px;
+    width: 900px;
     height: 100vh;
     background:white;
 }
@@ -194,6 +194,9 @@
     display: flex;
     align-items: center;
 }
+.nav .btn {
+    margin-left: 20px;
+}
 .contenaire, .header, .nav, .search{
     flex: 3;
     display: flex;
@@ -213,11 +216,11 @@
  
  #produits-table_wrapper {
   margin: 40px auto;
-  max-width: 900px;
-  background: #fff;
+  width: 110%;
+  /* background: #fff; */
   padding: 30px 20px 20px 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  /* box-shadow: 0 4px 16px rgba(0,0,0,0.08); */
 }
 
 #produits-table {
@@ -333,6 +336,8 @@
     background-color: #fff;
     border-radius: 15px;
     position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 .form-produit {
   max-width: 400px;

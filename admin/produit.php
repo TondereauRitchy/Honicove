@@ -33,9 +33,15 @@ if (empty($_SESSION['admin_logged_in'])) {
             <input type="text" id="nom_produit" name="nom" placeholder="Nom du produit" required />
             <label for="image">Choisissez une image :</label>
             <input type="file" name="image" id="image" accept="image/*">
+            <label for="image2">Choisissez une image 2 :</label>
+            <input type="file" name="image2" id="image2" accept="image/*">
+            <label for="image3">Choisissez une image 3 :</label>
+            <input type="file" name="image3" id="image3" accept="image/*">
             <textarea id="description" name="description" placeholder="Description" required></textarea>
             <input type="number" id="quantite" name="quantite" placeholder="Quantité" min="1" required />
             <input type="number" id="prix" name="prix" placeholder="Prix (gds)" step="0.01" min="0" required />
+            <input type="text" id="size" name="size" placeholder="Size" />
+            <input type="text" id="couleur" name="couleur" placeholder="Couleur" />
             <button type="submit" id="btn-submit" data-mode="ajouter">Ajouter</button>
           </form>
           <button class="close">X</button>
@@ -47,10 +53,14 @@ if (empty($_SESSION['admin_logged_in'])) {
       <thead>
         <tr>
           <th>Nom</th>
-          <th>Image</th>
+          <th>Image1</th>
+          <th>Image2</th>
+          <th>Image3</th>
           <th>Description</th>
           <th>Prix</th>
           <th>Quantité</th>
+          <th>Size</th>
+          <th>Couleur</th>
           <th>Date d’ajout</th>
           <th>Action</th>
         </tr>
@@ -84,14 +94,20 @@ if (empty($_SESSION['admin_logged_in'])) {
 
         result.data.forEach(p => {
           const row = document.createElement('tr');
-          const imageName = p.image_path.split('/').pop();
+          const imageName = p.image_path ? p.image_path.split('/').pop() : '';
+          const image2Name = p.image_2_path ? p.image_2_path.split('/').pop() : '';
+          const image3Name = p.image_3_path ? p.image_3_path.split('/').pop() : '';
 
           row.innerHTML = `
             <td>${p.nom}</td>
             <td><img src="../uploads/${imageName}" style="width:60px; height:auto; border-radius:6px;"></td>
+            <td><img src="../uploads/${image2Name}" style="width:60px; height:auto; border-radius:6px;"></td>
+            <td><img src="../uploads/${image3Name}" style="width:60px; height:auto; border-radius:6px;"></td>
             <td>${p.description}</td>
             <td>${p.prix} gds</td>
             <td>${p.quantite}</td>
+            <td>${p.size || ''}</td>
+            <td>${p.couleur || ''}</td>
             <td>${p.date_ajout}</td>
             <td>
               <button class="btn-edit" data-produit='${JSON.stringify(p).replace(/'/g, "&apos;")}' title="Modifier">✏️</button>
@@ -200,6 +216,8 @@ if (empty($_SESSION['admin_logged_in'])) {
       document.getElementById('description').value = p.description;
       document.getElementById('quantite').value = p.quantite;
       document.getElementById('prix').value = p.prix;
+      document.getElementById('size').value = p.size || '';
+      document.getElementById('couleur').value = p.couleur || '';
 
       document.querySelector(".overlay-popup").classList.add("active-popup");
       document.getElementById('btn-submit').textContent = "Mettre à jour";
