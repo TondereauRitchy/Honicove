@@ -342,7 +342,7 @@
         document.getElementById('product-img').src = imageSrc;
         document.getElementById('product-img').alt = product.data.name || 'Produit';
         document.getElementById('product-name').textContent = product.data.name || 'Nom non disponible';
-       document.getElementById('product-price').textContent = product.data.price || 'Prix non disponible';
+       document.getElementById('product-price').textContent = (product.data.price ? product.data.price + '$' : 'Prix non disponible');
       //  document.getElementById('product-size').textContent = product.data.size || 'Taille non disponible';
       //  document.getElementById('product-color').textContent = product.data.color || 'Couleur non disponible';
         // Assuming rating is not provided, or add if available
@@ -464,7 +464,7 @@
             <img src="uploads/${currentProduct.data.image_1 || 'card1.jpg'}" alt="${currentProduct.data.name || 'Produit'}" class="product-img">
             <div class="product-info">
               <h4>${currentProduct.data.name || 'Nom non disponible'}</h4>
-              <p class="price">${currentProduct.data.price || 'Prix non disponible'}</p>
+              <p class="price">${currentProduct.data.price ? currentProduct.data.price + '$' : 'Prix non disponible'}</p>
               <p class="quantity">Quantity: ${quantity}</p>
             </div>
           `;
