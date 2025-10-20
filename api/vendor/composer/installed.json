@@ -1,0 +1,61 @@
+{
+    "packages": [
+        {
+            "name": "gravity-framework/gravity-core",
+            "version": "v0.15",
+            "version_normalized": "0.15.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schery19/GRAVITY-CORE.git",
+                "reference": "c0427673d4c5cdedd19389e27b3d7a6db165c727"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schery19/GRAVITY-CORE/zipball/c0427673d4c5cdedd19389e27b3d7a6db165c727",
+                "reference": "c0427673d4c5cdedd19389e27b3d7a6db165c727",
+                "shasum": ""
+            },
+            "time": "2025-08-08T22:40:22+00:00",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-4": {
+                    "Gravity\\Core\\": "src/",
+                    "Gravity\\Core\\App\\": "src/app",
+                    "Gravity\\Core\\Routing\\": "src/routes",
+                    "Gravity\\Core\\Database\\": "src/database",
+                    "Gravity\\Core\\Exceptions\\": "src/Exceptions"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "\"Schneider Chéry\"",
+                    "email": "schneiderchery7@gmail.com"
+                },
+                {
+                    "name": "\"Jean Louis Fils François\"",
+                    "email": "francois.jeanlouisfils@gmail.com"
+                }
+            ],
+            "description": "Gravity PHP Library for gravity-framework",
+            "keywords": [
+                "GRAVITY-CORE",
+                "framework",
+                "gravity",
+                "library",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/schery19/GRAVITY-CORE/issues",
+                "source": "https://github.com/schery19/GRAVITY-CORE/tree/v0.15"
+            },
+            "install-path": "../gravity-framework/gravity-core"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
