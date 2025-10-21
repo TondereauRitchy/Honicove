@@ -32,7 +32,18 @@ class ProductController extends BaseController {
 	}
 
 
-	public function update($id) {}
+	public function update($id) {
+		$data = json_decode(file_get_contents("php://input"), true);
+		$produit = ProductRepository::findOrfail($id);
+
+		$newProduit = Resource::loadEntity($data, Product::class);
+
+		$newProduit->id = $produit->id;
+
+		ProductRepository::update($newProduit);
+
+		return $this->sendResponse($produit, 'produit update successfully');
+	}
 
 
 	public function delete($id) {}
