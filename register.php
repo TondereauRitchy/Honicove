@@ -52,7 +52,7 @@
           <ul class="account-menu">
             <a href="sign.php" onclick="event.preventDefault(); window.location.href='sign.php';">Sign In</a>
             <a href="#" onclick="event.preventDefault();">My Orders</a>
-            <a href="#" onclick="event.preventDefault();">Account Settings</a>
+            <a href="accountsetting.html">Account Settings</a>
             <a href="#" onclick="event.preventDefault();">Address Book</a>
             <a href="#" onclick="event.preventDefault();">Saved Items</a>
           </ul>

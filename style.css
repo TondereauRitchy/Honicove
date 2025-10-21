@@ -732,6 +732,12 @@ nav.main-nav a:hover {
   gap:18px;
 }
 
+.grid .card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
 /* .card{
   background:var(--white);
   border-radius:14px;
@@ -1338,6 +1344,51 @@ body.sign-page button.Card-icon span {
 .color.white { background: white; border: 1px solid #ccc; }
 .color.red { background: #b22234; }
 .color.navy { background: #0b1724; }
+/* =========================
+   Couleurs de base
+   ========================= */
+.color-black { background: #000000; }
+.color-white { background: #FFFFFF; }
+.color-gray { background: #808080; }
+.color-lightgray { background: #D3D3D3; }
+.color-darkgray { background: #333333; }
+
+/* =========================
+   Couleurs primaires
+   ========================= */
+.color-red { background: #FF0000; }
+.color-darkred { background: #8B0000; }
+.color-blue { background: #007BFF; }
+.color-darkblue { background: #00008B; }
+.color-green { background: #28A745; }
+.color-darkgreen { background: #006400; }
+.color-yellow { background: #FFD700; }
+.color-orange { background: #FFA500; }
+.color-purple { background: #800080; }
+.color-pink { background: #FFC0CB; }
+.color-brown { background: #8B4513; }
+
+/* =========================
+   Couleurs modernes
+   ========================= */
+.color-teal { background: #20C997; }
+.color-cyan { background: #17A2B8; }
+.color-indigo { background: #6610F2; }
+.color-lime { background: #A4DE02; }
+.color-gold { background: #FFD700; }
+.color-silver { background: #C0C0C0; }
+.color-beige { background: #F5F5DC; }
+.color-cream { background: #FFFDD0; }
+
+/* =========================
+   Couleurs transparentes / nuances
+   ========================= */
+.color-black-50 { background: rgba(0, 0, 0, 0.5); }
+.color-white-50 { background: rgba(255, 255, 255, 0.5); }
+.color-red-50 { background: rgba(255, 0, 0, 0.5); }
+.color-blue-50 { background: rgba(0, 123, 255, 0.5); }
+.color-green-50 { background: rgba(40, 167, 69, 0.5); }
+
 
 .color.active {
   border: 2px solid var(--maroon);

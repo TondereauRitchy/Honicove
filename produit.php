@@ -52,7 +52,7 @@
           <ul class="account-menu">
             <a href="sign.php">Sign In</a>
             <a href="#" onclick="event.preventDefault();">My Orders</a>
-            <a href="#" onclick="event.preventDefault();">Account Settings</a>
+            <a href="accountsetting.html">Account Settings</a>
             <a href="#" onclick="event.preventDefault();">Address Book</a>
             <a href="#" onclick="event.preventDefault();">Saved Items</a>
           </ul>
@@ -361,7 +361,31 @@
             'white': 'white',
             'black': 'black',
             'red': 'red',
-            'navy': 'navy'
+            'navy': 'navy',
+            'gray': 'gray',
+            'lightgray': 'lightgray',
+            'darkgray': 'darkgray',
+            'darkred': 'darkred',
+            'darkblue': 'darkblue',
+            'darkgreen': 'darkgreen',
+            'yellow': 'yellow',
+            'orange': 'orange',
+            'purple': 'purple',
+            'pink': 'pink',
+            'brown': 'brown',
+            'teal': 'teal',
+            'cyan': 'cyan',
+            'indigo': 'indigo',
+            'lime': 'lime',
+            'gold': 'gold',
+            'silver': 'silver',
+            'beige': 'beige',
+            'cream': 'cream',
+            'black-50': 'black-50',
+            'white-50': 'white-50',
+            'red-50': 'red-50',
+            'blue-50': 'blue-50',
+            'green-50': 'green-50'
           };
           colors.forEach(color => {
             const mappedColor = colorMap[color] || color;

@@ -68,7 +68,7 @@
           <ul class="account-menu">
             <a href="sign.php">Sign In</a>
             <a href="#" onclick="event.preventDefault();">My Orders</a>
-            <a href="#" onclick="event.preventDefault();">Account Settings</a>
+            <a href="accountsetting.html">Account Settings</a>
             <a href="#" onclick="event.preventDefault();">Address Book</a>
             <a href="#" onclick="event.preventDefault();">Saved Items</a>
           </ul>
@@ -118,28 +118,11 @@
         <button>Accessories</button>
       </div>
       <div class="grid" id="product-grid">
+        
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" style="margin-top:48px">
-      <!-- <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
-        <div style="flex:1;min-width:280px">
-          <h3>Notre approche</h3>
-          <p style="color:var(--muted)">Chez Honicove, nous créons des vêtements athleisure qui allient fonctionnalité et esthétique minimaliste. Chaque pièce est pensée pour durer, avec des matières recyclées, une coupe étudiée et un design épuré.</p>
-          <ul style="color:var(--muted)">
-            <li>Designs épurés, silhouettes modernes</li>
-            <li>Tissus techniques et confort quotidien</li>
-            <li>Production responsable</li>
-          </ul>
-        </div>
-
-        <div style="flex:1;min-width:260px">
-          <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1200&q=60" alt="Studio image">
-        </div>
-      </div> -->
-    </section>
-
+   
   </main>
 
   <!-- Welcome Modal -->
@@ -243,7 +226,7 @@
       return products.map(product => {
         const imageSrc = product.image_1 ? `uploads/${product.image_1}` : 'uploads/card1.jpg';
         return `
-          <div class="card" data-id="${product.id}">
+          <div class="card" data-id="${product.id}" data-color="${product.color || ''}">
             <div class="card-top">
               <button class="card-fav" aria-label="Ajouter aux favoris">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -255,6 +238,7 @@
             <a href="produit.php?id=${product.id}">
               <img src="${imageSrc}" alt="${product.name || 'Produit'}">
               <h4>${product.name || 'Nom non disponible'}</h4>
+              <div class="color-swatches"></div>
               <p class="price">$${product.price || 'Prix non disponible'}</p>
             </a>
           </div>
@@ -268,6 +252,60 @@
       const products = await fetchProducts();
       const cardsHtml = generateProductCards(products);
       productGrid.innerHTML = cardsHtml;
+
+      // Populate color swatches for each card
+      products.forEach(product => {
+        const card = document.querySelector(`.card[data-id="${product.id}"]`);
+        if (card) {
+          const colorSwatches = card.querySelector('.color-swatches');
+          const colorString = product.color;
+          if (colorString && colorString.trim() !== '') {
+            const colors = colorString.split(/\s*,\s*|\s+/).map(c => c.trim().toLowerCase()).filter(c => c);
+            const colorMap = {
+              'blanc': 'white',
+              'noir': 'black',
+              'rouge': 'red',
+              'bleu marine': 'navy',
+              'white': 'white',
+              'black': 'black',
+              'red': 'red',
+              'navy': 'navy',
+              'gray': 'gray',
+              'lightgray': 'lightgray',
+              'darkgray': 'darkgray',
+              'darkred': 'darkred',
+              'darkblue': 'darkblue',
+              'darkgreen': 'darkgreen',
+              'yellow': 'yellow',
+              'orange': 'orange',
+              'purple': 'purple',
+              'pink': 'pink',
+              'brown': 'brown',
+              'teal': 'teal',
+              'cyan': 'cyan',
+              'indigo': 'indigo',
+              'lime': 'lime',
+              'gold': 'gold',
+              'silver': 'silver',
+              'beige': 'beige',
+              'cream': 'cream',
+              'black-50': 'black-50',
+              'white-50': 'white-50',
+              'red-50': 'red-50',
+              'blue-50': 'blue-50',
+              'green-50': 'green-50'
+            };
+            colors.forEach(color => {
+              const mappedColor = colorMap[color] || color;
+              const span = document.createElement('span');
+              span.className = `color ${mappedColor}`;
+              colorSwatches.appendChild(span);
+            });
+          } else {
+            colorSwatches.innerHTML = '<span class="color">Couleur non disponible</span>';
+          }
+        }
+      });
     });
   </script>
 
