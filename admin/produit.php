@@ -1,4 +1,5 @@
- <?php
+
+<?php
 session_start();
 
 if (empty($_SESSION['admin_logged_in'])) {
@@ -31,6 +32,7 @@ if (empty($_SESSION['admin_logged_in'])) {
           <form class="form-produit" enctype="multipart/form-data">
             <input type="hidden" id="produit_id" name="id" />
             <input type="hidden" name="category_id" value="1" />
+            <input type="text" id="nom_produit" name="name" placeholder="Nom du produit" required />
             <label for="image">Choisissez une image :</label>
             <input type="file" name="image" id="image" accept="image/*">
             <label for="image2">Choisissez une image 2 :</label>
@@ -92,11 +94,12 @@ if (empty($_SESSION['admin_logged_in'])) {
         const tbody = document.querySelector('#produits-table tbody');
         tbody.innerHTML = '';
 
-        result.data.forEach(p => {
+
+result.data.forEach(p => {
           const row = document.createElement('tr');
-          const imageName = p.image_1 || '';
-          const image2Name = p.image_2 || '';
-          const image3Name = p.image_3 || '';
+          const imageName = p.image_1  ;
+          const image2Name = p.image_2  ;
+          const image3Name = p.image_3  ;
 
           row.innerHTML = `
             <td>${p.name}</td>
@@ -106,12 +109,12 @@ if (empty($_SESSION['admin_logged_in'])) {
             <td>${p.description}</td>
             <td>${p.price} gds</td>
             <td>${p.quantity}</td>
-            <td>${p.size || ''}</td>
-            <td>${p.color || ''}</td>
+            <td>${p.size}</td>
+            <td>${p.color}</td>
             <td>${p.created_at}</td>
             <td>
               <button class="btn-edit" data-produit='${JSON.stringify(p).replace(/'/g, "&apos;")}' title="Modifier">✏️</button>
-              <button onclick="supprimerProduit('${p.id}')" class="btn-delete" title="Supprimer">🗑️</button>
+              <button onclick="supprimerProduit('${p.id}')" class="btn-delete" title="Supprimer">🗑</button>
             </td>
           `;
           tbody.appendChild(row);
@@ -211,14 +214,15 @@ if (empty($_SESSION['admin_logged_in'])) {
       }
     }
 
-    function modifierProduit(p) {
+
+function modifierProduit(p) {
       document.getElementById('produit_id').value = p.id;
       document.getElementById('nom_produit').value = p.name;
       document.getElementById('description').value = p.description;
       document.getElementById('quantite').value = p.quantity;
       document.getElementById('prix').value = p.price;
-      document.getElementById('size').value = p.size || '';
-      document.getElementById('couleur').value = p.color || '';
+      document.getElementById('size').value = p.size;
+      document.getElementById('couleur').value = p.color;
 
       document.querySelector(".overlay-popup").classList.add("active-popup");
       document.getElementById('btn-submit').textContent = "Mettre à jour";

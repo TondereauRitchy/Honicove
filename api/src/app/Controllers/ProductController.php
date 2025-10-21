@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use App\Repository\Repository;
 use App\Resources\Resource;
 
 class ProductController extends BaseController {
@@ -46,8 +47,19 @@ class ProductController extends BaseController {
 	}
 
 
-	public function delete($id) {}
+	public function delete($id) {
+		$data = json_decode(file_get_contents("php://input"), true);
 
+        $produit = ProductRepository::find($id);
+        if(is_null($produit)) 
+            return $this-> sendError("Error","product not found");
+
+
+        $delete = Repository::rawQuery("delete from products where id = ?", [$id]);
+
+        
+        return $this->sendResponse(null,'product delete succesfully');
+	}
 }
 
 ?>
