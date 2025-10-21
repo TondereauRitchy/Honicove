@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $result = json_decode($response, true);
 
-    if ($httpCode >= 200 && $httpCode < 300 && !isset($result['error'])) {
+    if ($httpCode >= 200 && $httpCode < 300 && isset($result['error']) && !$result['error']) {
         echo json_encode(['error' => false, 'message' => 'Produit traité avec succès']);
     } else {
         echo json_encode(['error' => true, 'message' => $result['message'] ?? 'Erreur API']);

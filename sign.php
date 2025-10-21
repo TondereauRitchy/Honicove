@@ -91,7 +91,8 @@
       </form>
 
       <div style="margin-top:16px;text-align:center;">
-        <a href="#" style="color:#333;">Mot de passe oublié ?</a> ou <a href="register.php" style="color:#333;">créer un nouveau compte</a>
+        <!-- <a href="#" style="color:#333;">Mot de passe oublié ?</a> ou  -->
+        <a href="register.php" style="color:#333;">créer un nouveau compte</a>
       </div>
     </div>
   </main>
