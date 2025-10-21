@@ -238,8 +238,9 @@
             <a href="produit.php?id=${product.id}">
               <img src="${imageSrc}" alt="${product.name || 'Produit'}">
               <h4>${product.name || 'Nom non disponible'}</h4>
-              <div class="color-swatches"></div>
+              <p class="subtitle">${product.description || 'Description non disponible'}</p>
               <p class="price">$${product.price || 'Prix non disponible'}</p>
+              <div class="color-swatches"></div>
             </a>
           </div>
         `;
