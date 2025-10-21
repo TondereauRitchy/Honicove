@@ -78,7 +78,7 @@
         </div>
       <?php endif; ?>
 
-      <form method="post" action="admin/controller/login.php" style="display:flex;flex-direction:column;gap:14px;">
+      <form id="loginForm" method="post" style="display:flex;flex-direction:column;gap:14px;">
         <div>
           <label for="email" style="display:block;margin-bottom:6px;font-weight:600;">Email</label>
           <input type="email" id="email" name="email" required placeholder="you@example.com" style="width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:8px;outline:none;">
@@ -216,6 +216,50 @@
     }
 
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault(); // Empêcher la soumission classique
+
+      const formData = new FormData(this);
+      const data = {
+        email: formData.get('email'),
+        password: formData.get('password')
+      };
+
+      try {
+        const response = await fetch('http://localhost/dashboard/Honicove-1/api/public/index.php?route=users/customer-login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.error) {
+          showError(result.message || 'Erreur lors de la connexion.');
+        } else {
+          // Connexion réussie - stocker les informations utilisateur et rediriger
+          localStorage.setItem('user', JSON.stringify(result.data));
+          window.location.href = 'index.php'; // Rediriger vers la page d'accueil
+        }
+      } catch (error) {
+        showError('Erreur réseau. Veuillez réessayer.');
+      }
+    });
+
+    function showError(message) {
+      let errorDiv = document.getElementById('error-message');
+      if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.id = 'error-message';
+        errorDiv.style.cssText = 'background:#ffe6e6;border:1px solid #ffb3b3;color:#b30000;padding:10px 12px;border-radius:8px;margin-bottom:16px;';
+        document.querySelector('.auth-card').insertBefore(errorDiv, document.querySelector('form'));
+      }
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+    }
   </script>
 </body>
 </html>

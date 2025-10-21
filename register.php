@@ -78,7 +78,7 @@
         </div>
       <?php endif; ?>
 
-      <form method="post" action="admin/controller/register.php" style="display:flex;flex-direction:column;gap:14px;">
+      <form id="registerForm" method="post" style="display:flex;flex-direction:column;gap:14px;">
         <div>
           <label for="name" style="display:block;margin-bottom:6px;font-weight:600;">Nom complet</label>
           <input type="text" id="name" name="name" required placeholder="Votre nom" style="width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:8px;outline:none;">
@@ -224,6 +224,57 @@
     }
 
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault(); // Empêcher la soumission classique
+
+      const formData = new FormData(this);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        password: formData.get('password'),
+        confirm_password: formData.get('confirm_password')
+      };
+
+      // Vérification côté client pour la confirmation du mot de passe
+      if (data.password !== data.confirm_password) {
+        showError('Les mots de passe ne correspondent pas.');
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost/dashboard/Honicove-1/api/public/index.php?route=users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.error) {
+          showError(result.message || 'Erreur lors de l\'inscription.');
+        } else {
+          // Succès : rediriger vers la page de connexion
+          window.location.href = 'sign.php?success=1';
+        }
+      } catch (error) {
+        showError('Erreur réseau. Veuillez réessayer.');
+      }
+    });
+
+    function showError(message) {
+      let errorDiv = document.getElementById('error-message');
+      if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.id = 'error-message';
+        errorDiv.style.cssText = 'background:#ffe6e6;border:1px solid #ffb3b3;color:#b30000;padding:10px 12px;border-radius:8px;margin-bottom:16px;';
+        document.querySelector('.auth-card').insertBefore(errorDiv, document.querySelector('form'));
+      }
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+    }
   </script>
 </body>
 </html>

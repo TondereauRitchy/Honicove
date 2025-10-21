@@ -19,6 +19,7 @@ class UserRoutes extends ResourceRoutes {
 		$this->post = [
 			new Route('/users', [UserController::class, 'store']),
 			new Route('/users/login', [UserController::class, 'login']),
+			new Route('/users/customer-login', [UserController::class, 'customerLogin']),
 		];
 
 		$this->put = [
