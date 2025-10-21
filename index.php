@@ -117,135 +117,7 @@
         <button>Sets</button>
         <button>Accessories</button>
       </div>
-      <div class="grid">
-        <div class="card" data-id="1">
-          <div class="card-top">
-<!-- <span class="card-label">New Arrivals</span> -->
-<button class="card-fav" aria-label="Ajouter aux favoris">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-       stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.8 4.6c-1.5-1.6-4-1.6-5.6 0L12 7.8 8.8 4.6c-1.6-1.6-4.1-1.6-5.6 0-1.6 1.6-1.6 4.2 0 5.8l8.8 8.9 8.8-8.9c1.6-1.6 1.6-4.2 0-5.8z"/>
-  </svg>
-</button>
-          </div>
-          <a href="produit.php?id=1">
-            <img src="logo/pink.jpg" alt="The Signature Sports Bra">
-            <h4> The Signature Sports Bra</h4>
-            <p class="price">$45</p>
-          </a>
-        </div>
-        <div class="card" data-id="2">
-          <div class="card-top">
-<!-- <span class="card-label">Best Seller</span> -->
-<button class="card-fav" aria-label="Ajouter aux favoris">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-       stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.8 4.6c-1.5-1.6-4-1.6-5.6 0L12 7.8 8.8 4.6c-1.6-1.6-4.1-1.6-5.6 0-1.6 1.6-1.6 4.2 0 5.8l8.8 8.9 8.8-8.9c1.6-1.6 1.6-4.2 0-5.8z"/>
-  </svg>
-</button>
-          </div>
-          <a href="produit.php?id=2">
-            <img src="logo/pink.jpg" alt="Everyday Tee">
-            <h4> Everyday Tee</h4>
-            <p class="price">$30</p>
-          </a>
-        </div>
-        <div class="card" data-id="3">
-          <div class="card-top">
-<!-- <span class="card-label">Best Seller</span> -->
-<button class="card-fav" aria-label="Ajouter aux favoris">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-       stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.8 4.6c-1.5-1.6-4-1.6-5.6 0L12 7.8 8.8 4.6c-1.6-1.6-4.1-1.6-5.6 0-1.6 1.6-1.6 4.2 0 5.8l8.8 8.9 8.8-8.9c1.6-1.6 1.6-4.2 0-5.8z"/>
-  </svg>
-</button>
-          </div>
-          <a href="produit.php?id=3">
-            <img src="logo/pink.jpg" alt="High-Rise Leggings">
-            <h4> High-Rise Leggings</h4>
-            <p class="price">$60</p>
-          </a>
-        </div>
-        <div class="card" data-id="1">
-          <div class="card-top">
-<!-- <span class="card-label">New</span> -->
-<button class="card-fav" aria-label="Ajouter aux favoris">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-       stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.8 4.6c-1.5-1.6-4-1.6-5.6 0L12 7.8 8.8 4.6c-1.6-1.6-4.1-1.6-5.6 0-1.6 1.6-1.6 4.2 0 5.8l8.8 8.9 8.8-8.9c1.6-1.6 1.6-4.2 0-5.8z"/>
-  </svg>
-</button>
-          </div>
-          <a href="produit.php?id=1">
-            <img src="logo/pink.jpg" alt="Nouveau Produit">
-            <h4> Nouveau Produit</h4>
-            <p class="price">$50</p>
-          </a>
-        </div>
-        <div class="card" data-id="5">
-          <div class="card-top">
-<button class="card-fav" aria-label="Ajouter aux favoris">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-       stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.8 4.6c-1.5-1.6-4-1.6-5.6 0L12 7.8 8.8 4.6c-1.6-1.6-4.1-1.6-5.6 0-1.6 1.6-1.6 4.2 0 5.8l8.8 8.9 8.8-8.9c1.6-1.6 1.6-4.2 0-5.8z"/>
-  </svg>
-</button>
-          </div>
-          <a href="produit.php?id=5">
-            <img src="logo/read.jpg" alt="Compression Shorts">
-            <h4> Compression Shorts</h4>
-            <p class="price">$35</p>
-          </a>
-        </div>
-        <div class="card" data-id="6">
-          <div class="card-top">
-<button class="card-fav" aria-label="Ajouter aux favoris">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-       stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.8 4.6c-1.5-1.6-4-1.6-5.6 0L12 7.8 8.8 4.6c-1.6-1.6-4.1-1.6-5.6 0-1.6 1.6-1.6 4.2 0 5.8l8.8 8.9 8.8-8.9c1.6-1.6 1.6-4.2 0-5.8z"/>
-  </svg>
-</button>
-          </div>
-          <a href="produit.php?id=6">
-            <img src="logo/read.jpg" alt="Athletic Hoodie">
-            <h4> Athletic Hoodie</h4>
-            <p class="price">$70</p>
-          </a>
-        </div>
-        <div class="card" data-id="7">
-          <div class="card-top">
-<!-- <span class="card-label">New</span> -->
-<button class="card-fav" aria-label="Ajouter aux favoris">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-       stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.8 4.6c-1.5-1.6-4-1.6-5.6 0L12 7.8 8.8 4.6c-1.6-1.6-4.1-1.6-5.6 0-1.6 1.6-1.6 4.2 0 5.8l8.8 8.9 8.8-8.9c1.6-1.6 1.6-4.2 0-5.8z"/>
-  </svg>
-</button>
-          </div>
-          <a href="produit.php?id=7">
-            <img src="logo/read.jpg" alt="Yoga Pants">
-            <h4> Yoga Pants</h4>
-            <p class="price">$55</p>
-          </a>
-        </div>
-        <div class="card" data-id="8">
-          <div class="card-top">
-<!-- <span class="card-label">Best Seller</span> -->
-<button class="card-fav" aria-label="Ajouter aux favoris">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-       stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.8 4.6c-1.5-1.6-4-1.6-5.6 0L12 7.8 8.8 4.6c-1.6-1.6-4.1-1.6-5.6 0-1.6 1.6-1.6 4.2 0 5.8l8.8 8.9 8.8-8.9c1.6-1.6 1.6-4.2 0-5.8z"/>
-  </svg>
-</button>
-          </div>
-          <a href="produit.php?id=8">
-            <img src="logo/read.jpg" alt="Running Jacket">
-            <h4> Running Jacket</h4>
-            <p class="price">$80</p>
-          </a>
-        </div>
-        
-        
+      <div class="grid" id="product-grid">
       </div>
     </section>
 
@@ -349,6 +221,56 @@
 </footer>
 
 
+  <!-- Product Fetching and Grid Generation -->
+  <script>
+    // Function to fetch all products from API
+    async function fetchProducts() {
+      try {
+        const response = await fetch('api/public/index.php?route=/products');
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des produits');
+        }
+        const data = await response.json();
+        return data.data; // Assuming the API returns { data: [...] }
+      } catch (error) {
+        console.error('Erreur:', error);
+        return [];
+      }
+    }
+
+    // Function to generate product cards HTML
+    function generateProductCards(products) {
+      return products.map(product => {
+        const imageSrc = product.image_1 ? `uploads/${product.image_1}` : 'uploads/card1.jpg';
+        return `
+          <div class="card" data-id="${product.id}">
+            <div class="card-top">
+              <button class="card-fav" aria-label="Ajouter aux favoris">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.8 4.6c-1.5-1.6-4-1.6-5.6 0L12 7.8 8.8 4.6c-1.6-1.6-4.1-1.6-5.6 0-1.6 1.6-1.6 4.2 0 5.8l8.8 8.9 8.8-8.9c1.6-1.6 1.6-4.2 0-5.8z"/>
+                </svg>
+              </button>
+            </div>
+            <a href="produit.php?id=${product.id}">
+              <img src="${imageSrc}" alt="${product.name || 'Produit'}">
+              <h4>${product.name || 'Nom non disponible'}</h4>
+              <p class="price">$${product.price || 'Prix non disponible'}</p>
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Populate product grid on page load
+    document.addEventListener('DOMContentLoaded', async () => {
+      const productGrid = document.getElementById('product-grid');
+      const products = await fetchProducts();
+      const cardsHtml = generateProductCards(products);
+      productGrid.innerHTML = cardsHtml;
+    });
+  </script>
+
   <!-- Minimal JS for navigation -->
   <script>
     function scrollToSection(id, e){
@@ -442,18 +364,6 @@
       bar.classList.add('sticky');
     } else {
       bar.classList.remove('sticky');
-    }
-  });
-</script>
-<script>
-  window.addEventListener("scroll", () => {
-    const header = document.querySelector("header.site-header");
-    const heroLogo = document.getElementById("hero-logo");
-
-    if (window.scrollY > window.innerHeight * 0.3) {
-      header.classList.add("scrolled");
-    } else {
-      header.classList.remove("scrolled");
     }
   });
 </script>

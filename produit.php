@@ -373,6 +373,36 @@
           colorSwatches.innerHTML = '<span class="color">Couleur non disponible</span>';
         }
 
+        // Populate thumbnails dynamically from API
+        const thumbnailList = document.querySelector('.thumbnail-list');
+        thumbnailList.innerHTML = '';
+        if (product.data.image_1) {
+          const img1 = document.createElement('img');
+          img1.src = `uploads/${product.data.image_1}`;
+          img1.alt = 'view 1';
+          thumbnailList.appendChild(img1);
+        }
+        if (product.data.image_2) {
+          const img2 = document.createElement('img');
+          img2.src = `uploads/${product.data.image_2}`;
+          img2.alt = 'view 2';
+          thumbnailList.appendChild(img2);
+        }
+        if (product.data.image_3) {
+          const img3 = document.createElement('img');
+          img3.src = `uploads/${product.data.image_3}`;
+          img3.alt = 'view 3';
+          thumbnailList.appendChild(img3);
+        }
+
+        // Attach click events to thumbnails after population
+        thumbnailList.querySelectorAll('img').forEach(thumb => {
+          thumb.addEventListener('click', () => {
+            document.getElementById('product-img').src = thumb.src;
+            document.getElementById('product-img').alt = thumb.alt;
+          });
+        });
+
         // const sizeOptions = document.querySelector('.size-options');
         // sizeOptions.innerHTML = '<button>NA</button>';
 
