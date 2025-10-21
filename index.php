@@ -226,7 +226,7 @@
       return products.map(product => {
         const imageSrc = product.image_1 ? `uploads/${product.image_1}` : 'uploads/card1.jpg';
         return `
-          <div class="card" data-id="${product.id}" data-color="${product.color || ''}">
+          <div class="card" data-id="${product.id}" data-color="${product.color || ''}" data-image1="${product.image_1 || ''}" data-image2="${product.image_2 || ''}" data-image3="${product.image_3 || ''}">
             <div class="card-top">
               <button class="card-fav" aria-label="Ajouter aux favoris">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -295,11 +295,23 @@
               'blue-50': 'blue-50',
               'green-50': 'green-50'
             };
-            colors.forEach(color => {
+            colors.forEach((color, index) => {
               const mappedColor = colorMap[color] || color;
-              const span = document.createElement('span');
-              span.className = `color ${mappedColor}`;
-              colorSwatches.appendChild(span);
+              const button = document.createElement('button');
+              button.className = `color ${mappedColor}`;
+              button.setAttribute('data-color', color);
+              button.setAttribute('data-index', index);
+              button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const card = e.target.closest('.card');
+                const img = card.querySelector('img');
+                const imageAttr = `data-image${index + 1}`;
+                const newImage = card.getAttribute(imageAttr);
+                if (newImage) {
+                  img.src = `uploads/${newImage}`;
+                }
+              });
+              colorSwatches.appendChild(button);
             });
           } else {
             colorSwatches.innerHTML = '<span class="color">Couleur non disponible</span>';
