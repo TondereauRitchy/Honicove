@@ -1,4 +1,4 @@
-<?php
+ <?php
 session_start();
 
 if (empty($_SESSION['admin_logged_in'])) {
@@ -151,10 +151,11 @@ if (empty($_SESSION['admin_logged_in'])) {
             icon: 'success',
             title: 'Succès',
             text: result.message || "Produit traité avec succès"
+          }).then(() => {
+            form.reset();
+            document.querySelector('.overlay-popup').classList.remove("active-popup");
+            chargerProduits();
           });
-          form.reset();
-          document.querySelector('.overlay-popup').classList.remove("active-popup");
-          chargerProduits();
         } else {
           Swal.fire({
             icon: 'error',
