@@ -31,7 +31,6 @@ if (empty($_SESSION['admin_logged_in'])) {
           <form class="form-produit" enctype="multipart/form-data">
             <input type="hidden" id="produit_id" name="id" />
             <input type="hidden" name="category_id" value="1" />
-            <input type="text" id="nom_produit" name="name" placeholder="Nom du produit" required />
             <label for="image">Choisissez une image :</label>
             <input type="file" name="image" id="image" accept="image/*">
             <label for="image2">Choisissez une image 2 :</label>
