@@ -21,7 +21,7 @@ class ProductRoutes extends ResourceRoutes {
 		];
 
 		$this->put = [
-			new Route('/products/:id', [ProductController::class, 'updae']),
+			new Route('/products/:id', [ProductController::class, 'update']),
 		];
 
 		$this->patch = [

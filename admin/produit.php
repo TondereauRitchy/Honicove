@@ -30,7 +30,8 @@ if (empty($_SESSION['admin_logged_in'])) {
         <div class="content-popup">
           <form class="form-produit" enctype="multipart/form-data">
             <input type="hidden" id="produit_id" name="id" />
-            <input type="text" id="nom_produit" name="nom" placeholder="Nom du produit" required />
+            <input type="hidden" name="category_id" value="1" />
+            <input type="text" id="nom_produit" name="name" placeholder="Nom du produit" required />
             <label for="image">Choisissez une image :</label>
             <input type="file" name="image" id="image" accept="image/*">
             <label for="image2">Choisissez une image 2 :</label>
@@ -38,10 +39,10 @@ if (empty($_SESSION['admin_logged_in'])) {
             <label for="image3">Choisissez une image 3 :</label>
             <input type="file" name="image3" id="image3" accept="image/*">
             <textarea id="description" name="description" placeholder="Description" required></textarea>
-            <input type="number" id="quantite" name="quantite" placeholder="Quantité" min="1" required />
-            <input type="number" id="prix" name="prix" placeholder="Prix (gds)" step="0.01" min="0" required />
+            <input type="number" id="quantite" name="quantity" placeholder="Quantité" min="1" required />
+            <input type="number" id="prix" name="price" placeholder="Prix (gds)" step="0.01" min="0" required />
             <input type="text" id="size" name="size" placeholder="Size" />
-            <input type="text" id="couleur" name="couleur" placeholder="Couleur" />
+            <input type="text" id="couleur" name="color" placeholder="Couleur" />
             <button type="submit" id="btn-submit" data-mode="ajouter">Ajouter</button>
           </form>
           <button class="close">X</button>
@@ -87,28 +88,28 @@ if (empty($_SESSION['admin_logged_in'])) {
 
     async function chargerProduits() {
       try {
-        const res = await fetch('../api/produits');
+        const res = await fetch('../api/products');
         const result = await res.json();
         const tbody = document.querySelector('#produits-table tbody');
         tbody.innerHTML = '';
 
         result.data.forEach(p => {
           const row = document.createElement('tr');
-          const imageName = p.image_path ? p.image_path.split('/').pop() : '';
-          const image2Name = p.image_2_path ? p.image_2_path.split('/').pop() : '';
-          const image3Name = p.image_3_path ? p.image_3_path.split('/').pop() : '';
+          const imageName = p.image_1 || '';
+          const image2Name = p.image_2 || '';
+          const image3Name = p.image_3 || '';
 
           row.innerHTML = `
-            <td>${p.nom}</td>
+            <td>${p.name}</td>
             <td><img src="../uploads/${imageName}" style="width:60px; height:auto; border-radius:6px;"></td>
             <td><img src="../uploads/${image2Name}" style="width:60px; height:auto; border-radius:6px;"></td>
             <td><img src="../uploads/${image3Name}" style="width:60px; height:auto; border-radius:6px;"></td>
             <td>${p.description}</td>
-            <td>${p.prix} gds</td>
-            <td>${p.quantite}</td>
+            <td>${p.price} gds</td>
+            <td>${p.quantity}</td>
             <td>${p.size || ''}</td>
-            <td>${p.couleur || ''}</td>
-            <td>${p.date_ajout}</td>
+            <td>${p.color || ''}</td>
+            <td>${p.created_at}</td>
             <td>
               <button class="btn-edit" data-produit='${JSON.stringify(p).replace(/'/g, "&apos;")}' title="Modifier">✏️</button>
               <button onclick="supprimerProduit('${p.id}')" class="btn-delete" title="Supprimer">🗑️</button>
@@ -185,7 +186,7 @@ if (empty($_SESSION['admin_logged_in'])) {
       if (!confirmation.isConfirmed) return;
 
       try {
-        const res = await fetch('../api/produits/' + id, {
+        const res = await fetch('../api/products/' + id, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' }
         });
@@ -212,12 +213,12 @@ if (empty($_SESSION['admin_logged_in'])) {
 
     function modifierProduit(p) {
       document.getElementById('produit_id').value = p.id;
-      document.getElementById('nom_produit').value = p.nom;
+      document.getElementById('nom_produit').value = p.name;
       document.getElementById('description').value = p.description;
-      document.getElementById('quantite').value = p.quantite;
-      document.getElementById('prix').value = p.prix;
+      document.getElementById('quantite').value = p.quantity;
+      document.getElementById('prix').value = p.price;
       document.getElementById('size').value = p.size || '';
-      document.getElementById('couleur').value = p.couleur || '';
+      document.getElementById('couleur').value = p.color || '';
 
       document.querySelector(".overlay-popup").classList.add("active-popup");
       document.getElementById('btn-submit').textContent = "Mettre à jour";
