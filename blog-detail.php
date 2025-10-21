@@ -43,13 +43,13 @@
       <h3>Shop</h3>
        <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">new arrivals</a>
         <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">clothing</a>
-        <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">best sellers</a>
-        <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">sets</a>
+        <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">mats</a>
+        <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">weights</a>
         <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">accessories</a>
       </div>
 
       <div class="logo-primary" id="header-logo2">
-        <img src="logo/Secondary Mark, Black.png" alt="Honicove Logo" class="logo-mark">
+        <a href="index.php"><img src="logo/Secondary Mark, Black.png" alt="Honicove Logo" class="logo-mark"></a>
       </div>
 
       <nav class="main-nav" aria-label="Main navigation">

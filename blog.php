@@ -49,8 +49,8 @@
       <h3>Shop</h3>
        <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">new arrivals</a>
         <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">clothing</a>
-        <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">best sellers</a>
-        <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">sets</a>
+        <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">mats</a>
+        <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">weights</a>
         <a href="#" class="shop-link" onclick="scrollToSection('shop', event)">accessories</a>
     </div>
 
@@ -67,7 +67,7 @@
           <a href="#" onclick="toggleAccountDropdown(event)" aria-label="Account"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
           <div id="account-dropdown" class="account-dropdown">
             <ul class="account-menu">
-              <a href="#" onclick="event.preventDefault();">Sign In</a>
+            <a href="sign.php">Sign In</a>
               <a href="#" onclick="event.preventDefault();">My Orders</a>
               <a href="#" onclick="event.preventDefault();">Account Settings</a>
               <a href="#" onclick="event.preventDefault();">Address Book</a>
@@ -93,7 +93,7 @@
       <section class="blog-list">
         <div class="blog-grid">
           <div class="blog-card">
-            <img src="logo/image1.jpg" alt="Mindful Mornings">
+            <img src="logo/blog.jpg" alt="Mindful Mornings">
             <h3>Welcome to mindful mornings</h3>
             <p>Comment trouver l’équilibre dans ta routine.</p>
             <a href="blog-detail.php?id=1" class="read-more">Lire plus</a>
@@ -107,9 +107,8 @@
             <p>Découvrez comment adopter une mode durable.</p>
             <a href="blog-detail.php?id=2" class="read-more">Lire plus</a>
           </div>
-         >
           <div class="blog-card-small">
-            <img src="logo/card1.jpg" alt="Healthy Eating">
+            <img src="logo/image2.jpg" alt="Healthy Eating">
             <h3>Healthy Eating Habits</h3>
             <p>Comment intégrer une alimentation saine dans votre vie.</p>
             <a href="blog-detail.php?id=4" class="read-more">Lire plus</a>

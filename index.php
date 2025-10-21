@@ -48,8 +48,8 @@
       <h3>Shop</h3>
       <a href="#" onclick="scrollToSection('shop', event)">new arrivals</a>
       <a href="#" onclick="scrollToSection('shop', event)">clothing</a>
-      <a href="#" onclick="scrollToSection('shop', event)">best sellers</a>
-      <a href="#" onclick="scrollToSection('shop', event)">sets</a>
+      <a href="#" onclick="scrollToSection('shop', event)">mats</a>
+      <a href="#" onclick="scrollToSection('shop', event)">weights</a>
       <a href="#" onclick="scrollToSection('shop', event)">accessories</a>
     </div>
     
@@ -66,7 +66,7 @@
         <a href="#" onclick="toggleAccountDropdown(event)" aria-label="Account"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
         <div id="account-dropdown" class="account-dropdown">
           <ul class="account-menu">
-            <a href="#" onclick="event.preventDefault();">Sign In</a>
+            <a href="sign.php">Sign In</a>
             <a href="#" onclick="event.preventDefault();">My Orders</a>
             <a href="#" onclick="event.preventDefault();">Account Settings</a>
             <a href="#" onclick="event.preventDefault();">Address Book</a>

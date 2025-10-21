@@ -89,17 +89,17 @@
 }
 
 .btn{
-    background: rgba(169, 11, 77, 0.886);
+    background: #7A0B1A;
     color: white;
     padding: 5px 10px;
     text-align: center;
     text-decoration: none;
 }
 .btn:hover{
-     color: brown;
+     color: #7A0B1A;
     background: white;
     padding: 5px 10px;
-    border: 2px solid hotpink;
+    border: 2px solid #7A0B1A;
 }
 .sidebar{
     position: fixed;
@@ -112,7 +112,7 @@
     padding: 0 1.5rem;
     overflow: hidden;
     transition: all 0.5s;
-    background: rgba(0, 128, 0, 0.514);
+    background:#7A0B1A;
 }
 .sidebar:hover{
     width: 200px;
@@ -234,7 +234,7 @@
 }
 
 #produits-table thead {
-  background-color: #a90b4d;
+  background-color:#7A0B1A;
   color: #fff;
 }
 
@@ -273,7 +273,7 @@
 }
 
 #contacts-table thead {
-  background-color: #a90b4d;
+  background-color:#7A0B1A;
   color: #fff;
 }
 
@@ -292,7 +292,7 @@
 
 /* Style les champs de recherche et pagination de DataTables */
 .dataTables_filter input {
-  border: 1px solid #a90b4d;
+  border: 1px solid#7A0B1A;
   border-radius: 4px;
   padding: 6px 10px;
   margin-left: 8px;
@@ -301,8 +301,8 @@
 
 .dataTables_paginate .paginate_button {
   background: #fff;
-  border: 1px solid #a90b4d;
-  color: #a90b4d !important;
+  border: 1px solid#7A0B1A;
+  color:#7A0B1A !important;
   border-radius: 4px;
   margin: 0 2px;
   padding: 4px 10px;
@@ -310,9 +310,9 @@
 }
 
 .dataTables_paginate .paginate_button.current {
-  background: #a90b4d !important;
+  background:#7A0B1A !important;
   color: #fff !important;
-  border: 1px solid #a90b4d;
+  border: 1px solid#7A0B1A;
 }
 .overlay-popup{
     position: fixed;
@@ -359,13 +359,13 @@
 .form-produit input,
 .form-produit textarea {
   padding: 8px 10px;
-  border: 1px solid #a90b4d;
+  border: 1px solid#7A0B1A;
   border-radius: 4px;
   font-size: 15px;
 }
 
 .form-produit button {
-  background: rgba(0, 128, 0, 0.514);
+  background:#7A0B1A;
   color: #fff;
   border: none;
   padding: 10px 0;
@@ -378,7 +378,7 @@
 }
 
 .form-produit button:hover{
-    background: rgba(0, 128, 0, 0.514);
+    background:#7A0B1A;
 }
 .content-popup .close{
     border: 0;
@@ -426,7 +426,7 @@ body {
 
 .card h3 {
   margin: 0 0 12px 0;
-  color: #a90b4d;
+  color:#7A0B1A;
   font-size: 1.2em;
 }
 
@@ -448,7 +448,7 @@ body {
 
 .settings-container h1 {
   text-align: center;
-  color: #a90b4d;
+  color:#7A0B1A;
   margin-bottom: 28px;
 }
 
@@ -465,13 +465,13 @@ body {
 
 .settings-form input {
   padding: 8px 10px;
-  border: 1px solid #a90b4d;
+  border: 1px solid#7A0B1A;
   border-radius: 4px;
   font-size: 15px;
 }
 
 .settings-form button {
-  background: #a90b4d;
+  background:#7A0B1A;
   color: #fff;
   border: none;
   padding: 12px 0;
