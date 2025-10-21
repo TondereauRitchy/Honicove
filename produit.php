@@ -368,7 +368,7 @@
             'darkred': 'darkred',
             'darkblue': 'darkblue',
             'darkgreen': 'darkgreen',
-            'yellow': 'yellow',
+            'jaune': 'yellow',
             'orange': 'orange',
             'purple': 'purple',
             'pink': 'pink',
