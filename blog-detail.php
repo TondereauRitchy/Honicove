@@ -102,10 +102,10 @@
           <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
         </div>
         <div class="image-blog">
-          <img src="logo/blog.jpg" alt="Blog Image">
-          <img src="logo/blog.jpg" alt="Blog Image">
-          <img src="logo/blog.jpg" alt="Blog Image">
-          <img src="logo/blog.jpg" alt="Blog Image">
+          <img src="logo/Blog.jpg" alt="Blog Image">
+          <img src="logo/Blog.jpg" alt="Blog Image">
+          <img src="logo/Blog.jpg" alt="Blog Image">
+          <img src="logo/Blog.jpg" alt="Blog Image">
         </div>
          <div class="blog-content">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
