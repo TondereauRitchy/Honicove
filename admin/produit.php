@@ -16,7 +16,7 @@ if (empty($_SESSION['admin_logged_in'])) {
   <link rel="stylesheet" href="admin.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="sweetalert2.min.js"></script>
 </head>
 <body>
   <?php require('includes/menu.php'); ?>
