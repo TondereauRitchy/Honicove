@@ -328,7 +328,7 @@ header.site-header{
   display: flex;
   justify-content: center; /* centrer les liens horizontalement */
   align-items: center;
-  gap: 30px; /* espacement entre les liens */
+  gap: 30px; 
 }
 
 .brand a {
