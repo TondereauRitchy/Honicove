@@ -40,6 +40,7 @@ if (empty($_SESSION['admin_logged_in'])) {
             <label for="image3">Choisissez une image 3 :</label>
             <input type="file" name="image3" id="image3" accept="image/*">
             <textarea id="description" name="description" placeholder="Description" required></textarea>
+            <input type="text" id="subtitle" name="subtitle" placeholder="Sous-titre" />
             <input type="number" id="quantite" name="quantity" placeholder="Quantité" min="1" required />
             <input type="number" id="prix" name="price" placeholder="Prix (gds)" step="0.01" min="0" required />
             <input type="text" id="size" name="size" placeholder="Size" />
@@ -59,6 +60,7 @@ if (empty($_SESSION['admin_logged_in'])) {
           <th>Image2</th>
           <th>Image3</th>
           <th>Description</th>
+          <th>Subtitle</th>
           <th>Prix</th>
           <th>Quantité</th>
           <th>Size</th>
@@ -107,6 +109,7 @@ result.data.forEach(p => {
             <td><img src="../uploads/${image2Name}" style="width:60px; height:auto; border-radius:6px;"></td>
             <td><img src="../uploads/${image3Name}" style="width:60px; height:auto; border-radius:6px;"></td>
             <td>${p.description}</td>
+            <td>${p.subtitle || ''}</td>
             <td>${p.price} gds</td>
             <td>${p.quantity}</td>
             <td>${p.size}</td>
@@ -219,6 +222,7 @@ function modifierProduit(p) {
       document.getElementById('produit_id').value = p.id;
       document.getElementById('nom_produit').value = p.name;
       document.getElementById('description').value = p.description;
+      document.getElementById('subtitle').value = p.subtitle || '';
       document.getElementById('quantite').value = p.quantity;
       document.getElementById('prix').value = p.price;
       document.getElementById('size').value = p.size;
