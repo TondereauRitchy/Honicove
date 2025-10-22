@@ -1549,7 +1549,7 @@ body.sign-page button.Card-icon span {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(11, 23, 36, 0.7);
+  /* background: rgba(11, 23, 36, 0.7); */
   display: none;
   justify-content: center;
   align-items: center;
