@@ -336,7 +336,8 @@
         console.log('product', product);
         
 
-        let imageSrc = product.data.image_1 ? `uploads/${product.data.image_1}` : `uploads/card${productId}.jpg`;
+        // Utiliser la nouvelle structure images si disponible, sinon l'ancienne
+        let imageSrc = (product.data.images && product.data.images.length > 0) ? `uploads/${product.data.images[0].image_path}` : (product.data.image_1 ? `uploads/${product.data.image_1}` : `uploads/card${productId}.jpg`);
         document.getElementById('product-img').src = imageSrc;
         document.getElementById('product-img').alt = product.data.name || 'Produit';
         document.getElementById('product-name').textContent = product.data.name || 'Nom non disponible';
@@ -348,11 +349,17 @@
 
         // Populate color swatches dynamically from API
         const colorSwatches = document.querySelector('.color-swatches');
-        const colorString = product.data.color;
-        if (colorString && colorString.trim() !== '') {
-          // Split by comma or space in case of multiple colors
-          const colors = colorString.split(/\s*,\s*|\s+/).map(c => c.trim().toLowerCase()).filter(c => c);
-          // Mapping to CSS class names
+        // Utiliser la nouvelle structure couleurs si disponible, sinon l'ancienne
+        let colors = [];
+        if (product.data.images && product.data.images.length > 0) {
+          colors = product.data.images.map(img => img.color).filter(c => c && c.trim() !== '');
+        } else {
+          const colorString = product.data.color;
+          if (colorString && colorString.trim() !== '') {
+            colors = colorString.split(/\s*,\s*|\s+/).map(c => c.trim().toLowerCase()).filter(c => c);
+          }
+        }
+        if (colors.length > 0) {
           const colorMap = {
             'blanc': 'white',
             'noir': 'black',
@@ -387,11 +394,29 @@
             'blue-50': 'blue-50',
             'green-50': 'green-50'
           };
-          colors.forEach(color => {
-            const mappedColor = colorMap[color] || color;
-            const span = document.createElement('span');
-            span.className = `color ${mappedColor}`;
-            colorSwatches.appendChild(span);
+          colors.forEach((color, index) => {
+            const button = document.createElement('button');
+            button.className = 'color';
+            button.style.backgroundColor = color.startsWith('#') ? color : (colorMap[color] ? colorMap[color] : color);
+            button.setAttribute('data-color', color);
+            button.setAttribute('data-index', index);
+            button.addEventListener('click', (e) => {
+              e.preventDefault();
+              const img = document.getElementById('product-img');
+              // Utiliser la nouvelle structure images si disponible
+              if (product.data.images && product.data.images.length > 0) {
+                const imagePath = product.data.images[index].image_path;
+                img.src = `uploads/${imagePath}`;
+              } else {
+                // Ancienne structure : image_1, image_2, image_3
+                const imageAttr = `image_${index + 1}`;
+                const imagePath = product.data[imageAttr];
+                if (imagePath) {
+                  img.src = `uploads/${imagePath}`;
+                }
+              }
+            });
+            colorSwatches.appendChild(button);
           });
         } else {
           colorSwatches.innerHTML = '<span class="color">Couleur non disponible</span>';
@@ -400,23 +425,33 @@
         // Populate thumbnails dynamically from API
         const thumbnailList = document.querySelector('.thumbnail-list');
         thumbnailList.innerHTML = '';
-        if (product.data.image_1) {
-          const img1 = document.createElement('img');
-          img1.src = `uploads/${product.data.image_1}`;
-          img1.alt = 'view 1';
-          thumbnailList.appendChild(img1);
-        }
-        if (product.data.image_2) {
-          const img2 = document.createElement('img');
-          img2.src = `uploads/${product.data.image_2}`;
-          img2.alt = 'view 2';
-          thumbnailList.appendChild(img2);
-        }
-        if (product.data.image_3) {
-          const img3 = document.createElement('img');
-          img3.src = `uploads/${product.data.image_3}`;
-          img3.alt = 'view 3';
-          thumbnailList.appendChild(img3);
+        if (product.data.images && product.data.images.length > 0) {
+          product.data.images.forEach((img, index) => {
+            const thumbImg = document.createElement('img');
+            thumbImg.src = `uploads/${img.image_path}`;
+            thumbImg.alt = `view ${index + 1}`;
+            thumbnailList.appendChild(thumbImg);
+          });
+        } else {
+          // Ancienne structure si pas de nouvelle
+          if (product.data.image_1) {
+            const img1 = document.createElement('img');
+            img1.src = `uploads/${product.data.image_1}`;
+            img1.alt = 'view 1';
+            thumbnailList.appendChild(img1);
+          }
+          if (product.data.image_2) {
+            const img2 = document.createElement('img');
+            img2.src = `uploads/${product.data.image_2}`;
+            img2.alt = 'view 2';
+            thumbnailList.appendChild(img2);
+          }
+          if (product.data.image_3) {
+            const img3 = document.createElement('img');
+            img3.src = `uploads/${product.data.image_3}`;
+            img3.alt = 'view 3';
+            thumbnailList.appendChild(img3);
+          }
         }
 
         // Attach click events to thumbnails after population
@@ -512,8 +547,9 @@
           // Peupler dynamiquement le résumé du produit
           const summaryDiv = document.getElementById("dynamic-product-summary");
           const quantity = document.getElementById('quantity').value;
+          const imageSrc = (currentProduct.data.images && currentProduct.data.images.length > 0) ? `uploads/${currentProduct.data.images[0].image_path}` : (currentProduct.data.image_1 ? `uploads/${currentProduct.data.image_1}` : 'uploads/card1.jpg');
           summaryDiv.innerHTML = `
-            <img src="uploads/${currentProduct.data.image_1 || 'card1.jpg'}" alt="${currentProduct.data.name || 'Produit'}" class="product-img">
+            <img src="${imageSrc}" alt="${currentProduct.data.name || 'Produit'}" class="product-img">
             <div class="product-info">
               <h4>${currentProduct.data.name || 'Nom non disponible'}</h4>
               <p class="price">${currentProduct.data.price ? currentProduct.data.price + '$' : 'Prix non disponible'}</p>
