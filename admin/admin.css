@@ -489,3 +489,40 @@ body {
   background: #87093c;
 }
 
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 20px 0;
+  padding-right:0;
+
+  position: relative;
+  z-index: 10; /* ✅ Toujours au-dessus du tableau */
+  background-color: #fff; /* optionnel mais évite la transparence */
+}
+
+.nav .btn {
+  background-color: #7A0B1A;
+  color: white;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  position: relative;
+  z-index: 20; /* ✅ au-dessus du tableau */
+}
+
+.nav .btn:hover {
+  background-color: white;
+  color: #7A0B1A;
+  border: 2px solid #7A0B1A;
+}
+
+/* Empêche DataTables de passer au-dessus du bouton */
+.dataTables_wrapper {
+  position: relative;
+  z-index: 1;
+}
+
