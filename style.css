@@ -272,6 +272,8 @@ button.Card-icon span {
 /* Specific spacing for blog page */
 body.blog-page .wrap {
   padding-top: 15%;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 /* Use PT Futura Condensed Book for the blog page headings and main body text */
@@ -550,6 +552,11 @@ nav.main-nav a:hover {
 /* =========================
    Shop Section
    ========================= */
+#shop {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
 .shop-text {
   text-align: center;
   font-size: 10px;
@@ -1341,10 +1348,6 @@ body.sign-page button.Card-icon span {
   cursor: pointer;
 }
 
-.color.black { background: black; }
-.color.white { background: white; border: 1px solid #ccc; }
-.color.red { background: #b22234; }
-.color.navy { background: #0b1724; }
 /* =========================
    Couleurs de base
    ========================= */
