@@ -2014,11 +2014,27 @@ header.site-header.scrolled {
 }
 
 .blog-card img {
-  width: 300px;
+  width: 500px;
   max-height: auto;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 16px;
+}
+
+.blog-card-long {
+  margin-bottom: 100px;
+}
+
+.blog-card-long img {
+  width: 400px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.blog-card-small img {
+  width: 400px;
+  height: 200px;
+  object-fit: cover;
 }
 
 .blog-lister {
@@ -2043,8 +2059,8 @@ header.site-header.scrolled {
 }
 
 .blog-lister .blog-card img {
-  width: 300px;
-  height: 150px;
+  width: 400px;
+  height: 200px;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 10px;
