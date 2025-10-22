@@ -39,12 +39,27 @@ if (empty($_SESSION['admin_logged_in'])) {
             <input type="hidden" id="produit_id" name="id" />
             <input type="hidden" name="category_id" value="1" />
             <input type="text" id="nom_produit" name="name" placeholder="Nom du produit" required />
-            <label for="image">Choisissez une image :</label>
-            <input type="file" name="image" id="image" accept="image/*">
-            <label for="image2">Choisissez une image 2 :</label>
-            <input type="file" name="image2" id="image2" accept="image/*">
-            <label for="image3">Choisissez une image 3 :</label>
-            <input type="file" name="image3" id="image3" accept="image/*">
+            <div id="images-colors-container">
+              <div class="image-color-pair">
+                <label for="image1">Choisissez une image :</label>
+                <input type="file" name="images[]" id="image1" accept="image/*">
+                <label for="couleur_picker1">Choisissez une couleur :</label>
+                <input type="color" name="colors[]" id="couleur_picker1">
+              </div>
+              <div class="image-color-pair">
+                <label for="image2">Choisissez une image 2 :</label>
+                <input type="file" name="images[]" id="image2" accept="image/*">
+                <label for="couleur_picker2">Choisissez une couleur :</label>
+                <input type="color" name="colors[]" id="couleur_picker2">
+              </div>
+              <div class="image-color-pair">
+                <label for="image3">Choisissez une image 3 :</label>
+                <input type="file" name="images[]" id="image3" accept="image/*">
+                <label for="couleur_picker3">Choisissez une couleur :</label>
+                <input type="color" name="colors[]" id="couleur_picker3">
+              </div>
+            </div>
+            <button type="button" id="add-more-btn">Ajouter plus d'images et couleurs</button>
             <textarea id="description" name="description" placeholder="Description" required></textarea>
             <input type="text" id="subtitle" name="subtitle" placeholder="Sous-titre" />
             <input type="number" id="quantite" name="quantity" placeholder="Quantité" min="1" required />
@@ -93,6 +108,12 @@ if (empty($_SESSION['admin_logged_in'])) {
       document.querySelector('.form-produit').reset();
       document.getElementById('btn-submit').textContent = "Ajouter";
       document.getElementById('btn-submit').setAttribute("data-mode", "ajouter");
+      // Reset dynamic fields
+      const container = document.getElementById('images-colors-container');
+      const pairs = container.querySelectorAll('.image-color-pair');
+      for (let i = 3; i < pairs.length; i++) {
+        pairs[i].remove();
+      }
     });
 
     async function chargerProduits() {
@@ -242,6 +263,23 @@ function modifierProduit(p) {
       document.getElementById('btn-submit').textContent = "Mettre à jour";
       document.getElementById('btn-submit').setAttribute("data-mode", "modifier");
     }
+
+    // Add more images and colors functionality
+    let pairCounter = 4; // Start from 4 since we have 1,2,3
+
+    document.getElementById('add-more-btn').addEventListener('click', function() {
+      const container = document.getElementById('images-colors-container');
+      const newPair = document.createElement('div');
+      newPair.className = 'image-color-pair';
+      newPair.innerHTML = `
+        <label for="image${pairCounter}">Choisissez une image ${pairCounter} :</label>
+        <input type="file" name="images[]" id="image${pairCounter}" accept="image/*">
+        <label for="couleur_picker${pairCounter}">Choisissez une couleur :</label>
+        <input type="color" name="colors[]" id="couleur_picker${pairCounter}">
+      `;
+      container.appendChild(newPair);
+      pairCounter++;
+    });
 
     $(document).ready(function () {
       $('#produits-table').DataTable();
