@@ -45,18 +45,21 @@ if (empty($_SESSION['admin_logged_in'])) {
                 <input type="file" name="images[]" id="image1" accept="image/*">
                 <label for="couleur_picker1">Choisissez une couleur :</label>
                 <input type="color" name="colors[]" id="couleur_picker1">
+                <div class="color-indicator" id="indicator1"></div>
               </div>
               <div class="image-color-pair">
                 <label for="image2">Choisissez une image 2 :</label>
                 <input type="file" name="images[]" id="image2" accept="image/*">
                 <label for="couleur_picker2">Choisissez une couleur :</label>
                 <input type="color" name="colors[]" id="couleur_picker2">
+                <div class="color-indicator" id="indicator2"></div>
               </div>
               <div class="image-color-pair">
                 <label for="image3">Choisissez une image 3 :</label>
                 <input type="file" name="images[]" id="image3" accept="image/*">
                 <label for="couleur_picker3">Choisissez une couleur :</label>
                 <input type="color" name="colors[]" id="couleur_picker3">
+                <div class="color-indicator" id="indicator3"></div>
               </div>
             </div>
             <button type="button" id="add-more-btn">Ajouter plus d'images et couleurs</button>
@@ -316,14 +319,68 @@ function modifierProduit(p) {
         <input type="file" name="images[]" id="image${pairCounter}" accept="image/*">
         <label for="couleur_picker${pairCounter}">Choisissez une couleur :</label>
         <input type="color" name="colors[]" id="couleur_picker${pairCounter}">
+        <div class="color-indicator" id="indicator${pairCounter}"></div>
       `;
       container.appendChild(newPair);
+      // Attach event listener to the new color input
+      const newColorInput = newPair.querySelector(`#couleur_picker${pairCounter}`);
+      const newIndicator = newPair.querySelector(`#indicator${pairCounter}`);
+      newColorInput.addEventListener('input', function() {
+        newIndicator.style.backgroundColor = this.value;
+        Swal.fire({
+          title: 'Couleur sélectionnée',
+          text: `Code couleur: ${this.value}`,
+          icon: 'info',
+          confirmButtonText: 'OK'
+        });
+      });
       pairCounter++;
+    });
+
+    // Function to update color indicators
+    function updateColorIndicators() {
+      for (let i = 1; i <= 3; i++) {
+        const colorInput = document.getElementById(`couleur_picker${i}`);
+        const indicator = document.getElementById(`indicator${i}`);
+        if (colorInput && indicator) {
+          indicator.style.backgroundColor = colorInput.value;
+        }
+      }
+    }
+
+    // Attach event listeners to initial color inputs
+    document.getElementById('couleur_picker1').addEventListener('input', function() {
+      document.getElementById('indicator1').style.backgroundColor = this.value;
+      Swal.fire({
+        title: 'Couleur sélectionnée',
+        text: `Code couleur: ${this.value}`,
+        icon: 'info',
+        confirmButtonText: 'OK'
+      });
+    });
+    document.getElementById('couleur_picker2').addEventListener('input', function() {
+      document.getElementById('indicator2').style.backgroundColor = this.value;
+      Swal.fire({
+        title: 'Couleur sélectionnée',
+        text: `Code couleur: ${this.value}`,
+        icon: 'info',
+        confirmButtonText: 'OK'
+      });
+    });
+    document.getElementById('couleur_picker3').addEventListener('input', function() {
+      document.getElementById('indicator3').style.backgroundColor = this.value;
+      Swal.fire({
+        title: 'Couleur sélectionnée',
+        text: `Code couleur: ${this.value}`,
+        icon: 'info',
+        confirmButtonText: 'OK'
+      });
     });
 
     $(document).ready(function () {
       $('#produits-table').DataTable();
       chargerProduits();
+      updateColorIndicators(); // Initialize indicators on load
     });
   </script>
 </body>

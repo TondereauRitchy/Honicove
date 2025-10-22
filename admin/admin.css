@@ -526,3 +526,13 @@ body {
   z-index: 1;
 }
 
+/* Indicateurs visuels pour les sélecteurs de couleur */
+.color-indicator {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  margin-left: 10px;
+  vertical-align: middle;
+}
