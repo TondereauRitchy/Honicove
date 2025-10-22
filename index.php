@@ -224,9 +224,21 @@
     // Function to generate product cards HTML
     function generateProductCards(products) {
       return products.map(product => {
-        const imageSrc = product.image_1 ? `uploads/${product.image_1}` : 'uploads/card1.jpg';
+        // Utiliser la nouvelle structure images si disponible, sinon l'ancienne
+        const imageSrc = (product.images && product.images.length > 0) ? `uploads/${product.images[0].image_path}` : (product.image_1 ? `uploads/${product.image_1}` : 'uploads/card1.jpg');
+        // Construire les attributs data-image dynamiquement
+        let dataAttrs = '';
+        if (product.images && product.images.length > 0) {
+          product.images.forEach((img, idx) => {
+            dataAttrs += ` data-image${idx + 1}="${img.image_path}"`;
+          });
+        } else {
+          dataAttrs = ` data-image1="${product.image_1 || ''}" data-image2="${product.image_2 || ''}" data-image3="${product.image_3 || ''}"`;
+        }
+        // Utiliser la nouvelle structure couleurs si disponible, sinon l'ancienne
+        const colorString = (product.images && product.images.length > 0) ? product.images.map(img => img.color).filter(c => c && c.trim() !== '').join(',') : (product.color || '');
         return `
-          <div class="card" data-id="${product.id}" data-color="${product.color || ''}" data-image1="${product.image_1 || ''}" data-image2="${product.image_2 || ''}" data-image3="${product.image_3 || ''}">
+          <div class="card" data-id="${product.id}" data-color="${colorString}"${dataAttrs}>
             <div class="card-top">
               <button class="card-fav" aria-label="Ajouter aux favoris">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -259,9 +271,17 @@
         const card = document.querySelector(`.card[data-id="${product.id}"]`);
         if (card) {
           const colorSwatches = card.querySelector('.color-swatches');
-          const colorString = product.color;
-          if (colorString && colorString.trim() !== '') {
-            const colors = colorString.split(/\s*,\s*|\s+/).map(c => c.trim().toLowerCase()).filter(c => c);
+          // Utiliser les couleurs depuis product.images si disponible, sinon l'ancienne méthode
+          let colors = [];
+          if (product.images && product.images.length > 0) {
+            colors = product.images.map(img => img.color).filter(c => c && c.trim() !== '');
+          } else {
+            const colorString = product.color;
+            if (colorString && colorString.trim() !== '') {
+              colors = colorString.split(/\s*,\s*|\s+/).map(c => c.trim().toLowerCase()).filter(c => c);
+            }
+          }
+          if (colors.length > 0) {
             const colorMap = {
               'blanc': 'white',
               'noir': 'black',
@@ -297,9 +317,9 @@
               'green-50': 'green-50'
             };
             colors.forEach((color, index) => {
-              const mappedColor = colorMap[color] || color;
               const button = document.createElement('button');
-              button.className = `color ${mappedColor}`;
+              button.className = 'color';
+              button.style.backgroundColor = color.startsWith('#') ? color : (colorMap[color] ? colorMap[color] : color);
               button.setAttribute('data-color', color);
               button.setAttribute('data-index', index);
               button.addEventListener('click', (e) => {

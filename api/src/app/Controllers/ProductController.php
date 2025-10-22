@@ -3,21 +3,30 @@
 namespace App\Controllers;
 
 use App\Entity\Product;
+use App\Entity\ProductImage;
 use App\Repository\ProductRepository;
+use App\Repository\ProductImageRepository;
 use App\Repository\Repository;
 use App\Resources\Resource;
 
 class ProductController extends BaseController {
 
 
-	public function index() { 
+	public function index() {
 		$produits = ProductRepository::findAll();
+		// Pour chaque produit, récupérer les images avec couleurs
+		foreach ($produits as $produit) {
+			$images = ProductImageRepository::findWhere(['product_id'], [$produit->id]);
+			$produit->images = $images;
+		}
 		return $this->sendResponse($produits);
 	}
 
 
 	public function search($id) {
 		$product = ProductRepository::findOrfail($id);
+		$images = ProductImageRepository::findWhere(['product_id'], [$id]);
+		$product->images = $images;
 		return $this->sendResponse($product, 'Produit trouvé');
 	}
 
@@ -29,7 +38,20 @@ class ProductController extends BaseController {
 
         ProductRepository::save($produit);
 
-        return $this->sendResponse($produit, 'Produit créé avec succès');
+		$productID = ProductRepository::getLastInsertedId();
+
+        // Gérer les images avec couleurs
+        if (isset($data['images']) && is_array($data['images'])) {
+            foreach ($data['images'] as $imageData) {
+                $productImage = new ProductImage();
+                $productImage->product_id = $productID;
+                $productImage->image_path = $imageData['path'];
+                $productImage->color = $imageData['color'];
+                ProductImageRepository::save($productImage);
+            }
+        }
+
+        return $this->sendResponse($data['images'], 'Produit créé avec succès');
 	}
 
 
@@ -43,6 +65,19 @@ class ProductController extends BaseController {
 
 		ProductRepository::update($newProduit);
 
+		// Supprimer les anciennes images et en ajouter de nouvelles
+		Repository::rawQuery("DELETE FROM product_images WHERE product_id = ?", [$id]);
+
+		if (isset($data['images']) && is_array($data['images'])) {
+			foreach ($data['images'] as $imageData) {
+				$productImage = new ProductImage();
+				$productImage->product_id = $id;
+				$productImage->image_path = $imageData['path'];
+				$productImage->color = $imageData['color'];
+				ProductImageRepository::update($productImage);
+			}
+		}
+
 		return $this->sendResponse($newProduit, 'Produit mis à jour avec succès');
 	}
 
@@ -54,6 +89,8 @@ class ProductController extends BaseController {
         if(is_null($produit))
             return $this-> sendError("Erreur","Produit non trouvé");
 
+        // Supprimer les images associées
+        Repository::rawQuery("DELETE FROM product_images WHERE product_id = ?", [$id]);
 
         $delete = Repository::rawQuery("delete from products where id = ?", [$id]);
 
