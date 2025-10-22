@@ -18,7 +18,7 @@ class ProductController extends BaseController {
 
 	public function search($id) {
 		$product = ProductRepository::findOrfail($id);
-		return $this->sendResponse($product);
+		return $this->sendResponse($product, 'Produit trouvé');
 	}
 
 
@@ -29,7 +29,7 @@ class ProductController extends BaseController {
 
         ProductRepository::save($produit);
 
-        return $this->sendResponse($produit);
+        return $this->sendResponse($produit, 'Produit créé avec succès');
 	}
 
 
@@ -43,7 +43,7 @@ class ProductController extends BaseController {
 
 		ProductRepository::update($newProduit);
 
-		return $this->sendResponse($produit, 'produit update successfully');
+		return $this->sendResponse($newProduit, 'Produit mis à jour avec succès');
 	}
 
 
@@ -51,14 +51,14 @@ class ProductController extends BaseController {
 		$data = json_decode(file_get_contents("php://input"), true);
 
         $produit = ProductRepository::find($id);
-        if(is_null($produit)) 
-            return $this-> sendError("Error","product not found");
+        if(is_null($produit))
+            return $this-> sendError("Erreur","Produit non trouvé");
 
 
         $delete = Repository::rawQuery("delete from products where id = ?", [$id]);
 
-        
-        return $this->sendResponse(null,'product delete succesfully');
+
+        return $this->sendResponse(null,'Produit supprimé avec succès');
 	}
 }
 

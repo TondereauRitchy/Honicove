@@ -93,7 +93,7 @@
       <section class="blog-list">
         <div class="blog-grid">
           <div class="blog-card">
-            <img src="logo/blog.jpg"  alt="Mindful Mornings">
+            <img src="logo/Blog.jpg"  alt="Mindful Mornings">
             <h3>Welcome to mindful mornings</h3>
             <p>Comment trouver l’équilibre dans ta routine.</p>
             <a href="blog-detail.php?id=1" class="read-more">Lire plus</a>

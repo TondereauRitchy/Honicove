@@ -309,7 +309,7 @@ header.site-header{
   justify-content: space-between;
   /* gap: 100px; */
   /* padding:18px var(--container-gap); */
-   top: 6%;
+   top: 30px;
   left: 0;
   transform: none; /* 👈 décale de moitié pour être vraiment centré */
   width: 100%;

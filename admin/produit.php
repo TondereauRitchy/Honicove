@@ -110,13 +110,14 @@ if (empty($_SESSION['admin_logged_in'])) {
             const image2Name = p.image_2;
             const image3Name = p.image_3;
 
-<<<<<<< HEAD
+
             row.innerHTML = `
               <td>${p.name}</td>
               <td><img src="../uploads/${imageName}" style="width:60px; height:auto; border-radius:6px;"></td>
               <td><img src="../uploads/${image2Name}" style="width:60px; height:auto; border-radius:6px;"></td>
               <td><img src="../uploads/${image3Name}" style="width:60px; height:auto; border-radius:6px;"></td>
               <td>${p.description}</td>
+              <td>${p.subtitle || ''}</td>
               <td>${p.price} gds</td>
               <td>${p.quantity}</td>
               <td>${p.size}</td>
@@ -130,27 +131,7 @@ if (empty($_SESSION['admin_logged_in'])) {
             tbody.appendChild(row);
           });
         }
-=======
-          row.innerHTML = `
-            <td>${p.name}</td>
-            <td><img src="../uploads/${imageName}" style="width:60px; height:auto; border-radius:6px;"></td>
-            <td><img src="../uploads/${image2Name}" style="width:60px; height:auto; border-radius:6px;"></td>
-            <td><img src="../uploads/${image3Name}" style="width:60px; height:auto; border-radius:6px;"></td>
-            <td>${p.description}</td>
-            <td>${p.subtitle || ''}</td>
-            <td>${p.price} gds</td>
-            <td>${p.quantity}</td>
-            <td>${p.size}</td>
-            <td>${p.color}</td>
-            <td>${p.created_at}</td>
-            <td>
-              <button class="btn-edit" data-produit='${JSON.stringify(p).replace(/'/g, "&apos;")}' title="Modifier">✏️</button>
-              <button onclick="supprimerProduit('${p.id}')" class="btn-delete" title="Supprimer">🗑</button>
-            </td>
-          `;
-          tbody.appendChild(row);
-        });
->>>>>>> 901d55dd92e182917db08327add280e57f708303
+
       } catch (err) {
         console.error('Erreur chargement produits :', err);
       }
