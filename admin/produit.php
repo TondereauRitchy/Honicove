@@ -127,22 +127,33 @@ if (empty($_SESSION['admin_logged_in'])) {
         if (result.data && Array.isArray(result.data)) {
           result.data.forEach(p => {
             const row = document.createElement('tr');
-            const imageName = p.image_1;
-            const image2Name = p.image_2;
-            const image3Name = p.image_3;
-
+            // Afficher les images avec couleurs si disponibles
+            let imagesHtml = '';
+            if (p.images && Array.isArray(p.images)) {
+              p.images.forEach(img => {
+                imagesHtml += `<img src="../uploads/${img.image_path}" style="width:60px; height:auto; border-radius:6px; border: 2px solid ${img.color || '#ccc'}; margin-right: 5px;" title="Couleur: ${img.color || 'Non définie'}">`;
+              });
+            } else {
+              // Fallback pour anciens produits
+              const imageName = p.image_1;
+              const image2Name = p.image_2;
+              const image3Name = p.image_3;
+              if (imageName) imagesHtml += `<img src="../uploads/${imageName}" style="width:60px; height:auto; border-radius:6px; margin-right: 5px;">`;
+              if (image2Name) imagesHtml += `<img src="../uploads/${image2Name}" style="width:60px; height:auto; border-radius:6px; margin-right: 5px;">`;
+              if (image3Name) imagesHtml += `<img src="../uploads/${image3Name}" style="width:60px; height:auto; border-radius:6px; margin-right: 5px;">`;
+            }
 
             row.innerHTML = `
               <td>${p.name}</td>
-              <td><img src="../uploads/${imageName}" style="width:60px; height:auto; border-radius:6px;"></td>
-              <td><img src="../uploads/${image2Name}" style="width:60px; height:auto; border-radius:6px;"></td>
-              <td><img src="../uploads/${image3Name}" style="width:60px; height:auto; border-radius:6px;"></td>
+              <td>${imagesHtml}</td>
+              <td>${imagesHtml}</td>
+              <td>${imagesHtml}</td>
               <td>${p.description}</td>
               <td>${p.subtitle || ''}</td>
               <td>${p.price} gds</td>
               <td>${p.quantity}</td>
               <td>${p.size}</td>
-          
+
               <td>${p.created_at}</td>
               <td>
                 <button class="btn-edit" data-produit='${JSON.stringify(p).replace(/'/g, "&apos;")}' title="Modifier">✏️</button>
@@ -257,7 +268,36 @@ function modifierProduit(p) {
       document.getElementById('quantite').value = p.quantity;
       document.getElementById('prix').value = p.price;
       document.getElementById('size').value = p.size;
-      document.getElementById('couleur').value = p.color;
+
+      // Gérer les images et couleurs pour l'édition
+      const container = document.getElementById('images-colors-container');
+      const pairs = container.querySelectorAll('.image-color-pair');
+      // Supprimer les paires dynamiques
+      for (let i = 3; i < pairs.length; i++) {
+        pairs[i].remove();
+      }
+
+      if (p.images && Array.isArray(p.images)) {
+        p.images.forEach((img, index) => {
+          if (index < 3) {
+            // Utiliser les champs existants
+            const pair = pairs[index];
+            const colorInput = pair.querySelector('input[type="color"]');
+            if (colorInput) colorInput.value = img.color || '#000000';
+          } else {
+            // Ajouter de nouveaux champs si nécessaire
+            const newPair = document.createElement('div');
+            newPair.className = 'image-color-pair';
+            newPair.innerHTML = `
+              <label for="image${index + 1}">Choisissez une image ${index + 1} :</label>
+              <input type="file" name="images[]" id="image${index + 1}" accept="image/*">
+              <label for="couleur_picker${index + 1}">Choisissez une couleur :</label>
+              <input type="color" name="colors[]" id="couleur_picker${index + 1}" value="${img.color || '#000000'}">
+            `;
+            container.appendChild(newPair);
+          }
+        });
+      }
 
       document.querySelector(".overlay-popup").classList.add("active-popup");
       document.getElementById('btn-submit').textContent = "Mettre à jour";
