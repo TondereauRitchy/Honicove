@@ -17,6 +17,12 @@ if (empty($_SESSION['admin_logged_in'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css"/>
   <script src="sweetalert2.min.js"></script>
+  <script>
+    function openPopup(e) {
+      e.preventDefault();
+      document.querySelector(".overlay-popup").classList.add("active-popup");
+    }
+  </script>
 </head>
 <body>
   <?php require('includes/menu.php'); ?>
@@ -97,12 +103,34 @@ if (empty($_SESSION['admin_logged_in'])) {
         tbody.innerHTML = '';
 
 
-result.data.forEach(p => {
-          const row = document.createElement('tr');
-          const imageName = p.image_1  ;
-          const image2Name = p.image_2  ;
-          const image3Name = p.image_3  ;
+        if (result.data && Array.isArray(result.data)) {
+          result.data.forEach(p => {
+            const row = document.createElement('tr');
+            const imageName = p.image_1;
+            const image2Name = p.image_2;
+            const image3Name = p.image_3;
 
+<<<<<<< HEAD
+            row.innerHTML = `
+              <td>${p.name}</td>
+              <td><img src="../uploads/${imageName}" style="width:60px; height:auto; border-radius:6px;"></td>
+              <td><img src="../uploads/${image2Name}" style="width:60px; height:auto; border-radius:6px;"></td>
+              <td><img src="../uploads/${image3Name}" style="width:60px; height:auto; border-radius:6px;"></td>
+              <td>${p.description}</td>
+              <td>${p.price} gds</td>
+              <td>${p.quantity}</td>
+              <td>${p.size}</td>
+              <td>${p.color}</td>
+              <td>${p.created_at}</td>
+              <td>
+                <button class="btn-edit" data-produit='${JSON.stringify(p).replace(/'/g, "&apos;")}' title="Modifier">✏️</button>
+                <button onclick="supprimerProduit('${p.id}')" class="btn-delete" title="Supprimer">🗑</button>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+        }
+=======
           row.innerHTML = `
             <td>${p.name}</td>
             <td><img src="../uploads/${imageName}" style="width:60px; height:auto; border-radius:6px;"></td>
@@ -122,6 +150,7 @@ result.data.forEach(p => {
           `;
           tbody.appendChild(row);
         });
+>>>>>>> 901d55dd92e182917db08327add280e57f708303
       } catch (err) {
         console.error('Erreur chargement produits :', err);
       }
