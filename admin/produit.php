@@ -65,7 +65,7 @@ if (empty($_SESSION['admin_logged_in'])) {
             <input type="number" id="quantite" name="quantity" placeholder="Quantité" min="1" required />
             <input type="number" id="prix" name="price" placeholder="Prix (gds)" step="0.01" min="0" required />
             <input type="text" id="size" name="size" placeholder="Size" />
-            <input type="text" id="couleur" name="color" placeholder="Couleur" />
+            <!-- <input type="text" id="couleur" name="color" placeholder="Couleur" /> -->
             <button type="submit" id="btn-submit" data-mode="ajouter">Ajouter</button>
           </form>
           <button class="close">X</button>
@@ -85,7 +85,7 @@ if (empty($_SESSION['admin_logged_in'])) {
           <th>Prix</th>
           <th>Quantité</th>
           <th>Size</th>
-          <th>Couleur</th>
+          <!-- <th>Couleur</th> -->
           <th>Date d’ajout</th>
           <th>Action</th>
         </tr>
@@ -142,7 +142,7 @@ if (empty($_SESSION['admin_logged_in'])) {
               <td>${p.price} gds</td>
               <td>${p.quantity}</td>
               <td>${p.size}</td>
-              <td>${p.color}</td>
+          
               <td>${p.created_at}</td>
               <td>
                 <button class="btn-edit" data-produit='${JSON.stringify(p).replace(/'/g, "&apos;")}' title="Modifier">✏️</button>
