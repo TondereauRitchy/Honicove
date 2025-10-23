@@ -1597,37 +1597,39 @@ body.sign-page button.Card-icon span {
 }
 
 .modal-content-index {
-  background: var(--cream);
-  /* border-radius: 16px; */
-  padding: 32px;
+  background: transparent;
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
   box-shadow: 0 20px 40px rgba(11, 23, 36, 0.2);
-  max-width: 600px;
+  max-width: 820px;
   width: 90%;
   position: relative;
   display: flex;
-  gap: 20px;
-  align-items: center;
+  gap: 0;
+  align-items: stretch;
 }
 
 .modal-left-index {
   flex: 1;
+  background: #7A0B1A;
+  color: #FAF6F0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
+  padding: 32px;
   gap: 16px;
-  /* background: #000; */
 }
 
 .thank-you-text {
   font-size: 40px;
-  color: var(--midnight);
+  color: #FAF6F0;
   text-transform: lowercase;
   font-family: "Parisienne", cursive;
-  font-weight: bold;
+  font-weight: 700;
   font-style: normal;
   letter-spacing: 2px;
-  color: #7A0B1A;
 }
 
 .modal-logo-below {
@@ -1643,14 +1645,19 @@ body.sign-page button.Card-icon span {
 
 .modal-right-index {
   flex: 1;
+  background: #FAF6F0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
   text-align: center;
 }
 
 .modal-h-index {
   width: 25%;
   height: auto;
-  margin-bottom: 16px;
-  margin-left: 100px;
+  margin: 0 0 16px 0;
 }
 
 .modal-message-index {
@@ -1723,11 +1730,11 @@ body.sign-page button.Card-icon span {
 @media (max-width: 640px) {
   .modal-content-index {
     flex-direction: column;
-    padding: 24px;
   }
 
   .modal-left-index, .modal-right-index {
     flex: none;
+    padding: 24px;
   }
 
   .modal-image-index {

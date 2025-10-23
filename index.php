@@ -134,7 +134,7 @@
     <div class="modal-content-index">
     <div class="modal-left-index">
         <div class="thank-you-text">thank you</div>
-        <img src="logo/Primary, Black.png" alt="Honicove Logo" class="modal-logo-below">
+        <img src="logo/Primary, White.png" alt="Honicove Logo" class="modal-logo-below">
       </div>
       <div class="modal-right-index">
         <img src="logo/Secondary Mark, Red.png" alt="Honicove Logo" class="modal-h-index">
