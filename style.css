@@ -204,13 +204,44 @@
 }
 
 /* =========================
+   Font Faces
+   ========================= */
+@font-face {
+  font-family: 'Daniel';
+  src: url('front/daniel.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Daniel';
+  src: url('front/danielbd.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Daniel';
+  src: url('front/danielbk.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ashley';
+  src: url('front/ASHLEY__.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* =========================
    Variables & Reset
    ========================= */
 :root{
-  --midnight: #0B1724;   
-  --maroon:   #7A0B1A;  
-  --cherry:   #B22234;   
-  --cream:    #FAF6F0;   
+  --midnight: #0B1724;
+  --maroon:   #7A0B1A;
+  --cherry:   #B22234;
+  --cream:    #FAF6F0;
   --white:    #FFFFFF;
   --muted:    #6B7280;
   --radius:   12px;
@@ -1585,6 +1616,7 @@ body.sign-page button.Card-icon span {
   justify-content: flex-end;
   align-items: center;
   gap: 16px;
+  /* background: #000; */
 }
 
 .thank-you-text {
@@ -1622,16 +1654,17 @@ body.sign-page button.Card-icon span {
 }
 
 .modal-message-index {
-  font-family: "Grey Qo", cursive;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 36px;
-  color: var(--midnight);
-  margin-bottom: 24px;
-font-weight: bold;
-  text-transform: lowercase;
- 
-  min-height: 24px;
+   font-family: "Caveat", cursive;
+   font-optical-sizing: auto;
+   font-weight: 400;
+   font-style: normal;
+   font-size: 20px;
+   color: var(--midnight);
+   margin-bottom: 24px;
+   /* font-weight: bold; */
+   text-transform: lowercase;
+   letter-spacing: 1px;
+   min-height: 24px;
 }
 
 .subscribe-form-index {

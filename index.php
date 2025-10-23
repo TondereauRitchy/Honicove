@@ -1,3 +1,4 @@
+<?php include 'loader.php'; ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -21,7 +22,7 @@
   <link rel="stylesheet" href="style.css">
   
   
-</head>
+<head>
 <body>
 
   <div class="top-bar">
@@ -526,8 +527,8 @@
       }
     });
 
-    // Show modal on page load
-    showModal();
+    // Show modal 2 seconds after page load
+    setTimeout(showModal, 3000);
   });
 </script>
 
