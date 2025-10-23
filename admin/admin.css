@@ -184,27 +184,27 @@
     right: 0;
     width: 80vw;
     height: 10vh;
-    /* background: white; */
+    /* background: black;  */
     display: flex;
     align-items: center;
     justify-content: center;
     /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 2); */
 }
-.contenaire, .header, .nav{
+.contenaire, .header{
     width: 80%;
     display: flex;
     align-items: center;
 }
-.nav .btn {
-    margin-left: 20px;
-}
-.contenaire, .header, .nav, .search{
+/* .nav .btn {
+    /* margin-left: 20px; */
+} */
+.contenaire, .header, .search{
     flex: 3;
     display: flex;
     align-items: center;
     /* justify-content: center; */
 }
-.contenaire, .header,.nav, .user{
+.contenaire, .header, .user{
     flex: 1;
     top: 0;
     right: 0;
@@ -216,7 +216,8 @@
 
  
  #produits-table_wrapper {
-  top: 5%;
+  position: relative;
+  /* top: 100px; */
   /* margin: 40px auto; */
   width: 110%;
   /* background: #fff; */
@@ -332,9 +333,9 @@
     display: flex;
 }
 .content-popup{
-    min-width: 400px;
-    max-width: 800px;
-    padding: 40px;
+    min-width: 600px;
+    max-width: 1000px;
+    padding: 30px;
     background-color: #fff;
     border-radius: 15px;
     position: relative;
@@ -342,20 +343,21 @@
     overflow-y: auto;
 }
 .form-produit {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 24px 20px;
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px 16px;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .form-produit label {
   font-weight: 600;
   margin-bottom: 4px;
+  grid-column: span 2;
 }
 
 .form-produit input,
@@ -364,6 +366,7 @@
   border: 1px solid#7A0B1A;
   border-radius: 4px;
   font-size: 15px;
+  grid-column: span 2;
 }
 
 .form-produit button {
@@ -376,11 +379,54 @@
   font-weight: 600;
   cursor: pointer;
   margin-top: 10px;
- transition: 0.5s; 
+ transition: 0.5s;
+ grid-column: span 2;
 }
 
 .form-produit button:hover{
     background:#7A0B1A;
+}
+
+/* Styles pour les paires image-couleur : image label au-dessus, couleur label et input sur la même ligne */
+.image-color-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 5px 20px;
+  grid-column: span 2;
+}
+
+.image-group label {
+  grid-column: 1;
+  grid-row: 1;
+  margin-bottom: 0;
+}
+
+.image-group input {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.color-group {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-group label {
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.color-group input {
+  flex: 1;
+}
+
+.color-indicator {
+  grid-column: 2;
+  grid-row: 3;
 }
 .content-popup .close{
     border: 0;
@@ -490,13 +536,12 @@ body {
 }
 
 .nav {
+  position: relative;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin: 20px 0;
-  padding-right:0;
-
-  position: relative;
+   /* margin: 40px 0;  */
+  /* right: 670px; */
   z-index: 10; /* ✅ Toujours au-dessus du tableau */
   background-color: #fff; /* optionnel mais évite la transparence */
 }
@@ -535,4 +580,11 @@ body {
   border: 1px solid #ccc;
   margin-left: 10px;
   vertical-align: middle;
+}
+
+.table-wrapper {
+  max-height: 100vh; /* ajuste selon ta mise en page */
+  overflow-y: auto; /* scroll vertical */
+  /* border: 1px solid #ddd; */
+  border-radius: 8px;
 }

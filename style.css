@@ -243,6 +243,8 @@ button.Card-icon {
   border: none;
   padding: 0;
   cursor: pointer;
+  position: relative;
+  top: -8px;
 }
 
 button.Card-icon span {
@@ -332,8 +334,8 @@ header.site-header{
 }
 
 .brand a {
-  font-size: 14px;
-  text-transform: uppercase;
+  
+  text-transform: lowercase;
   letter-spacing: 0.8px;
   color: white;
   padding: 8px 12px;
@@ -445,7 +447,7 @@ header.site-header{
 
 .brand a{
   margin:0;
-  font-size:12px;
+  font-size:15px;
   letter-spacing:0.6px;
 }
 
@@ -1254,6 +1256,13 @@ body.sign-page button.Card-icon span {
   gap: 1rem;
 }
 
+.image-color-pair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .thumbnail-list img {
   width: 100px;
   height: 125px;
@@ -1558,7 +1567,7 @@ body.sign-page button.Card-icon span {
 
 .modal-content-index {
   background: var(--cream);
-  border-radius: 16px;
+  /* border-radius: 16px; */
   padding: 32px;
   box-shadow: 0 20px 40px rgba(11, 23, 36, 0.2);
   max-width: 600px;
@@ -1572,8 +1581,26 @@ body.sign-page button.Card-icon span {
 .modal-left-index {
   flex: 1;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
+  gap: 16px;
+}
+
+.thank-you-text {
+  font-size: 40px;
+  color: var(--midnight);
+  text-transform: lowercase;
+  font-family: "Parisienne", cursive;
+  font-weight: bold;
+  font-style: normal;
+  letter-spacing: 2px;
+  color: #7A0B1A;
+}
+
+.modal-logo-below {
+  width: 100px;
+  height: auto;
 }
 
 .modal-image-index {
@@ -1595,11 +1622,15 @@ body.sign-page button.Card-icon span {
 }
 
 .modal-message-index {
-  font-size: 18px;
+  font-family: "Grey Qo", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 36px;
   color: var(--midnight);
   margin-bottom: 24px;
-  font-family: "Red Hat Display", sans-serif;
-  font-weight: 500;
+font-weight: bold;
+  text-transform: lowercase;
+ 
   min-height: 24px;
 }
 
@@ -1608,6 +1639,7 @@ body.sign-page button.Card-icon span {
   flex-direction: column;
   gap: 12px;
   align-items: center;
+  
 }
 
 .email-input-index {
@@ -1629,6 +1661,7 @@ body.sign-page button.Card-icon span {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+  text-transform: lowercase;
   transition: background 0.3s ease;
   font-family: "Red Hat Display", sans-serif;
 }
@@ -1938,10 +1971,11 @@ header.site-header.scrolled {
 .side-menu h3 {
   text-decoration: double;
   font-size: 18px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.8px;
   margin: 0;
   font-family: 'PT Futura Condensed', sans-serif;
+  font-weight: bold;
 }
 
 .side-menu * a {
