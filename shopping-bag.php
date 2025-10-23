@@ -58,6 +58,10 @@
     .bag-item .meta h3 { font-size: 20px; margin: 0 0 8px; }
     .bag-item .meta p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
 
+    .color-display { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .color-label { font-size: 14px; color: var(--muted); }
+    .color { width: 20px; height: 20px; border-radius: 50%; border: 1px solid #ccc; display: inline-block; }
+
     .bag-item .availability { margin-top: 12px; font-size: 12px; letter-spacing: .12em; color: var(--text); }
 
     .bag-item .actions { margin-top: 10px; display:flex; gap:14px; font-size: 12px; text-transform: uppercase; }
@@ -168,7 +172,9 @@
     </div> -->
 
     <!-- Left: Items -->
-    <section class="bag-items">
+    <section class="bag-items" id="bag-items">
+      <!-- Articles du panier chargés dynamiquement -->
+      <!--
       <article class="bag-item" data-unit-price="980">
         <img class="thumb" src="logo/card1.jpg" alt="Product image">
         <div class="meta">
@@ -195,6 +201,7 @@
         </div>
         <div class="price" id="line-price">$980</div>
       </article>
+      -->
     </section>
 
     <!-- Right: Summary -->
@@ -224,52 +231,206 @@
   <script>
     (function(){
       const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
-      const item = document.querySelector('.bag-item');
-      const unit = Number(item?.getAttribute('data-unit-price') || 0);
-      const qtySel = document.getElementById('qty-select');
-      const linePriceEl = document.getElementById('line-price');
+      const bagItemsEl = document.getElementById('bag-items');
       const subtotalEl = document.getElementById('summary-subtotal');
       const totalEl = document.getElementById('summary-total');
       const calcTaxLink = document.getElementById('calc-tax');
 
       let taxRate = 0; // 0.08 when calculated
+      let cartItems = []; // Stockage des articles du panier
 
-      function computeSubtotal(){
-        const q = Number(qtySel.value || 1);
-        return unit * q;
+      // Fonction pour obtenir user_id ou session_id (à adapter selon votre système d'authentification)
+      function getUserIdentifier() {
+        // Exemple : récupérer depuis localStorage ou session
+        const userId = localStorage.getItem('user_id');
+        let sessionId = localStorage.getItem('session_id');
+        if (!sessionId) {
+          sessionId = 'guest_' + Date.now();
+          localStorage.setItem('session_id', sessionId); // Persister session_id dans localStorage
+        }
+        return { userId, sessionId };
       }
 
-      function computeTax(subtotal){
-        return Math.round(subtotal * taxRate);
+      // Charger le panier depuis l'API
+      async function loadCart() {
+        const { userId, sessionId } = getUserIdentifier();
+        const params = new URLSearchParams();
+        if (userId) params.append('user_id', userId);
+        if (sessionId) params.append('session_id', sessionId);
+
+        console.log('Loading cart with userId:', userId, 'sessionId:', sessionId);
+
+        try {
+          const response = await fetch(`api/public/index.php?route=carts&${params}`);
+          const data = await response.json();
+          console.log('Cart API response:', data);
+          if (data.error) {
+            console.error('Erreur chargement panier:', data.message);
+            return;
+          }
+          cartItems = data.data || [];
+          console.log('Cart items loaded:', cartItems);
+          renderCart();
+        } catch (error) {
+          console.error('Erreur réseau:', error);
+        }
       }
 
-      function render(){
-        const subtotal = computeSubtotal();
-        const tax = computeTax(subtotal);
-        linePriceEl.textContent = formatter.format(unit);
+      // Fonction pour mapper les noms de couleurs français aux noms de couleurs CSS anglais
+      function getColorValue(color) {
+        const colorMap = {
+          'rouge': 'red',
+          'bleu': 'blue',
+          'vert': 'green',
+          'noir': 'black',
+          'blanc': 'white',
+          'gris': 'gray',
+          'jaune': 'yellow',
+          'orange': 'orange',
+          'violet': 'purple',
+          'rose': 'pink',
+          'marron': 'brown',
+          'beige': 'beige',
+          'crème': 'cream',
+          'argent': 'silver',
+          'or': 'gold',
+          'teal': 'teal',
+          'cyan': 'cyan',
+          'indigo': 'indigo',
+          'lime': 'lime',
+          // Ajouter d'autres mappings si nécessaire
+        };
+        return color.startsWith('#') ? color : (colorMap[color.toLowerCase()] || 'gray');
+      }
+
+      // Rendre les articles du panier
+      function renderCart() {
+        bagItemsEl.innerHTML = '';
+        let subtotal = 0;
+
+        if (cartItems.length === 0) {
+          bagItemsEl.innerHTML = '<p>Votre panier est vide.</p>';
+          subtotalEl.textContent = formatter.format(0);
+          totalEl.textContent = formatter.format(0);
+          return;
+        }
+
+        cartItems.forEach(item => {
+          const itemTotal = parseFloat(item.price) * item.quantity;
+          subtotal += itemTotal;
+
+          const itemEl = document.createElement('article');
+          itemEl.className = 'bag-item';
+          itemEl.setAttribute('data-cart-id', item.id);
+          itemEl.innerHTML = `
+            <img class="thumb" src="uploads/${item.image || item.product_image || 'card1.jpg'}" alt="Product image">
+            <div class="meta">
+              <h3>${item.product_name || 'Produit'}</h3>
+              <div class="color-display">
+                <span class="color-label">Couleur:</span>
+                <span class="color" style="background-color: ${item.color ? getColorValue(item.color) : '#ccc'};" title="${item.color || 'N/A'}"></span>
+              </div>
+              <p>Taille: ${item.size || 'N/A'}</p>
+              <div class="availability">AVAILABLE</div>
+              <div class="actions">
+                <a href="#" class="edit-item">Edit</a>
+                <a href="#" class="remove-item" data-id="${item.id}">Remove</a>
+                <a href="#">Saved Items</a>
+              </div>
+            </div>
+            <div class="qty">
+              <label for="qty-select-${item.id}">QTY:</label>
+              <select id="qty-select-${item.id}" class="qty-select" data-id="${item.id}">
+                ${[1,2,3,4,5].map(q => `<option value="${q}" ${q == item.quantity ? 'selected' : ''}>${q}</option>`).join('')}
+              </select>
+            </div>
+            <div class="price">${formatter.format(itemTotal)}</div>
+          `;
+          bagItemsEl.appendChild(itemEl);
+        });
+
+        // Calculer et afficher les totaux
+        const tax = Math.round(subtotal * taxRate);
         subtotalEl.textContent = formatter.format(subtotal);
         totalEl.textContent = formatter.format(subtotal + tax);
+
+        // Attacher les événements
+        attachEventListeners();
       }
 
-      qtySel?.addEventListener('change', render);
+      // Attacher les événements aux éléments dynamiques
+      function attachEventListeners() {
+        // Changement de quantité
+        document.querySelectorAll('.qty-select').forEach(select => {
+          select.addEventListener('change', async function() {
+            const cartId = this.getAttribute('data-id');
+            const newQty = this.value;
+            await updateCartItem(cartId, { quantity: newQty });
+          });
+        });
 
+        // Suppression d'article
+        document.querySelectorAll('.remove-item').forEach(link => {
+          link.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const cartId = this.getAttribute('data-id');
+            await deleteCartItem(cartId);
+          });
+        });
+      }
+
+      // Mettre à jour un article du panier
+      async function updateCartItem(cartId, updates) {
+        const { userId, sessionId } = getUserIdentifier();
+        try {
+          const response = await fetch(`api/public/index.php?route=carts/${cartId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...updates, user_id: userId, session_id: sessionId })
+          });
+          const data = await response.json();
+          if (data.error) {
+            alert('Erreur mise à jour: ' + data.message);
+            return;
+          }
+          // Recharger le panier
+          await loadCart();
+        } catch (error) {
+          console.error('Erreur mise à jour:', error);
+        }
+      }
+
+      // Supprimer un article du panier
+      async function deleteCartItem(cartId) {
+        const { userId, sessionId } = getUserIdentifier();
+        try {
+          const response = await fetch(`api/public/index.php?route=carts/${cartId}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: userId, session_id: sessionId })
+          });
+          const data = await response.json();
+          if (data.error) {
+            alert('Erreur suppression: ' + data.message);
+            return;
+          }
+          // Recharger le panier
+          await loadCart();
+        } catch (error) {
+          console.error('Erreur suppression:', error);
+        }
+      }
+
+      // Calcul de la taxe
       calcTaxLink?.addEventListener('click', function(e){
         e.preventDefault();
-        // toggle tax calculation (example 8%)
         taxRate = taxRate === 0 ? 0.08 : 0;
         calcTaxLink.textContent = taxRate ? 'Remove' : 'Calculate';
-        render();
+        renderCart();
       });
 
-      document.getElementById('remove-item')?.addEventListener('click', function(e){
-        e.preventDefault();
-        item.remove();
-        document.getElementById('summary-subtotal').textContent = formatter.format(0);
-        document.getElementById('summary-total').textContent = formatter.format(0);
-        document.getElementById('cart-count').textContent = '0';
-      });
-
-      render();
+      // Charger le panier au chargement de la page
+      loadCart();
     })();
   </script>
 </body>

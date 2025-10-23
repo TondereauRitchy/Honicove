@@ -166,7 +166,7 @@
 
       <div class="modal-actions">
             <button class="btn black">CHECKOUT</button>
-            <a class="btn white" href="shopping-bag.php">VIEW SHOPPING BAG</a>
+            <button class="btn white" id="view-shopping-bag-btn">VIEW SHOPPING BAG</button>
           </div>
 </div>
   </div>
@@ -307,6 +307,23 @@
       return urlParams.get(param);
     }
 
+    // Variables globales pour stocker la sélection
+    let selectedColor = null;
+    let selectedSize = null;
+    let selectedImage = null;
+
+    // Fonction pour obtenir user_id ou session_id (à adapter selon votre système d'authentification)
+    function getUserIdentifier() {
+      // Exemple : récupérer depuis localStorage ou session
+      const userId = localStorage.getItem('user_id');
+      let sessionId = localStorage.getItem('session_id');
+      if (!sessionId) {
+        sessionId = 'guest_' + Date.now();
+        localStorage.setItem('session_id', sessionId); // Persister session_id dans localStorage
+      }
+      return { userId, sessionId };
+    }
+
     // Function to render stars for rating
     function renderStars(rating) {
       let starsHtml = "";
@@ -402,17 +419,25 @@
             button.setAttribute('data-index', index);
             button.addEventListener('click', (e) => {
               e.preventDefault();
-              const img = document.getElementById('product-img');
-              // Utiliser la nouvelle structure images si disponible
+              // Retirer la classe active des autres boutons
+              colorSwatches.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+              // Ajouter la classe active au bouton cliqué
+              button.classList.add('active');
+              selectedColor = button.getAttribute('data-color');
+              // Trouver l'image correspondante
               if (product.data.images && product.data.images.length > 0) {
-                const imagePath = product.data.images[index].image_path;
-                img.src = `uploads/${imagePath}`;
+                const imageData = product.data.images.find(img => img.color === selectedColor);
+                if (imageData) {
+                  selectedImage = imageData.image_path;
+                  document.getElementById('product-img').src = `uploads/${selectedImage}`;
+                }
               } else {
                 // Ancienne structure : image_1, image_2, image_3
                 const imageAttr = `image_${index + 1}`;
                 const imagePath = product.data[imageAttr];
                 if (imagePath) {
-                  img.src = `uploads/${imagePath}`;
+                  selectedImage = imagePath;
+                  document.getElementById('product-img').src = `uploads/${imagePath}`;
                 }
               }
             });
@@ -462,8 +487,18 @@
           });
         });
 
-        // const sizeOptions = document.querySelector('.size-options');
-        // sizeOptions.innerHTML = '<button>NA</button>';
+        // Ajouter la logique de sélection pour les tailles
+        const sizeButtons = document.querySelectorAll('.size-options button');
+        sizeButtons.forEach(button => {
+          button.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Retirer la classe active des autres boutons
+            sizeButtons.forEach(btn => btn.classList.remove('active'));
+            // Ajouter la classe active au bouton cliqué
+            button.classList.add('active');
+            selectedSize = button.textContent;
+          });
+        });
 
         // Populate accordion content - assuming fixed content or from API if available
         // Since API may not provide, keep default or set to NA
@@ -542,22 +577,46 @@
         cartModal.style.background = 'rgba(0, 0, 0, 0.25)';
       }
 
-      addToCartBtn.addEventListener("click", (e) => {
+      addToCartBtn.addEventListener("click", async (e) => {
         if (currentProduct) {
-          // Peupler dynamiquement le résumé du produit
-          const summaryDiv = document.getElementById("dynamic-product-summary");
+          const productId = getQueryParam('id');
           const quantity = document.getElementById('quantity').value;
-          const imageSrc = (currentProduct.data.images && currentProduct.data.images.length > 0) ? `uploads/${currentProduct.data.images[0].image_path}` : (currentProduct.data.image_1 ? `uploads/${currentProduct.data.image_1}` : 'uploads/card1.jpg');
-          summaryDiv.innerHTML = `
-            <img src="${imageSrc}" alt="${currentProduct.data.name || 'Produit'}" class="product-img">
-            <div class="product-info">
-              <h4>${currentProduct.data.name || 'Nom non disponible'}</h4>
-              <p class="price">${currentProduct.data.price ? currentProduct.data.price + '$' : 'Prix non disponible'}</p>
-              <p class="quantity">Quantity: ${quantity}</p>
-            </div>
-          `;
+          const { userId, sessionId } = getUserIdentifier();
+          try {
+            const cartData = {
+              product_id: productId,
+              quantity: parseInt(quantity),
+              session_id: sessionId,
+              color: selectedColor,
+              size: selectedSize,
+              image: selectedImage
+            };
+            console.log('Sending cart data:', cartData);
+            const response = await fetch(`api/public/index.php?route=/carts`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(cartData)
+            });
+            const result = await response.json();
+            console.log('Add to cart result:', result);
+            // Peupler dynamiquement le résumé du produit
+            const summaryDiv = document.getElementById("dynamic-product-summary");
+            const imageSrc = (currentProduct.data.images && currentProduct.data.images.length > 0) ? `uploads/${currentProduct.data.images[0].image_path}` : (currentProduct.data.image_1 ? `uploads/${currentProduct.data.image_1}` : 'uploads/card1.jpg');
+            summaryDiv.innerHTML = `
+              <img src="${imageSrc}" alt="${currentProduct.data.name || 'Produit'}" class="product-img">
+              <div class="product-info">
+                <h4>${currentProduct.data.name || 'Nom non disponible'}</h4>
+                <p class="price">${currentProduct.data.price ? currentProduct.data.price + '$' : 'Prix non disponible'}</p>
+                <p class="quantity">Quantity: ${quantity}</p>
+              </div>
+            `;
+            openModalAnchored(e);
+          } catch (error) {
+            console.error('Error adding to cart:', error);
+          }
         }
-        openModalAnchored(e);
       });
 
       cartIcon.addEventListener("click", openModalAnchored);
@@ -583,7 +642,12 @@
       const current = parseInt(quantityInput.value);
       if (current > 1) quantityInput.value = current - 1;
     });
-    
+
+    // Handle VIEW SHOPPING BAG button click
+    document.getElementById('view-shopping-bag-btn').addEventListener("click", () => {
+      window.location.href = 'shopping-bag.php';
+    });
+
   </script>
 </body>
 </html>
