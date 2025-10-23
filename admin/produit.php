@@ -29,9 +29,7 @@ if (empty($_SESSION['admin_logged_in'])) {
 
   <div class="contenaire">
     <div class="header">
-      <div class="nav">
-        <a href="#" onclick="openPopup(event)" class="btn">Add new</a>
-      </div>
+      
 
       <div class="overlay-popup">
         <div class="content-popup">
@@ -41,25 +39,37 @@ if (empty($_SESSION['admin_logged_in'])) {
             <input type="text" id="nom_produit" name="name" placeholder="Nom du produit" required />
             <div id="images-colors-container">
               <div class="image-color-pair">
-                <label for="image1">Choisissez une image :</label>
-                <input type="file" name="images[]" id="image1" accept="image/*">
-                <label for="couleur_picker1">Choisissez une couleur :</label>
-                <input type="color" name="colors[]" id="couleur_picker1">
-                <div class="color-indicator" id="indicator1"></div>
+                <div class="image-group">
+                  <label for="image1">Choisissez une image :</label>
+                  <input type="file" name="images[]" id="image1" accept="image/*">
+                </div>
+                <div class="color-group">
+                  <label for="couleur_picker1">Choisissez une couleur :</label>
+                  <input type="color" name="colors[]" id="couleur_picker1">
+                  <div class="color-indicator" id="indicator1"></div>
+                </div>
               </div>
               <div class="image-color-pair">
-                <label for="image2">Choisissez une image 2 :</label>
-                <input type="file" name="images[]" id="image2" accept="image/*">
-                <label for="couleur_picker2">Choisissez une couleur :</label>
-                <input type="color" name="colors[]" id="couleur_picker2">
-                <div class="color-indicator" id="indicator2"></div>
+                <div class="image-group">
+                  <label for="image2">Choisissez une image 2 :</label>
+                  <input type="file" name="images[]" id="image2" accept="image/*">
+                </div>
+                <div class="color-group">
+                  <label for="couleur_picker2">Choisissez une couleur :</label>
+                  <input type="color" name="colors[]" id="couleur_picker2">
+                  <div class="color-indicator" id="indicator2"></div>
+                </div>
               </div>
               <div class="image-color-pair">
-                <label for="image3">Choisissez une image 3 :</label>
-                <input type="file" name="images[]" id="image3" accept="image/*">
-                <label for="couleur_picker3">Choisissez une couleur :</label>
-                <input type="color" name="colors[]" id="couleur_picker3">
-                <div class="color-indicator" id="indicator3"></div>
+                <div class="image-group">
+                  <label for="image3">Choisissez une image 3 :</label>
+                  <input type="file" name="images[]" id="image3" accept="image/*">
+                </div>
+                <div class="color-group">
+                  <label for="couleur_picker3">Choisissez une couleur :</label>
+                  <input type="color" name="colors[]" id="couleur_picker3">
+                  <div class="color-indicator" id="indicator3"></div>
+                </div>
               </div>
             </div>
             <button type="button" id="add-more-btn">Ajouter plus d'images et couleurs</button>
@@ -76,6 +86,11 @@ if (empty($_SESSION['admin_logged_in'])) {
       </div>
     </div>
 
+    <div class="table-wrapper">
+       <div class="nav">
+        <a href="#" onclick="openPopup(event)" class="btn">Add new</a>
+      </div>
+     
     <table id="produits-table" class="display">
       <thead>
         <tr>
@@ -95,6 +110,7 @@ if (empty($_SESSION['admin_logged_in'])) {
       </thead>
       <tbody></tbody>
     </table>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -292,10 +308,15 @@ function modifierProduit(p) {
             const newPair = document.createElement('div');
             newPair.className = 'image-color-pair';
             newPair.innerHTML = `
-              <label for="image${index + 1}">Choisissez une image ${index + 1} :</label>
-              <input type="file" name="images[]" id="image${index + 1}" accept="image/*">
-              <label for="couleur_picker${index + 1}">Choisissez une couleur :</label>
-              <input type="color" name="colors[]" id="couleur_picker${index + 1}" value="${img.color || '#000000'}">
+              <div class="image-group">
+                <label for="image${index + 1}">Choisissez une image ${index + 1} :</label>
+                <input type="file" name="images[]" id="image${index + 1}" accept="image/*">
+              </div>
+              <div class="color-group">
+                <label for="couleur_picker${index + 1}">Choisissez une couleur :</label>
+                <input type="color" name="colors[]" id="couleur_picker${index + 1}" value="${img.color || '#000000'}">
+                <div class="color-indicator" id="indicator${index + 1}"></div>
+              </div>
             `;
             container.appendChild(newPair);
           }
@@ -315,11 +336,15 @@ function modifierProduit(p) {
       const newPair = document.createElement('div');
       newPair.className = 'image-color-pair';
       newPair.innerHTML = `
-        <label for="image${pairCounter}">Choisissez une image ${pairCounter} :</label>
-        <input type="file" name="images[]" id="image${pairCounter}" accept="image/*">
-        <label for="couleur_picker${pairCounter}">Choisissez une couleur :</label>
-        <input type="color" name="colors[]" id="couleur_picker${pairCounter}">
-        <div class="color-indicator" id="indicator${pairCounter}"></div>
+        <div class="image-group">
+          <label for="image${pairCounter}">Choisissez une image ${pairCounter} :</label>
+          <input type="file" name="images[]" id="image${pairCounter}" accept="image/*">
+        </div>
+        <div class="color-group">
+          <label for="couleur_picker${pairCounter}">Choisissez une couleur :</label>
+          <input type="color" name="colors[]" id="couleur_picker${pairCounter}">
+          <div class="color-indicator" id="indicator${pairCounter}"></div>
+        </div>
       `;
       container.appendChild(newPair);
       // Attach event listener to the new color input

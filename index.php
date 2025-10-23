@@ -14,6 +14,9 @@
   <!-- Dancing Script depuis Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
 
+  <!-- Grey Qo depuis Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Grey+Qo:wght@400&display=swap" rel="stylesheet">
+
   <!-- External CSS -->
   <link rel="stylesheet" href="style.css">
   
@@ -32,10 +35,10 @@
   <header class="site-header">
     
     <nav class="brand" aria-label="Brand">
-     <a href="#" onclick="toggleSideMenu(event)" aria-label="Shop">Shop</a>
-     <a href="blog.php" aria-label="Our Story">Blog</a>
+     <a href="#" onclick="toggleSideMenu(event)" aria-label="Shop">shop</a>
+     <a href="blog.php" aria-label="Our Story">blog</a>
 
-     <a href="about.php" aria-label="About">About</a>
+     <a href="about.php" aria-label="About">about</a>
 
     </nav>
 
@@ -45,7 +48,7 @@
     <!-- Side Menu Overlay -->
     <div id="side-menu" class="side-menu">
       <button class="close-menu" onclick="closeSideMenu()">&times;</button>
-      <h3>Shop</h3>
+      <h3>shop</h3>
       <a href="#" onclick="scrollToSection('shop', event)">new arrivals</a>
       <a href="#" onclick="scrollToSection('shop', event)">clothing</a>
       <a href="#" onclick="scrollToSection('shop', event)">mats</a>
@@ -125,11 +128,12 @@
    
   </main>
 
-  <!-- Welcome Modal -->
+  <!-- Welcome odal -->
   <div id="welcome-modal-overlay" class="modal-overlay-index">
     <div class="modal-content-index">
-      <div class="modal-left-index">
-        <img src="logo/image2.jpg" alt="Welcome Image" class="modal-image-index">
+    <div class="modal-left-index">
+        <div class="thank-you-text">thank you</div>
+        <img src="logo/Primary, Black.png" alt="Honicove Logo" class="modal-logo-below">
       </div>
       <div class="modal-right-index">
         <img src="logo/Secondary Mark, Red.png" alt="Honicove Logo" class="modal-h-index">
