@@ -286,7 +286,7 @@ function modifierProduit(p) {
             // Utiliser les champs existants
             const pair = pairs[index];
             const colorInput = pair.querySelector('input[type="color"]');
-            if (colorInput) colorInput.value = img.color || '#000000';
+            if (colorInput) colorInput.value = (img.color && img.color !== '') ? img.color : '#000000';
           } else {
             // Ajouter de nouveaux champs si nécessaire
             const newPair = document.createElement('div');
@@ -295,7 +295,7 @@ function modifierProduit(p) {
               <label for="image${index + 1}">Choisissez une image ${index + 1} :</label>
               <input type="file" name="images[]" id="image${index + 1}" accept="image/*">
               <label for="couleur_picker${index + 1}">Choisissez une couleur :</label>
-              <input type="color" name="colors[]" id="couleur_picker${index + 1}" value="${img.color || '#000000'}">
+              <input type="color" name="colors[]" id="couleur_picker${index + 1}" value="${(img.color && img.color !== '') ? img.color : '#000000'}">
             `;
             container.appendChild(newPair);
           }
