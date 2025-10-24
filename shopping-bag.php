@@ -429,6 +429,11 @@
         renderCart();
       });
 
+      // Handle CHECKOUT button click
+      document.getElementById('checkout').addEventListener("click", () => {
+        window.location.href = 'checkout.php';
+      });
+
       // Charger le panier au chargement de la page
       loadCart();
     })();
