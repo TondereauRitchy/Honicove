@@ -165,7 +165,7 @@
           </div>
 
       <div class="modal-actions">
-            <button class="btn black">CHECKOUT</button>
+            <button class="btn black" id="checkout-btn">CHECKOUT</button>
             <button class="btn white" id="view-shopping-bag-btn">VIEW SHOPPING BAG</button>
           </div>
 </div>
@@ -743,6 +743,11 @@
     // Handle VIEW SHOPPING BAG button click
     document.getElementById('view-shopping-bag-btn').addEventListener("click", () => {
       window.location.href = 'shopping-bag.php';
+    });
+
+    // Handle CHECKOUT button click
+    document.getElementById('checkout-btn').addEventListener("click", () => {
+      window.location.href = 'checkout.php';
     });
 
   </script>
