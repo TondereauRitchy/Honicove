@@ -1,30 +1,30 @@
 <?php return array(
     'root' => array(
-        'name' => 'gravity-framework/gravity',
+        'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'c65e9c16518f11ad8aaa263a731c1d5aeb711d17',
-        'type' => 'project',
+        'reference' => 'a95677949d1be381940bcdd00735141734739f3c',
+        'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        'gravity-framework/gravity' => array(
+        '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'c65e9c16518f11ad8aaa263a731c1d5aeb711d17',
-            'type' => 'project',
+            'reference' => 'a95677949d1be381940bcdd00735141734739f3c',
+            'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'gravity-framework/gravity-core' => array(
-            'pretty_version' => 'v0.15',
-            'version' => '0.15.0.0',
-            'reference' => 'c0427673d4c5cdedd19389e27b3d7a6db165c727',
+        'stripe/stripe-php' => array(
+            'pretty_version' => 'v13.18.0',
+            'version' => '13.18.0.0',
+            'reference' => '02abb043b103766f4ed920642ae56ffdc58c7467',
             'type' => 'library',
-            'install_path' => __DIR__ . '/../gravity-framework/gravity-core',
+            'install_path' => __DIR__ . '/../stripe/stripe-php',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

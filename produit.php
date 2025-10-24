@@ -339,6 +339,8 @@
 
     // Populate product details on page load
     window.addEventListener('DOMContentLoaded', async () => {
+      await updateCartCount(); // Update cart count on page load
+
       const productId = getQueryParam('id');
 
       if (!productId) {
@@ -351,7 +353,7 @@
         currentProduct = product; // Store current product globally if needed
 
         console.log('product', product);
-        
+
 
         // Utiliser la nouvelle structure images si disponible, sinon l'ancienne
         let imageSrc = (product.data.images && product.data.images.length > 0) ? `uploads/${product.data.images[0].image_path}` : (product.data.image_1 ? `uploads/${product.data.image_1}` : `uploads/card${productId}.jpg`);
@@ -577,6 +579,93 @@
         cartModal.style.background = 'rgba(0, 0, 0, 0.25)';
       }
 
+    // Function to fetch the total count of items in the cart
+    async function fetchCartCount() {
+      const { userId, sessionId } = getUserIdentifier();
+      const params = new URLSearchParams();
+      if (userId) params.append('user_id', userId);
+      if (sessionId) params.append('session_id', sessionId);
+
+      try {
+        const response = await fetch(`api/public/index.php?route=carts&${params}`);
+        const data = await response.json();
+        if (data.error) {
+          console.error('Erreur chargement compteur panier:', data.message);
+          return 0;
+        }
+        const cartItems = data.data || [];
+        const totalCount = cartItems.reduce((sum, item) => sum + parseInt(item.quantity || 0), 0);
+        return totalCount;
+      } catch (error) {
+        console.error('Erreur réseau:', error);
+        return 0;
+      }
+    }
+
+    // Function to update the cart count display
+    async function updateCartCount() {
+      const count = await fetchCartCount();
+      const cartSpan = document.querySelector('.Card-icon span');
+      if (cartSpan) {
+        cartSpan.textContent = count;
+      }
+    }
+
+    // Function to load and populate cart in modal
+    async function loadCartModal() {
+      const { userId, sessionId } = getUserIdentifier();
+      const params = new URLSearchParams();
+      if (userId) params.append('user_id', userId);
+      if (sessionId) params.append('session_id', sessionId);
+
+      try {
+        const response = await fetch(`api/public/index.php?route=carts&${params}`);
+        const data = await response.json();
+        if (data.error) {
+          console.error('Erreur chargement panier:', data.message);
+          return;
+        }
+        const cartItems = data.data || [];
+        populateCartModal(cartItems);
+      } catch (error) {
+        console.error('Erreur réseau:', error);
+      }
+    }
+
+      // Function to populate modal with cart items
+      function populateCartModal(cartItems) {
+        const summaryDiv = document.getElementById("dynamic-product-summary");
+        if (cartItems.length === 0) {
+          summaryDiv.innerHTML = '<p>Votre panier est vide.</p>';
+          return;
+        }
+
+        let total = 0;
+        const itemsHtml = cartItems.map(item => {
+          const itemTotal = parseFloat(item.price) * item.quantity;
+          total += itemTotal;
+          return `
+            <div class="cart-item">
+              <img src="uploads/${item.image || item.product_image || 'card1.jpg'}" alt="${item.product_name || 'Produit'}" class="product-img">
+              <div class="product-info">
+                <h4>${item.product_name || 'Nom non disponible'}</h4>
+                <p class="price">${item.price ? item.price + '$' : 'Prix non disponible'}</p>
+                <p class="quantity">Quantity: ${item.quantity}</p>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        summaryDiv.innerHTML = `
+          <div class="cart-items-list" style="max-height: 300px; overflow-y: auto;">
+            ${itemsHtml}
+          </div>
+          <div class="cart-total">
+            <p>Total: $${total.toFixed(2)}</p>
+          </div>
+        `;
+      }
+
       addToCartBtn.addEventListener("click", async (e) => {
         if (currentProduct) {
           const productId = getQueryParam('id');
@@ -601,9 +690,11 @@
             });
             const result = await response.json();
             console.log('Add to cart result:', result);
-            // Peupler dynamiquement le résumé du produit
+            // Update cart count after adding item
+            await updateCartCount();
+            // Peupler dynamiquement le résumé du produit ajouté
             const summaryDiv = document.getElementById("dynamic-product-summary");
-            const imageSrc = (currentProduct.data.images && currentProduct.data.images.length > 0) ? `uploads/${currentProduct.data.images[0].image_path}` : (currentProduct.data.image_1 ? `uploads/${currentProduct.data.image_1}` : 'uploads/card1.jpg');
+            const imageSrc = selectedImage ? `uploads/${selectedImage}` : (currentProduct.data.images && currentProduct.data.images.length > 0) ? `uploads/${currentProduct.data.images[0].image_path}` : (currentProduct.data.image_1 ? `uploads/${currentProduct.data.image_1}` : 'uploads/card1.jpg');
             summaryDiv.innerHTML = `
               <img src="${imageSrc}" alt="${currentProduct.data.name || 'Produit'}" class="product-img">
               <div class="product-info">
@@ -619,9 +710,15 @@
         }
       });
 
-      cartIcon.addEventListener("click", openModalAnchored);
+      cartIcon.addEventListener("click", async (e) => {
+        await loadCartModal();
+        openModalAnchored(e);
+      });
 
-      cartIconLink.addEventListener("click", openModalAnchored);
+      cartIconLink.addEventListener("click", async (e) => {
+        await loadCartModal();
+        openModalAnchored(e);
+      });
 
       closeModal.addEventListener("click", closeModalAnchored);
 

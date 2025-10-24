@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const app        = document.getElementById('app');
 
   // 1) On ne montre que le modal tant que l’on n’est pas connecté
-  app.style.display = 'none';
-  modal.style.display = 'flex';
+  if (app) app.style.display = 'none';
+  if (modal) modal.style.display = 'flex';
 
   // 2) Switch vers “Mot de passe oublié”
   forgotLink.onclick = e => {
