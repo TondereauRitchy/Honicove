@@ -3,7 +3,7 @@ require_once "includes/StripePayment.class.php";
 
 $response = array('error'=>true);
 
-$payment = new StripePayment('');
+$payment = new StripePayment('sk_test_51SLokyF8mYQGGK7EVohGhf7DuSsUzE6kC9TAbo5re5jyv8o1V9pu0GjLFRBVP9995H2KmwELfuIHb6oI5XaVgxdj00pezuUtFe');
 // $payment->startPayment($_GET['total'], $_GET['quantity']);
 
 if(isset($_GET['total']) && !empty($_GET['total']) && isset($_GET['quantity']) && !empty($_GET['quantity'])) {

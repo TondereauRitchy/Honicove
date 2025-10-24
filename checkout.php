@@ -314,7 +314,7 @@
 
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Checkout logic: pull cart items from API using session or fallback to placeholder
+    // Checkout logic: pull cart items from localStorage first, then sync with API
     function getUserIdentifier() {
       const userId = localStorage.getItem('user_id');
       let sessionId = localStorage.getItem('session_id');
@@ -327,13 +327,31 @@
 
     async function fetchCart() {
       const { sessionId } = getUserIdentifier();
+      // Essayer d'abord depuis localStorage
+      const localCart = localStorage.getItem('cartItems');
+      if (localCart) {
+        try {
+          const parsedCart = JSON.parse(localCart);
+          if (Array.isArray(parsedCart)) {
+            console.log('Using cart from localStorage');
+            return { data: parsedCart, error: false };
+          }
+        } catch (e) {
+          console.warn('Invalid localStorage cart data, falling back to API');
+        }
+      }
+
+      // Fallback vers API
       try {
         const res = await fetch(`api/public/index.php?route=/carts?session_id=${encodeURIComponent(sessionId)}`);
         if (!res.ok) throw new Error('Cart fetch failed');
-        return await res.json();
+        const apiData = await res.json();
+        // Sauvegarder en localStorage pour cohérence
+        if (apiData.data) localStorage.setItem('cartItems', JSON.stringify(apiData.data));
+        return { data: apiData.data, error: false };
       } catch (e) {
-        console.warn('Cart not available, using placeholder.', e);
-        return { data: { items: [] } };
+        console.warn('Cart not available from API, showing error.', e);
+        return { data: [], error: true };
       }
     }
 
@@ -379,6 +397,18 @@
     window.addEventListener('DOMContentLoaded', async () => {
       const cart = await fetchCart();
       const items = cart && cart.data && (cart.data.items || cart.data) || [];
+      if (cart.error) {
+        // Afficher un message d'erreur si le panier ne peut pas être chargé
+        const container = document.getElementById('summary-items');
+        container.innerHTML = '<p style="color: red;">Erreur : Impossible de charger le panier. Veuillez revenir à la page Shopping Bag.</p>';
+        return;
+      }
+      if (!items || items.length === 0) {
+        // Afficher un message si le panier est vide
+        const container = document.getElementById('summary-items');
+        container.innerHTML = '<p>Votre panier est vide.</p>';
+        return;
+      }
       renderSummary(items);
     });
 
@@ -412,7 +442,9 @@
       };
       try {
         const res = await fetch('api/public/index.php?route=/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) });
-        const data = await res.json();
+        const data = await res.text();
+        console.log('pay', data);
+        
         if (!res.ok) throw new Error(data.message || 'Erreur de commande');
         window.location.href = 'thankyou.html';
       } catch (err) {
