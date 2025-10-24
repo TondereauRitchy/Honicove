@@ -24,9 +24,9 @@ $adminLoggedIn = !empty($_SESSION['admin_logged_in']);
       <h2 id="formTitle">Connexion Administrateur</h2>
       <form id="loginForm">
         <label for="email">Email</label>
-        <input type="email" id="email" required>
+        <input type="email" id="email" autocomplete="username" required>
         <label for="password">Mot de passe</label>
-        <input type="password" id="password" required>
+        <input type="password" id="password" autocomplete="current-password" required>
         <button type="submit">Se connecter</button>
         <p class="forgot">
           <a href="#" id="forgotLink">Mot de passe oublié ?</a>

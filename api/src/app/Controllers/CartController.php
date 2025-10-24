@@ -171,7 +171,7 @@ class CartController extends BaseController {
 
 	public function delete($id) {
 		$data = json_decode(file_get_contents("php://input"), true);
-		$cart = CartRepository::findOrFail($id);
+		$cart = CartRepository::find($id);
 
 		if (!$cart) {
 			return $this->sendError("Cart item not found", [], 404);
@@ -186,7 +186,7 @@ class CartController extends BaseController {
 			return $this->sendError("Unauthorized", [], 403);
 		}
 
-		CartRepository::delete($id);
+		CartRepository::delete($cart);
 		return $this->sendResponse(null, "Cart item deleted");
 	}
 
