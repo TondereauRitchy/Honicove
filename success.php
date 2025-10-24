@@ -1,4 +1,5 @@
 <?php
+include 'load.php';
 require 'vendor/autoload.php';
 
 

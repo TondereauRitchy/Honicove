@@ -1,3 +1,4 @@
+<?php include 'load.php'; ?>
 <!doctype html>
 <html lang="fr">
 <head>
