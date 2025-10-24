@@ -1,4 +1,4 @@
-<?php include 'loader.php'; ?>
+<?php include 'loader-blanc.php'; ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -67,8 +67,8 @@
   font-size: 40px;
   color: #FAF6F0;
   text-transform: lowercase;
-  font-family: "Parisienne", cursive;
-  font-weight: 700;
+  font-family: "Caveat", cursive;
+  font-weight: 400;
   font-style: normal;
   letter-spacing: 2px;
 }

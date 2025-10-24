@@ -1,5 +1,3 @@
-# TODO: Replace Honicove Letters with Images in loader.php
+# TODO for Replacing Images in loader-blanc.html
 
-- [x] Replace each <span> with <img src="honicove/X.png" alt="letter"> for letters H to e (1.png to 8.png)
-- [x] Adjust CSS styles for .honi-preloader span to apply to img elements
-- [x] Test the loader by opening the page in browser to ensure images load and animation works
+- [x] Edit loader-blanc.html to replace image src attributes from "honicove/[image].png" to "honicove/blanc/[image].png" for all matching images (un.png, deux.png, trois.png, quatre.png -> quatre (1).png, cinq.png, sept.png, huit.png).

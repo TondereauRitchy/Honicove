@@ -1,4 +1,5 @@
 <?php
+include 'load.php';
 require_once "includes/StripePayment.class.php";
 
 $response = array('error'=>true);
