@@ -220,10 +220,10 @@
 
       <div class="summary-actions">
         <button class="btn black" id="checkout">CHECKOUT</button>
-        <div class="paypal">
+        <!-- <div class="paypal">
           <span>PAY WITH</span>
           <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal">
-        </div>
+        </div> -->
       </div>
     </aside>
   </main>

@@ -6,7 +6,7 @@
   .honi-loader__wrapper {
     position: fixed;
     inset: 0;
-    background-color: #fdf7f2;
+    background-color: beige;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,34 +14,47 @@
   }
   .honi-preloader {
     display: flex;
-    gap: 8px;
+    gap: 0;
     font-size: 80px;
     color: #7A0B1A;
     font-family: "Rancho", cursive;
   }
-  .honi-preloader span {
-    display: inline-block;
+   .honi-preloader img {
+    width: 50px;
+    height: 50px;
     opacity: 0;
     transform: translateY(-100px);
     animation: honiDropIn 0.8s ease-out forwards;
+    /* margin-left: -60px; 🔹 Optionnel : rapproche encore un peu les lettres visuellement */
+  }
+
+  .honi-preloader img:first-child {
+    margin-left: 0; /* pas de décalage sur la première image */
   }
   @keyframes honiDropIn {
     0% { opacity: 0; transform: translateY(-100px); }
     100% { opacity: 1; transform: translateY(0); }
   }
-  .honi-preloader span:nth-child(1) { color: #7A0B1A; animation-delay: 0.1s; }
-  .honi-preloader span:nth-child(2) { color: #7A0B1A; animation-delay: 0.25s; }
-  .honi-preloader span:nth-child(3) { color: #7A0B1A; animation-delay: 0.4s; }
-  .honi-preloader span:nth-child(4) { color: #7A0B1A; animation-delay: 0.55s; }
-  .honi-preloader span:nth-child(5) { color: #7A0B1A; animation-delay: 0.7s; }
-  .honi-preloader span:nth-child(6) { color: #7A0B1A; animation-delay: 0.85s; }
-  .honi-preloader span:nth-child(7) { color: #7A0B1A; animation-delay: 1s; }
-  .honi-preloader span:nth-child(8) { color: #7A0B1A; animation-delay: 1.15s; }
+  .honi-preloader img:nth-child(1) { animation-delay: 0.1s; }
+  .honi-preloader img:nth-child(2) { animation-delay: 0.25s; }
+  .honi-preloader img:nth-child(3) { animation-delay: 0.4s; }
+  .honi-preloader img:nth-child(4) { animation-delay: 0.55s; }
+  .honi-preloader img:nth-child(5) { animation-delay: 0.7s; }
+  .honi-preloader img:nth-child(6) { animation-delay: 0.85s; }
+  .honi-preloader img:nth-child(7) { animation-delay: 1s; }
+  .honi-preloader img:nth-child(8) { animation-delay: 1.15s; }
   .honi-loader__fade-out { opacity: 0; transition: opacity 1s ease; pointer-events: none; }
 </style>
 <div id="honi-loader" class="honi-loader__wrapper">
   <div class="honi-preloader" aria-live="polite" aria-label="Chargement Honicove">
-    <span>H</span><span>o</span><span>n</span><span>i</span><span>c</span><span>o</span><span>v</span><span>e</span>
+    <img src="honicove/un.png" alt="H">
+    <img src="honicove/deux.png" alt="o">
+    <img src="honicove/trois.png" alt="n">
+    <img src="honicove/quatre.png" alt="i">
+    <img src="honicove/cinq.png" alt="c">
+    <img src="honicove/deux.png" alt="o">
+    <img src="honicove/sept.png" alt="v">
+    <img src="honicove/huit.png" alt="e">
   </div>
 </div>
 <script>
