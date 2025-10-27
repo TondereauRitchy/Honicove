@@ -59,9 +59,9 @@
           <a href="#" onclick="toggleAccountDropdown(event)" aria-label="Account"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
           <div id="account-dropdown" class="account-dropdown">
             <ul class="account-menu">
-            <a href="sign.php">Sign In</a>
+              <a href="sign.php">Sign In</a>
               <a href="#" onclick="event.preventDefault();">My Orders</a>
-            <a href="accountsetting.html">Account Settings</a>
+              <a href="accountsetting.html">Account Settings</a>
               <a href="#" onclick="event.preventDefault();">Address Book</a>
               <a href="#" onclick="event.preventDefault();">Saved Items</a>
             </ul>
@@ -202,6 +202,40 @@
         document.removeEventListener('click', closeAccountDropdown);
       }
     }
+
+    // Function to update account menu based on login status
+    function updateAccountMenu() {
+      const accountMenu = document.querySelector('.account-menu');
+      const user = localStorage.getItem('user');
+      if (user) {
+        // Logged in: show My Account, My Orders, Account Settings, Address Book, Saved Items, Logout
+        accountMenu.innerHTML = `
+          <a href="myaccount.html">My Account</a>
+          <a href="#" onclick="event.preventDefault();">My Orders</a>
+          <a href="accountsetting.html">Account Settings</a>
+          <a href="#" onclick="event.preventDefault();">Address Book</a>
+          <a href="#" onclick="event.preventDefault();">Saved Items</a>
+          <a href="#" onclick="logout(event)">Logout</a>
+        `;
+      } else {
+        // Not logged in: show only Sign In
+        accountMenu.innerHTML = `
+          <a href="sign.php">Sign In</a>
+        `;
+      }
+    }
+
+    // Function to handle logout
+    function logout(e) {
+      e.preventDefault();
+      localStorage.removeItem('user');
+      window.location.href = 'index.php';
+    }
+
+    // Initialize account menu on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      updateAccountMenu();
+    });
   </script>
 
 </body>

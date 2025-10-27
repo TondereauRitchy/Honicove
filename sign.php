@@ -217,6 +217,40 @@
       }
     }
 
+    // Function to update account menu based on login status
+    function updateAccountMenu() {
+      const accountMenu = document.querySelector('.account-menu');
+      const user = localStorage.getItem('user');
+      if (user) {
+        // Logged in: show My Account, My Orders, Account Settings, Address Book, Saved Items, Logout
+        accountMenu.innerHTML = `
+          <a href="myaccount.html">My Account</a>
+          <a href="#" onclick="event.preventDefault();">My Orders</a>
+          <a href="accountsetting.html">Account Settings</a>
+          <a href="#" onclick="event.preventDefault();">Address Book</a>
+          <a href="#" onclick="event.preventDefault();">Saved Items</a>
+          <a href="#" onclick="logout(event)">Logout</a>
+        `;
+      } else {
+        // Not logged in: show only Sign In
+        accountMenu.innerHTML = `
+          <a href="sign.php">Sign In</a>
+        `;
+      }
+    }
+
+    // Function to handle logout
+    function logout(e) {
+      e.preventDefault();
+      localStorage.removeItem('user');
+      window.location.href = 'index.php';
+    }
+
+    // Initialize account menu on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      updateAccountMenu();
+    });
+
     document.getElementById('year').textContent = new Date().getFullYear();
 
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
