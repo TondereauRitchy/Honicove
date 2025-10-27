@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
     'Routing\\' => array($baseDir . '/src/routes'),
     'Gravity\\Core\\Routing\\' => array($vendorDir . '/gravity-framework/gravity-core/src/routes'),
     'Gravity\\Core\\Exceptions\\' => array($vendorDir . '/gravity-framework/gravity-core/src/Exceptions'),

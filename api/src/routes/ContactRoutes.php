@@ -21,7 +21,7 @@ class ContactRoutes extends ResourceRoutes {
 		];
 
 		$this->put = [
-			new Route('/contacts/:id', [ContactController::class, 'updae']),
+			new Route('/contacts/:id', [ContactController::class, 'update']),
 		];
 
 		$this->patch = [

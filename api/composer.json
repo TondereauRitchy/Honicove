@@ -16,7 +16,8 @@
     ],
 
     "require": {
-        "gravity-framework/gravity-core": "^0.15"
+        "gravity-framework/gravity-core": "^0.15",
+        "stripe/stripe-php": "13.12"
     },
 
     "autoload": {

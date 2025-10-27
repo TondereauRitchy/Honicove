@@ -23,7 +23,7 @@ class UserRoutes extends ResourceRoutes {
 		];
 
 		$this->put = [
-			new Route('/users/:id', [UserController::class, 'updae']),
+			new Route('/users/:id', [UserController::class, 'update']),
 		];
 
 		$this->patch = [

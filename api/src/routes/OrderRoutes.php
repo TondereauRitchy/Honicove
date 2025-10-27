@@ -21,7 +21,7 @@ class OrderRoutes extends ResourceRoutes {
 		];
 
 		$this->put = [
-			new Route('/orders/:id', [OrderController::class, 'updae']),
+			new Route('/orders/:id', [OrderController::class, 'update']),
 		];
 
 		$this->patch = [

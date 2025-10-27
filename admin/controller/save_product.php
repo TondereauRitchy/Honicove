@@ -66,11 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['id']) && !empty($_POST['id'])) {
         // Modification
         $method = 'PUT';
-        $apiUrl = 'http://localhost/dashboard/Honicove-1/api/products/' . $_POST['id'];
+        $apiUrl = 'http://localhost/dashboard/honicove-1/api/products/' . $_POST['id'];
     } else {
         // Ajout
         $method = 'POST';
-        $apiUrl = 'http://localhost/dashboard/Honicove-1/api/products';
+        $apiUrl = 'http://localhost/dashboard/honicove-1//api/products';
         // Pour l'ajout, vérifier qu'au moins une image est présente
         if (empty($imagesData)) {
             echo json_encode(['error' => true, 'message' => 'Au moins une image est requise pour l\'ajout']);

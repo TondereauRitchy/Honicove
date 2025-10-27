@@ -443,11 +443,11 @@
       };
       try {
         const res = await fetch('api/public/index.php?route=/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) });
-        const data = await res.text();
+        const data = await res.json();
         console.log('pay', data);
         
         if (!res.ok) throw new Error(data.message || 'Erreur de commande');
-        window.location.href = 'thankyou.html';
+        window.location.href = data.data.payment_intent.url;
       } catch (err) {
         alert('Impossible de finaliser la commande pour le moment.');
         console.error(err);

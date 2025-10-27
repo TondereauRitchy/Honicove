@@ -9,7 +9,7 @@ if (!isset($data['email']) || !isset($data['password'])) {
     exit;
 }
 
-$apiUrl = 'http://localhost/dashboard/Honicove-1/api/public/index.php?route=users/login'; // adapte le chemin si besoin
+$apiUrl = 'http://localhost/dashboard/honicove-1/api/public/index.php?route=users/login'; // chemin relatif pour fonctionner en ligne et localement
 
 $curl = curl_init($apiUrl);
 
