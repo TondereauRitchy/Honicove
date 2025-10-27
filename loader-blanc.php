@@ -38,8 +38,8 @@
   .honi-preloader img:nth-child(1) { animation-delay: 0.1s; }
   .honi-preloader img:nth-child(2) { animation-delay: 0.25s; }
   .honi-preloader img:nth-child(3) { animation-delay: 0.4s; }
-  .honi-preloader img:nth-child(4) { animation-delay: 0.55s; }
-  .honi-preloader img:nth-child(5) { animation-delay: 0.7s; }
+  .honi-preloader img:nth-child(4) { animation-delay: 0.55s; margin-left: -15px; }
+  .honi-preloader img:nth-child(5) { animation-delay: 0.7s; margin-left: -15px; }
   .honi-preloader img:nth-child(6) { animation-delay: 0.85s; }
   .honi-preloader img:nth-child(7) { animation-delay: 1s; }
   .honi-preloader img:nth-child(8) { animation-delay: 1.15s; }

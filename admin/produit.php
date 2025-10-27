@@ -75,9 +75,15 @@ if (empty($_SESSION['admin_logged_in'])) {
             <button type="button" id="add-more-btn">Ajouter plus d'images et couleurs</button>
             <textarea id="description" name="description" placeholder="Description" required></textarea>
             <input type="text" id="subtitle" name="subtitle" placeholder="Sous-titre" />
-            <input type="number" id="quantite" name="quantity" placeholder="Quantité" min="1" required />
+            <input type="number" id="quantite" name="quantity" placeholder="Quantité" min="1"  />
             <input type="number" id="prix" name="price" placeholder="Prix (gds)" step="0.01" min="0" required />
-            <input type="text" id="size" name="size" placeholder="Size" />
+            <div class="size-options">
+              <label>Sizes:</label>
+              <label><input type="checkbox" name="sizes[]" value="S"> S</label>
+              <label><input type="checkbox" name="sizes[]" value="M"> M</label>
+              <label><input type="checkbox" name="sizes[]" value="L"> L</label>
+              <label><input type="checkbox" name="sizes[]" value="XL"> XL</label>
+            </div>
             <!-- <input type="text" id="couleur" name="color" placeholder="Couleur" /> -->
             <button type="submit" id="btn-submit" data-mode="ajouter">Ajouter</button>
           </form>
@@ -171,7 +177,7 @@ if (empty($_SESSION['admin_logged_in'])) {
               <td>${p.subtitle || ''}</td>
               <td>${p.price} gds</td>
               <td>${p.quantity}</td>
-              <td>${p.size}</td>
+              <td>${p.size ? p.size.split(',').join(', ') : ''}</td>
 
               <td>${p.created_at}</td>
               <td>
@@ -286,7 +292,16 @@ function modifierProduit(p) {
       document.getElementById('subtitle').value = p.subtitle || '';
       document.getElementById('quantite').value = p.quantity;
       document.getElementById('prix').value = p.price;
-      document.getElementById('size').value = p.size;
+      // Handle sizes checkboxes
+      const sizeCheckboxes = document.querySelectorAll('input[name="sizes[]"]');
+      sizeCheckboxes.forEach(cb => cb.checked = false);
+      if (p.size) {
+        const sizes = p.size.split(',');
+        sizes.forEach(size => {
+          const checkbox = document.querySelector(`input[name="sizes[]"][value="${size.trim()}"]`);
+          if (checkbox) checkbox.checked = true;
+        });
+      }
 
       // Gérer les images et couleurs pour l'édition
       const container = document.getElementById('images-colors-container');

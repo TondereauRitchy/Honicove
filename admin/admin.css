@@ -49,7 +49,7 @@
 .modal-content button {
   width: 100%;
   padding: 0.7rem;
-  background: #28a745;
+  background: #7A0B1A;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -59,15 +59,24 @@
 .modal-content button:hover {
   background: #218838;
 }
-/* Modal fullscreen */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+
+/* Loader styles */
+.loader {
+  width: 20px;
+  aspect-ratio: 4;
+  --_g: no-repeat radial-gradient(circle closest-side,#fff 90%,#0000);
+  background:
+    var(--_g) 0%   50%,
+    var(--_g) 50%  50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 100%;
+  animation: l7 1s infinite linear;
+  margin: 0 auto;
+}
+@keyframes l7 {
+    33%{background-size:calc(100%/3) 0%  ,calc(100%/3) 100%,calc(100%/3) 100%}
+    50%{background-size:calc(100%/3) 100%,calc(100%/3) 0%  ,calc(100%/3) 100%}
+    66%{background-size:calc(100%/3) 100%,calc(100%/3) 100%,calc(100%/3) 0%  }
 }
 /* Content du modal */
 .modal-content {
@@ -424,14 +433,11 @@
   flex: 1;
 }
 
-.color-indicator {
-  grid-column: 2;
-  grid-row: 3;
-}
+
 .content-popup .close{
     border: 0;
     background-color: #777272dc;
-    color: rgba(0, 128, 0, 0.514);
+    color: #7A0B1A;
     font-size: 2rem;
     width: 40px;
     height: 40px;
@@ -574,12 +580,13 @@ body {
 /* Indicateurs visuels pour les sélecteurs de couleur */
 .color-indicator {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 100px;
+  height: 50px;
   border-radius: 50%;
   border: 1px solid #ccc;
   margin-left: 10px;
-  vertical-align: middle;
+  /* vertical-align: middle; */
+  /* Removed grid positioning to allow proper display within flex container */
 }
 
 .table-wrapper {

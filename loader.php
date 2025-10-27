@@ -27,6 +27,7 @@
     animation: honiDropIn 0.8s ease-out forwards;
     /* margin-left: -60px; 🔹 Optionnel : rapproche encore un peu les lettres visuellement */
   }
+  .img-logo{ width: 5000px; }
 
   .honi-preloader img:first-child {
     margin-left: 0; /* pas de décalage sur la première image */
@@ -50,7 +51,7 @@
     <img src="honicove/un.png" alt="H">
     <img src="honicove/deux.png" alt="o">
     <img src="honicove/trois.png" alt="n">
-    <img src="honicove/quatre.png" alt="i">
+    <img src="honicove/quatre.png" class="img-logo" alt="i">
     <img src="honicove/cinq.png" alt="c">
     <img src="honicove/deux.png" alt="o">
     <img src="honicove/sept.png" alt="v">

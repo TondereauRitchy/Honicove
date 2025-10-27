@@ -27,7 +27,10 @@ $adminLoggedIn = !empty($_SESSION['admin_logged_in']);
         <input type="email" id="email" autocomplete="username" required>
         <label for="password">Mot de passe</label>
         <input type="password" id="password" autocomplete="current-password" required>
-        <button type="submit">Se connecter</button>
+        <button type="submit" id="loginBtn">
+          <span id="btnText">Se connecter</span>
+          <div class="loader" id="loader" style="display:none;"></div>
+        </button>
         <p class="forgot">
           <a href="#" id="forgotLink">Mot de passe oublié ?</a>
         </p>
@@ -63,6 +66,16 @@ $adminLoggedIn = !empty($_SESSION['admin_logged_in']);
           <h3>Revenus</h3>
           <p>2 500 €</p>
         </div>
+      </div>
+
+      <!-- Background Image Change Section -->
+      <div class="card">
+        <h3>Changer l'image de fond du site</h3>
+        <form id="bgUploadForm" enctype="multipart/form-data">
+          <input type="file" id="bg_image" name="bg_image" accept="image/*" required>
+          <button type="submit">Télécharger et remplacer</button>
+        </form>
+        <p id="uploadMessage"></p>
       </div>
     </main>
   </div>
@@ -112,6 +125,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const btnText = document.getElementById('btnText');
+    const loader = document.getElementById('loader');
+    const loginBtn = document.getElementById('loginBtn');
+
+    // Show loader and hide text
+    btnText.style.display = 'none';
+    loader.style.display = 'block';
+    loginBtn.disabled = true;
 
     try {
       const res = await fetch('controller/login.php', {
@@ -128,12 +149,56 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.reload(); // Recharge pour activer session
       } else {
         alert('Erreur : ' + result.issues);
+        // Hide loader and show text on error
+        btnText.style.display = 'inline';
+        loader.style.display = 'none';
+        loginBtn.disabled = false;
       }
     } catch (err) {
       console.error(err);
       alert("Erreur de connexion au serveur.");
+      // Hide loader and show text on error
+      btnText.style.display = 'inline';
+      loader.style.display = 'none';
+      loginBtn.disabled = false;
     }
   });
+
+  // Background image upload handler
+  const bgUploadForm = document.getElementById('bgUploadForm');
+  if (bgUploadForm) {
+    bgUploadForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData();
+      const fileInput = document.getElementById('bg_image');
+      formData.append('bg_image', fileInput.files[0]);
+
+      const messageEl = document.getElementById('uploadMessage');
+      messageEl.textContent = 'Téléchargement en cours...';
+
+      try {
+        const res = await fetch('upload_bg.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await res.json();
+        if (result.success) {
+          messageEl.textContent = result.success;
+          messageEl.style.color = 'green';
+          fileInput.value = ''; // Reset the input
+        } else {
+          messageEl.textContent = result.error;
+          messageEl.style.color = 'red';
+        }
+      } catch (err) {
+        console.error(err);
+        messageEl.textContent = 'Erreur lors du téléchargement.';
+        messageEl.style.color = 'red';
+      }
+    });
+  }
 });
 </script>
 
