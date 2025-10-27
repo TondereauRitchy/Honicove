@@ -271,6 +271,12 @@
           }
           cartItems = data.data || [];
           console.log('Cart items loaded:', cartItems);
+          // Debug: log each cart item
+          cartItems.forEach(item => {
+              console.log('Cart item:', item);
+              console.log('product_image:', item.product_image);
+              console.log('image:', item.image);
+          });
           // Sauvegarder le panier en localStorage pour le transfert vers checkout
           localStorage.setItem('cartItems', JSON.stringify(cartItems));
           renderCart();
@@ -326,7 +332,7 @@
           itemEl.className = 'bag-item';
           itemEl.setAttribute('data-cart-id', item.id);
           itemEl.innerHTML = `
-            <img class="thumb" src="uploads/${item.image || item.product_image || 'card1.jpg'}" alt="Product image">
+            <img class="thumb" src="uploads/${item.image|| item.product_image || 'card1.jpg'}" alt="Product image">
             <div class="meta">
               <h3>${item.product_name || 'Produit'}</h3>
               <div class="color-display">
