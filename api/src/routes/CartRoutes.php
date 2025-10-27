@@ -21,7 +21,7 @@ class CartRoutes extends ResourceRoutes {
 		];
 
 		$this->put = [
-			new Route('/carts/:id', [CartController::class, 'updae']),
+			new Route('/carts/:id', [CartController::class, 'update']),
 		];
 
 		$this->patch = [

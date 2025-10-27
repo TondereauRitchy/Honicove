@@ -40,6 +40,9 @@ $router->resourceRoutes(new UserRoutes());
 use Routing\CartRoutes;
 $router->resourceRoutes(new CartRoutes());
 
+use Routing\OrderRoutes;
+$router->resourceRoutes(new OrderRoutes());
+
 ##############################################################################################################
 
 try {

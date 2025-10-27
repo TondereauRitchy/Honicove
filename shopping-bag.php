@@ -271,6 +271,8 @@
           }
           cartItems = data.data || [];
           console.log('Cart items loaded:', cartItems);
+          // Sauvegarder le panier en localStorage pour le transfert vers checkout
+          localStorage.setItem('cartItems', JSON.stringify(cartItems));
           renderCart();
         } catch (error) {
           console.error('Erreur réseau:', error);
