@@ -59,13 +59,25 @@ $adminLoggedIn = !empty($_SESSION['admin_logged_in']);
           <p id="nbProduits"></p>
         </div>
         <div class="card">
-          <h3>Contacts</h3>
-          <p id="nbContacts"></p>
+          <h3>Produits récents</h3>
+          <div id="recent-products-list"></div>
         </div>
         <div class="card">
-          <h3>Revenus</h3>
-          <p>2 500 €</p>
+          <h3>Produits les plus chers</h3>
+          <div id="expensive-products-list"></div>
         </div>
+        <div class="card">
+          <h3>Produits les plus vendus</h3>
+          <div id="bestselling-products-list"></div>
+        </div>
+        <!-- <div class="card">
+          <h3>Contacts</h3>
+          <p id="nbContacts"></p>
+        </div> -->
+        <!-- <div class="card"> -->
+          <!-- <h3>Revenus</h3>
+          <p>2 500 €</p>
+        </div> -->
       </div>
 
       <!-- Background Image Change Section -->
@@ -88,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function loadStats() {
     // Charger le nombre de produits
-    fetch('../api/produits')
+    fetch('../api/public/index.php?route=/products')
       .then(res => res.json())
       .then(data => {
         const nbProduits = data.data ? data.data.length : 0;
@@ -97,6 +109,54 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(error => {
         console.error("Erreur chargement produits :", error);
         document.getElementById('nbProduits').textContent = "Erreur";
+      });
+
+    // Charger les produits récents
+    fetch('../api/public/index.php?route=/products/recent')
+      .then(res => res.json())
+      .then(data => {
+        const recentList = document.getElementById('recent-products-list');
+        if (data.data && data.data.length > 0) {
+          recentList.innerHTML = data.data.slice(0, 5).map(p => `<p>${p.name} - $${p.price}</p>`).join('');
+        } else {
+          recentList.innerHTML = '<p>Aucun produit récent</p>';
+        }
+      })
+      .catch(error => {
+        console.error("Erreur chargement produits récents :", error);
+        document.getElementById('recent-products-list').innerHTML = "Erreur";
+      });
+
+    // Charger les produits les plus chers
+    fetch('../api/public/index.php?route=/products/expensive')
+      .then(res => res.json())
+      .then(data => {
+        const expensiveList = document.getElementById('expensive-products-list');
+        if (data.data && data.data.length > 0) {
+          expensiveList.innerHTML = data.data.slice(0, 5).map(p => `<p>${p.name} - $${p.price}</p>`).join('');
+        } else {
+          expensiveList.innerHTML = '<p>Aucun produit</p>';
+        }
+      })
+      .catch(error => {
+        console.error("Erreur chargement produits chers :", error);
+        document.getElementById('expensive-products-list').innerHTML = "Erreur";
+      });
+
+    // Charger les produits les plus vendus
+    fetch('../api/public/index.php?route=/products/bestselling')
+      .then(res => res.json())
+      .then(data => {
+        const bestsellingList = document.getElementById('bestselling-products-list');
+        if (data.data && data.data.length > 0) {
+          bestsellingList.innerHTML = data.data.slice(0, 5).map(p => `<p>${p.name} - ${p.total_sold || 0} vendus</p>`).join('');
+        } else {
+          bestsellingList.innerHTML = '<p>Aucun produit vendu</p>';
+        }
+      })
+      .catch(error => {
+        console.error("Erreur chargement produits vendus :", error);
+        document.getElementById('bestselling-products-list').innerHTML = "Erreur";
       });
 
     // Charger le nombre d'utilisateurs

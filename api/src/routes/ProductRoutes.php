@@ -14,6 +14,9 @@ class ProductRoutes extends ResourceRoutes {
 		$this->get = [
 			new Route('/products', [ProductController::class, 'index']),
 			new Route('/products/:id', [ProductController::class, 'search']),
+			new Route('/products/recent', [ProductController::class, 'recent']),
+			new Route('/products/expensive', [ProductController::class, 'expensive']),
+			new Route('/products/bestselling', [ProductController::class, 'bestselling']),
 		];
 
 		$this->post = [

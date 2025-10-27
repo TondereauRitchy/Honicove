@@ -97,6 +97,40 @@ class ProductController extends BaseController {
 
         return $this->sendResponse(null,'Produit supprimé avec succès');
 	}
+
+	public function recent() {
+		$produits = Repository::rawQuery("SELECT * FROM products ORDER BY created_at DESC LIMIT 10", []);
+		foreach ($produits as $produit) {
+			$images = ProductImageRepository::findWhere(['product_id'], [$produit->id]);
+			$produit->images = $images;
+		}
+		return $this->sendResponse($produits);
+	}
+
+	public function expensive() {
+		$produits = Repository::rawQuery("SELECT * FROM products ORDER BY price DESC LIMIT 10", []);
+		foreach ($produits as $produit) {
+			$images = ProductImageRepository::findWhere(['product_id'], [$produit->id]);
+			$produit->images = $images;
+		}
+		return $this->sendResponse($produits);
+	}
+
+	public function bestselling() {
+		$produits = Repository::rawQuery("
+			SELECT p.*, SUM(oi.quantity) as total_sold
+			FROM products p
+			LEFT JOIN order_items oi ON p.id = oi.product_id
+			GROUP BY p.id
+			ORDER BY total_sold DESC
+			LIMIT 10
+		", []);
+		foreach ($produits as $produit) {
+			$images = ProductImageRepository::findWhere(['product_id'], [$produit->id]);
+			$produit->images = $images;
+		}
+		return $this->sendResponse($produits);
+	}
 }
 
 ?>

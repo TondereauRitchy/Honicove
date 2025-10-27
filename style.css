@@ -768,7 +768,7 @@ nav.main-nav a:hover {
 .section-title h3{margin:0;font-size:20px}
 .grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:18px;
 }
 
