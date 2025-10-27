@@ -43,12 +43,16 @@ class CartController extends BaseController {
 			if ($product) {
 				$cart->product_name = $product->name;
 				$cart->product_price = $product->price;
-				// Utiliser la même logique que dans produit.php : récupérer depuis product_images si disponible, sinon image_1
-				$images = \App\Repository\ProductImageRepository::findWhere(['product_id'], [$product->id]);
-				if (!empty($images)) {
-					$cart->product_image = $images[0]->image_path;
+				// Utiliser l'image spécifique au panier si elle existe, sinon récupérer depuis product_images ou image_1
+				if (!empty($cart->image)) {
+					$cart->product_image = $cart->image;
 				} else {
-					$cart->product_image = $product->image_1;
+					$images = \App\Repository\ProductImageRepository::findWhere(['product_id'], [$product->id]);
+					if (!empty($images)) {
+						$cart->product_image = $images[0]->image_path;
+					} else {
+						$cart->product_image = $product->image_1;
+					}
 				}
 			}
 			$enrichedCarts[] = $cart;
@@ -129,6 +133,7 @@ class CartController extends BaseController {
 			$data['size'] = $data['size'] ?? null;
 			$data['image'] = $data['image'] ?? null;
 			error_log("CartController::store - Saving cart with color: " . ($data['color'] ?? 'null'));
+			error_log("CartController::store - About to save cart with image: " . ($data['image'] ?? 'null'));
 			$cart = Resource::loadEntity($data, Cart::class);
 			CartRepository::save($cart);
 			return $this->sendResponse($cart);
