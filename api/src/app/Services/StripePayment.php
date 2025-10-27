@@ -22,7 +22,7 @@ class StripePayment{
                 ],
                 'quantity'=> $quantity
               ]],
-            'success_url'=>'http://localhost/honicove-1/thankyou.php?stripe=true',
+            'success_url'=>'http://localhost/dashboard/honicove-1/thank-you.php?stripe=true',
             'cancel_url'=>'http://localhost/honicove-1/?payment_canceled',
             
         ]);
