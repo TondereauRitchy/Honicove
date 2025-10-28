@@ -20,8 +20,8 @@ class OrderController extends BaseController {
 		$userId = $data['user_id'] ?? null;
 		$sessionId = $data['session_id'] ?? null;
 
-		if (!$userId && !$sessionId) {
-			return $this->sendError("User ID or Session ID is required", [], 400);
+		if (!$userId) {
+			return $this->sendError("Vous devez être connecté pour finaliser l'achat", [], 401);
 		}
 
 		// Récupérer les articles du panier
