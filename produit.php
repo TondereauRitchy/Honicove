@@ -67,7 +67,7 @@
       </div>
     </nav>
   </header>
-
+<!-- bonjour -->
   
 
   <main class="product-layout">
