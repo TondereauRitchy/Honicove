@@ -233,7 +233,7 @@
           <ul class="account-menu">
             <a href="sign.php">Sign In</a>
             <a href="#" onclick="event.preventDefault();">My Orders</a>
-            <a href="accountsetting.html">Account Settings</a>
+            <a href="accountsetting.php">Account Settings</a>
             <a href="#" onclick="event.preventDefault();">Address Book</a>
             <a href="#" onclick="event.preventDefault();">Saved Items</a>
           </ul>
@@ -580,7 +580,7 @@
         accountMenu.innerHTML = `
           <a href="myaccount.html">My Account</a>
           <a href="#" onclick="event.preventDefault();">My Orders</a>
-          <a href="accountsetting.html">Account Settings</a>
+          <a href="accountsetting.php">Account Settings</a>
           <a href="#" onclick="event.preventDefault();">Address Book</a>
           <a href="#" onclick="event.preventDefault();">Saved Items</a>
           <a href="#" onclick="logout(event)">Logout</a>

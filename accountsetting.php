@@ -8,7 +8,7 @@
 </head>
 <body class="product-page">
   <div class="top-bar">
-    <th>
+    <th> 
       Free Domestic and International Shipping
     </th>
   </div>
@@ -52,7 +52,7 @@
           <ul class="account-menu">
             <a href="sign.php">Sign In</a>
             <a href="#" onclick="event.preventDefault();">My Orders</a>
-            <a href="accountsetting.html">Account Settings</a>
+            <a href="accountsetting.php">Account Settings</a>
             <a href="#" onclick="event.preventDefault();">Address Book</a>
             <a href="#" onclick="event.preventDefault();">Saved Items</a>
           </ul>
@@ -71,13 +71,15 @@
     <section class="account-settings-section">
       <h2>Account Settings</h2>
       <form class="account-settings-form">
-        <div class="form-group">
-          <label for="first-name">First Name</label>
-          <input type="text" id="first-name" name="first-name" placeholder="Enter your first name">
-        </div>
-        <div class="form-group">
-          <label for="last-name">Last Name</label>
-          <input type="text" id="last-name" name="last-name" placeholder="Enter your last name">
+        <div class="name-row">
+          <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" name="first-name" placeholder="Enter your first name">
+          </div>
+          <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" name="last-name" placeholder="Enter your last name">
+          </div>
         </div>
         <div class="form-group">
           <label for="email">Email</label>
@@ -188,6 +190,16 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+    }
+
+    .name-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .name-row .form-group {
+      flex: 1;
     }
 
     .form-group {
