@@ -432,7 +432,7 @@
           const qty = Number(it.quantity || 1);
           subtotal += price * qty;
           const img = it.image ? `uploads/${it.image}` : (it.product && it.product.image_1 ? `uploads/${it.product.image_1}` : 'uploads/card1.jpg');
-          const name = (it.product && it.product.name) || it.name || 'Article';
+          const name = it.product_name || it.name || 'Article';
           const colorDisplay = it.color ? `<div class="color-display"><span class="color-label">Couleur:</span><span class="color" style="background-color: ${getColorValue(it.color)};"></span></div>` : '';
           const size = it.size ? ` • ${it.size}` : '';
           const row = document.createElement('div');
