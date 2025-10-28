@@ -374,7 +374,7 @@
           const qty = Number(it.quantity || 1);
           subtotal += price * qty;
           const img = it.image ? `uploads/${it.image}` : (it.product && it.product.image_1 ? `uploads/${it.product.image_1}` : 'uploads/card1.jpg');
-          const name = it.product_name || it.name || 'Article';
+          const name = it.product_name || (it.product && it.product.name) || it.name || 'Article';
           const colorDisplay = it.color ? `<div class="color-display"><span class="color-label">Couleur:</span><span class="color" style="background-color: ${getColorValue(it.color)};"></span></div>` : '';
           const size = it.size ? ` • ${it.size}` : '';
           const row = document.createElement('div');
@@ -438,19 +438,26 @@
 
     document.getElementById('checkout-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
+        alert('Vous devez être connecté pour finaliser l\'achat.');
+        window.location.href = 'sign.php';
+        return;
+      }
+      const userId = user.id;
+      const sessionId = localStorage.getItem('session_id') || ('guest_' + Date.now());
       const form = new FormData(e.currentTarget);
       const payload = Object.fromEntries(form.entries());
-      const { sessionId, userId } = getUserIdentifier();
       const order = {
         ...payload,
         session_id: sessionId,
-        user_id: userId || null
+        user_id: userId
       };
       try {
         const res = await fetch('api/public/index.php?route=/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) });
         const data = await res.json();
         console.log('pay', data);
-        
+
         if (!res.ok) throw new Error(data.message || 'Erreur de commande');
         window.location.href = data.data.payment_intent.url;
       } catch (err) {
