@@ -155,27 +155,7 @@
           </div>
         </div>
 
-        <h2>Méthode de paiement</h2>
-        <div class="field-row">
-          <div class="field">
-            <label for="cardNumber">Numéro de carte</label>
-            <input id="cardNumber" name="cardNumber" inputmode="numeric" placeholder="1234 5678 9012 3456" required>
-          </div>
-          <div class="field">
-            <label for="cardName">Nom sur la carte</label>
-            <input id="cardName" name="cardName" required>
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="cardExpiry">Expiration (MM/AA)</label>
-            <input id="cardExpiry" name="cardExpiry" placeholder="MM/AA" required>
-          </div>
-          <div class="field">
-            <label for="cardCvc">CVC</label>
-            <input id="cardCvc" name="cardCvc" inputmode="numeric" placeholder="123" required>
-          </div>
-        </div>
+       
         <button type="submit" class="stripe-payment-btn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
             <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 3.468.991 3.468 2.381 0 .255-.039.51-.098.734l1.459.673c.125-.44.191-.928.191-1.407C17.641 6.172 15.469 4.95 12.5 4.95c-2.07 0-3.75.95-3.75 2.42 0 1.437 1.062 2.239 3.125 2.962 2.229.781 2.875 1.547 2.875 2.625 0 1.0-.891 1.406-2.109 1.406-1.625 0-3.125-.734-3.281-2.484l-1.578.672c.234 2.406 1.719 3.457 4.859 3.457 2.422 0 3.828-.953 3.828-2.516-.016-1.562-.891-2.265-2.916-3.031z" fill="white"/>
