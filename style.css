@@ -72,10 +72,10 @@
    =========================== */
 .modal {
   display: none; /* caché par défaut */
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.25);
-  z-index: 1000;
+  z-index: 10000;
 }
 
 .modal-content {

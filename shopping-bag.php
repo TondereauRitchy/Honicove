@@ -12,6 +12,9 @@
   <!-- Site global CSS -->
   <link rel="stylesheet" href="style.css">
 
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <!-- Page-specific minimal styles (kept here to avoid touching your global CSS) -->
   <style>
     :root {
@@ -383,7 +386,20 @@
           link.addEventListener('click', async function(e) {
             e.preventDefault();
             const cartId = this.getAttribute('data-id');
-            await deleteCartItem(cartId);
+            Swal.fire({
+              title: 'Êtes-vous sûr ?',
+              text: 'Voulez-vous vraiment retirer ce produit du panier ?',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#7A0B1A',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Oui, retirer',
+              cancelButtonText: 'Annuler'
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                await deleteCartItem(cartId);
+              }
+            });
           });
         });
       }
@@ -399,7 +415,12 @@
           });
           const data = await response.json();
           if (data.error) {
-            alert('Erreur mise à jour: ' + data.message);
+            Swal.fire({
+              title: 'Erreur',
+              text: 'Erreur mise à jour: ' + data.message,
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
             return;
           }
           // Recharger le panier
@@ -420,7 +441,12 @@
           });
           const data = await response.json();
           if (data.error) {
-            alert('Erreur suppression: ' + data.message);
+            Swal.fire({
+              title: 'Erreur',
+              text: 'Erreur suppression: ' + data.message,
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
             return;
           }
           // Recharger le panier
