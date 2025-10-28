@@ -39,6 +39,8 @@
     .site-header .Card-icon span { color: #000 !important; }
     /* Side menu text in white */
     .side-menu h3, .side-menu a { color: #fff !important; }
+    /* Override for back-link SVG */
+    .back-link svg { stroke: white !important; }
     @media (max-width: 900px) { .checkout-container { grid-template-columns: 1fr; } .order-summary { position: static; } }
   </style>
 </head>
@@ -48,56 +50,16 @@
       Free Domestic and International Shipping
     </th>
   </div>
-  <header class="site-header">
-    <nav class="brand" aria-label="Brand">
-    <a href="#" onclick="toggleSideMenu(event)" aria-label="Shop">Shop</svg></a>
-     <a href="blog.php" aria-label="Our Story">Blog</a>
-     <a href="about.php" aria-label="About">About</a>
-    </nav>
-
-
-    <!-- Side Menu Backdrop -->
-    <div id="side-menu-backdrop" class="side-menu-backdrop" onclick="closeSideMenu()"></div>
-
-    <!-- Side Menu Overlay -->
-    <div id="side-menu" class="side-menu">
-      <button class="close-menu" onclick="closeSideMenu()">&times;</button>
-<h3>shop</h3>
-<a href="#" onclick="scrollToSection('shop', event)">new arrivals</a>
-<a href="#" onclick="scrollToSection('shop', event)">clothing</a>
-<a href="#" onclick="scrollToSection('shop', event)">mats</a>
-<a href="#" onclick="scrollToSection('shop', event)">weights</a>
-<a href="#" onclick="scrollToSection('shop', event)">accessories</a>
-    </div>
-
+  <header class="site-header" style="display: flex; justify-content: center; align-items: center; position: relative; background: #7A0B1A;">
+    <a href="shopping-bag.php" class="back-link" style="position: absolute; left: 0; display: flex; align-items: center; gap: 8px; color: #fff !important; text-decoration: none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: white !important;">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Back to Shopping Bag
+    </a>
     <div class="logo-primary" id="header-logo2">
-      <a href="index.php"><img src="logo/Secondary Mark, Black.png" alt="Honicove Logo" class="logo-mark"></a>
+      <a href="index.php"><img src="logo/Secondary Mark, White.png" alt="Honicove Logo" class="logo-mark"></a>
     </div>
-
-    <nav class="main-nav" aria-label="Main navigation">
-      <a href="#re" onclick="toggleSearch(event)" aria-label="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></a>
-      <div class="search-bar" id="searchBar" style="display:none;">
-        <input type="text" placeholder="Rechercher..." aria-label="Barre de recherche" />
-      </div>
-      <div class="account-container">
-        <a href="#" onclick="toggleAccountDropdown(event)" aria-label="Account"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
-        <div id="account-dropdown" class="account-dropdown">
-          <ul class="account-menu">
-            <a href="sign.php">Sign In</a>
-            <a href="#" onclick="event.preventDefault();">My Orders</a>
-            <a href="accountsetting.php">Account Settings</a>
-            <a href="#" onclick="event.preventDefault();">Address Book</a>
-            <a href="#" onclick="event.preventDefault();">Saved Items</a>
-          </ul>
-        </div>
-      </div>
-      <div class="cart-container">
-        <a href="#" aria-label="Cart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></a>
-        <button class="Card-icon" aria-label="Voir le panier">
-          <span>2</span>
-        </button>
-      </div>
-    </nav>
   </header>
 
   <main class="checkout-container">
