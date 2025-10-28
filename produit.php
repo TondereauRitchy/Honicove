@@ -151,26 +151,7 @@
     </div>
 
       <!-- Modal -->
-      <div id="cartModal" class="modal">
-        <div class="modal-content">
-          <button class="close-btn" id="closeModal">&times;</button>
-
-          <div id="dynamic-product-summary" class="product-summary">
-            <img src="logo/card1.jpg" alt="Product" class="product-img">
-            <div class="product-info">
-              <h4>GUCCI BEATRIX LARGE TOTE BAG</h4>
-              <p class="price">$3,300</p>
-              <p class="style">Style: 850546 AAF0J 2118</p>
-              <p class="quantity">Quantity: 2</p>
-            </div>
-          </div>
-
-      <div class="modal-actions">
-            <button class="btn black" id="checkout-btn">CHECKOUT</button>
-            <button class="btn white" id="view-shopping-bag-btn">VIEW SHOPPING BAG</button>
-          </div>
-</div>
-  </div>
+   
 </main>
 
 

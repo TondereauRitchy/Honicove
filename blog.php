@@ -201,24 +201,16 @@
     </div>
   </footer>
 
-  <!-- Modal Panier -->
+  <!-- Cart Modal -->
   <div id="cartModal" class="modal">
     <div class="modal-content">
       <button class="close-btn" id="closeModal">&times;</button>
-
-      <div class="product-summary">
-        <img src="logo/card1.jpg" alt="Product" class="product-img">
-        <div class="product-info">
-          <h4>GUCCI BEATRIX LARGE TOTE BAG</h4>
-          <p class="price">$3,300</p>
-          <p class="style">Style: 850546 AAF0J 2118</p>
-          <p class="quantity">Quantity: 2</p>
-        </div>
+      <div id="dynamic-product-summary">
+        <!-- Dynamic content will be populated here -->
       </div>
-
       <div class="modal-actions">
-        <button class="btn black">CHECKOUT</button>
-        <a class="btn white" href="shopping-bag.php">VIEW SHOPPING BAG</a>
+        <button id="checkout-btn" class="btn black">CHECKOUT</button>
+        <a id="view-shopping-bag-btn" class="btn white" href="shopping-bag.php">VIEW SHOPPING BAG</a>
       </div>
     </div>
   </div>
@@ -279,27 +271,155 @@
       }
     }
 
+    // Variables globales pour stocker la sélection
+    let selectedColor = null;
+    let selectedSize = null;
+    let selectedImage = null;
+
+    // Fonction pour obtenir user_id ou session_id (à adapter selon votre système d'authentification)
+    function getUserIdentifier() {
+      // Exemple : récupérer depuis localStorage ou session
+      const userId = localStorage.getItem('user_id');
+      let sessionId = localStorage.getItem('session_id');
+      if (!sessionId) {
+        sessionId = 'guest_' + Date.now();
+        localStorage.setItem('session_id', sessionId); // Persister session_id dans localStorage
+      }
+      return { userId, sessionId };
+    }
+
+    // Function to fetch the total count of items in the cart
+    async function fetchCartCount() {
+      const { userId, sessionId } = getUserIdentifier();
+      const params = new URLSearchParams();
+      if (userId) params.append('user_id', userId);
+      if (sessionId) params.append('session_id', sessionId);
+
+      try {
+        const response = await fetch(`api/public/index.php?route=carts&${params}`);
+        const data = await response.json();
+        if (data.error) {
+          console.error('Erreur chargement compteur panier:', data.message);
+          return 0;
+        }
+        const cartItems = data.data || [];
+        const totalCount = cartItems.reduce((sum, item) => sum + parseInt(item.quantity || 0), 0);
+        return totalCount;
+      } catch (error) {
+        console.error('Erreur réseau:', error);
+        return 0;
+      }
+    }
+
+    // Function to update the cart count display
+    async function updateCartCount() {
+      const count = await fetchCartCount();
+      const cartSpan = document.querySelector('.Card-icon span');
+      if (cartSpan) {
+        cartSpan.textContent = count;
+      }
+    }
+
+    // Function to load and populate cart in modal
+    async function loadCartModal() {
+      const { userId, sessionId } = getUserIdentifier();
+      const params = new URLSearchParams();
+      if (userId) params.append('user_id', userId);
+      if (sessionId) params.append('session_id', sessionId);
+
+      try {
+        const response = await fetch(`api/public/index.php?route=carts&${params}`);
+        const data = await response.json();
+        if (data.error) {
+          console.error('Erreur chargement panier:', data.message);
+          return;
+        }
+        const cartItems = data.data || [];
+        populateCartModal(cartItems);
+      } catch (error) {
+        console.error('Erreur réseau:', error);
+      }
+    }
+
+    // Function to populate modal with cart items
+    function populateCartModal(cartItems) {
+      const summaryDiv = document.getElementById("dynamic-product-summary");
+      if (cartItems.length === 0) {
+        summaryDiv.innerHTML = '<p>Your shopping bag is empty.</p>';
+        return;
+      }
+
+      let total = 0;
+      const itemsHtml = cartItems.map(item => {
+        const itemTotal = parseFloat(item.price) * item.quantity;
+        total += itemTotal;
+        return `
+          <div class="cart-item">
+            <img src="uploads/${item.image || item.product_image || 'card1.jpg'}" alt="${item.product_name || 'Produit'}" class="product-img">
+            <div class="product-info">
+              <h4>${item.product_name || 'Nom non disponible'}</h4>
+              <p class="price">${item.price ? item.price + '$' : 'Prix non disponible'}</p>
+              <p class="quantity">Quantity: ${item.quantity}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      summaryDiv.innerHTML = `
+        <div class="cart-items-list" style="max-height: 300px; overflow-y: auto;">
+          ${itemsHtml}
+        </div>
+        <div class="cart-total">
+          <p>Total: $${total.toFixed(2)}</p>
+        </div>
+      `;
+    }
+
+    // Modal logic for Cart
+    const cartModal = document.getElementById("cartModal");
+    const modalContent = cartModal.querySelector('.modal-content');
+    const closeModal = document.getElementById("closeModal");
+    const cartIcon = document.querySelector('.Card-icon');
+    const cartIconLink = document.querySelector('.cart-container a');
+
     function openModalAnchored(e) {
-      e.preventDefault();
-      const modal = document.getElementById('cartModal');
-      const modalContent = modal.querySelector('.modal-content');
-      const cartIcon = e.target.closest('.cart-container').querySelector('.Card-icon');
+      if (e) e.preventDefault();
+      if (!cartIcon) return;
       const rect = cartIcon.getBoundingClientRect();
-      modal.style.display = 'block';
+      // show overlay but make backdrop transparent so modal appears near header
+      cartModal.style.display = "flex";
+      cartModal.style.background = 'transparent';
+      // prepare modal content for fixed positioning
       modalContent.style.position = 'fixed';
-      modalContent.style.top = (rect.bottom + 10) + 'px';
-      modalContent.style.left = (rect.left - 200) + 'px';
       modalContent.style.transform = 'none';
+      modalContent.style.maxWidth = '320px';
+      modalContent.style.visibility = 'hidden';
+      // measure and position on next frame
+      requestAnimationFrame(() => {
+        const mW = modalContent.offsetWidth || 320;
+        const leftOffset = 50; // shift further to the left (px)
+        let left = rect.left + rect.width / 2 - mW / 2 - leftOffset;
+        left = Math.max(8, Math.min(left, window.innerWidth - mW - 8));
+        const top = rect.bottom + 8; // 8px gap
+        modalContent.style.left = `${left}px`;
+        modalContent.style.top = `${top}px`;
+        modalContent.style.visibility = 'visible';
+        // ensure modal content is above header
+        modalContent.style.zIndex = '4001';
+      });
     }
 
     function closeModalAnchored() {
-      const modal = document.getElementById('cartModal');
-      const modalContent = modal.querySelector('.modal-content');
-      modal.style.display = 'none';
-      modalContent.style.position = 'absolute';
-      modalContent.style.top = '';
+      cartModal.style.display = "none";
+      modalContent.style.position = '';
       modalContent.style.left = '';
+      modalContent.style.top = '';
       modalContent.style.transform = '';
+      modalContent.style.maxWidth = '';
+      modalContent.style.visibility = '';
+      modalContent.style.zIndex = '';
+      // restore backdrop to default in case other modals rely on it
+      cartModal.style.background = 'rgba(0, 0, 0, 0.25)';
     }
 
     // Function to update account menu based on login status
@@ -334,6 +454,7 @@
     // Cart modal close functionality
     document.addEventListener('DOMContentLoaded', function() {
       updateAccountMenu(); // Update account menu on page load
+      updateCartCount(); // Update cart count on page load
 
       const closeBtn = document.getElementById('closeModal');
       if (closeBtn) {
@@ -346,6 +467,25 @@
           if (e.target === modal) {
             closeModalAnchored();
           }
+        });
+      }
+
+      // Add event listener to open modal and load cart
+      const cartIcon = document.querySelector('.Card-icon');
+      if (cartIcon) {
+        cartIcon.addEventListener('click', async function(e) {
+          e.preventDefault();
+          await loadCartModal();
+          openModalAnchored(e);
+        });
+      }
+
+      const cartIconLink = document.querySelector('.cart-container a');
+      if (cartIconLink) {
+        cartIconLink.addEventListener('click', async function(e) {
+          e.preventDefault();
+          await loadCartModal();
+          openModalAnchored(e);
         });
       }
     });
