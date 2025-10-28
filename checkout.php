@@ -27,6 +27,9 @@
     .stripe-payment-btn:hover { background: #5a52d1; }
     .coupon { display: flex; gap: 8px; margin-top: 12px; }
     .coupon input { flex: 1; }
+    .color-display { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .color-label { font-size: 14px; color: #666; }
+    .color { width: 20px; height: 20px; border-radius: 50%; border: 1px solid #ccc; display: inline-block; }
     /* Header overrides: make links and icons black, cart icon too */
     .site-header {background: #fff;}
     .site-header a { color: #000 !important; }
@@ -390,6 +393,33 @@
 
     function money(n) { return (n || 0).toLocaleString(undefined, { style: 'currency', currency: 'USD' }); }
 
+    // Fonction pour mapper les noms de couleurs français aux noms de couleurs CSS anglais
+    function getColorValue(color) {
+      const colorMap = {
+        'rouge': 'red',
+        'bleu': 'blue',
+        'vert': 'green',
+        'noir': 'black',
+        'blanc': 'white',
+        'gris': 'gray',
+        'jaune': 'yellow',
+        'orange': 'orange',
+        'violet': 'purple',
+        'rose': 'pink',
+        'marron': 'brown',
+        'beige': 'beige',
+        'crème': 'cream',
+        'argent': 'silver',
+        'or': 'gold',
+        'teal': 'teal',
+        'cyan': 'cyan',
+        'indigo': 'indigo',
+        'lime': 'lime',
+        // Ajouter d'autres mappings si nécessaire
+      };
+      return color.startsWith('#') ? color : (colorMap[color.toLowerCase()] || 'gray');
+    }
+
     function renderSummary(items) {
       const container = document.getElementById('summary-items');
       container.innerHTML = '';
@@ -403,7 +433,7 @@
           subtotal += price * qty;
           const img = it.image ? `uploads/${it.image}` : (it.product && it.product.image_1 ? `uploads/${it.product.image_1}` : 'uploads/card1.jpg');
           const name = (it.product && it.product.name) || it.name || 'Article';
-          const color = it.color ? ` • ${it.color}` : '';
+          const colorDisplay = it.color ? `<div class="color-display"><span class="color-label">Couleur:</span><span class="color" style="background-color: ${getColorValue(it.color)};"></span></div>` : '';
           const size = it.size ? ` • ${it.size}` : '';
           const row = document.createElement('div');
           row.className = 'summary-item';
@@ -411,7 +441,8 @@
             <img src="${img}" alt="${name}">
             <div class="meta">
               <div style="font-weight:600;">${name}</div>
-              <div style="font-size:12px;color:#666">Qté: ${qty}${color}${size}</div>
+              ${colorDisplay}
+              <div style="font-size:12px;color:#666">Qté: ${qty}${size}</div>
             </div>
             <div class="price">${money(price * qty)}</div>
           `;
