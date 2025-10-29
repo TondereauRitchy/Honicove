@@ -71,14 +71,7 @@ $adminLoggedIn = !empty($_SESSION['admin_logged_in']);
           <h3>Produits les plus vendus</h3>
           <div id="bestselling-products-list"></div>
         </div>
-        <!-- <div class="card">
-          <h3>Contacts</h3>
-          <p id="nbContacts"></p>
-        </div> -->
-        <!-- <div class="card"> -->
-          <!-- <h3>Revenus</h3>
-          <p>2 500 €</p>
-        </div> -->
+      
       </div>
 
       <!-- Background Image Change Section -->
