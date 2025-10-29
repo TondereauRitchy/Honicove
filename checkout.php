@@ -489,7 +489,7 @@
         }
         const userId = sessionData.user_id;
         const sessionId = localStorage.getItem('session_id') || ('guest_' + Date.now());
-        const form = new FormData(e.currentTarget);
+        const form = new FormData(document.getElementById('checkout-form'));
         const payload = Object.fromEntries(form.entries());
         const order = {
           ...payload,

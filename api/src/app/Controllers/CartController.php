@@ -5,62 +5,79 @@ namespace App\Controllers;
 use App\Entity\Cart;
 use App\Repository\CartRepository;
 use App\Resources\Resource;
+use SessionManager;
 
 class CartController extends BaseController {
 
 
 	public function index() {
-		$userId = $_GET['user_id'] ?? null;
-		$sessionId = $_GET['session_id'] ?? null;
+		try {
+			// Utiliser SessionManager pour récupérer l'utilisateur/session actuel au lieu des paramètres GET
+			require_once __DIR__ . '/../../../../includes/SessionManager.class.php';
+			$sessionManager = SessionManager::getInstance();
 
-		if (!$userId && !$sessionId) {
-			return $this->sendError("User ID or Session ID is required", [], 400);
-		}
+			$userId = $sessionManager->getUserId();
+			$sessionId = $sessionManager->getGuestSession();
 
-		$conditionColumns = [];
-		$params = [];
-		if ($userId) {
-			$conditionColumns[] = 'user_id';
-			$params[] = (int)$userId; // Traiter user_id comme entier
-		}
-		if ($sessionId) {
-			$conditionColumns[] = 'session_id';
-			$params[] = (string)$sessionId; // Traiter session_id comme chaîne
-		}
+			error_log("CartController::index - userId: " . ($userId ?? 'null') . ", sessionId: " . ($sessionId ?? 'null'));
 
-		error_log("CartController::index - userId: $userId, sessionId: $sessionId");
-		error_log("CartController::index - conditionColumns: " . implode(',', $conditionColumns));
-		error_log("CartController::index - params: " . implode(',', $params));
-
-		$carts = CartRepository::findOrWhere($conditionColumns, $params);
-
-		error_log("CartController::index - carts found: " . count($carts));
-
-		// Enrichir avec les détails des produits
-		$enrichedCarts = [];
-		foreach ($carts as $cart) {
-			$product = \App\Repository\ProductRepository::find($cart->product_id);
-			if ($product) {
-				$cart->product_name = $product->name;
-				$cart->product_price = $product->price;
-				// Utiliser l'image spécifique au panier si elle existe, sinon récupérer depuis product_images ou image_1
-				if (!empty($cart->image)) {
-					$cart->product_image = $cart->image;
-				} else {
-					$images = \App\Repository\ProductImageRepository::findWhere(['product_id'], [$product->id]);
-					if (!empty($images)) {
-						$cart->product_image = $images[0]->image_path;
-					} else {
-						$cart->product_image = $product->image_1;
-					}
-				}
+			if (!$userId && !$sessionId) {
+				return $this->sendError("Authentication required", [], 401);
 			}
-			$enrichedCarts[] = $cart;
+
+			$conditionColumns = [];
+			$params = [];
+			if ($userId) {
+				$conditionColumns[] = 'user_id';
+				$params[] = (int)$userId;
+			} elseif ($sessionId) {
+				$conditionColumns[] = 'session_id';
+				$params[] = (string)$sessionId;
+			}
+
+			error_log("CartController::index - conditionColumns: " . implode(',', $conditionColumns));
+			error_log("CartController::index - params: " . implode(',', $params));
+
+			$carts = CartRepository::findOrWhere($conditionColumns, $params);
+
+			error_log("CartController::index - carts found: " . count($carts));
+
+			// Enrichir avec les détails des produits
+			$enrichedCarts = [];
+			foreach ($carts as $cart) {
+				try {
+					$product = \App\Repository\ProductRepository::find($cart->product_id);
+					if ($product) {
+						$cart->product_name = $product->name;
+						$cart->product_price = $product->price;
+						// Utiliser l'image spécifique au panier si elle existe, sinon récupérer depuis product_images ou image_1
+						if (!empty($cart->image)) {
+							$cart->product_image = $cart->image;
+						} else {
+							$images = \App\Repository\ProductImageRepository::findWhere(['product_id'], [$product->id]);
+							if (!empty($images)) {
+								$cart->product_image = $images[0]->image_path;
+							} else {
+								$cart->product_image = $product->image_1;
+							}
+						}
+					} else {
+						error_log("CartController::index - Product not found for cart item: " . $cart->product_id);
+					}
+				} catch (\Exception $e) {
+					error_log("CartController::index - Error enriching cart item: " . $e->getMessage());
+				}
+				$enrichedCarts[] = $cart;
+			}
+
+			error_log("CartController::index - enriched carts: " . count($enrichedCarts));
+
+			return $this->sendResponse($enrichedCarts);
+		} catch (\Exception $e) {
+			error_log("CartController::index - Exception: " . $e->getMessage());
+			error_log("CartController::index - Stack trace: " . $e->getTraceAsString());
+			return $this->sendError("Internal server error", $e->getMessage(), 500);
 		}
-
-		error_log("CartController::index - enriched carts: " . count($enrichedCarts));
-
-		return $this->sendResponse($enrichedCarts);
 	}
 
 
@@ -74,11 +91,16 @@ class CartController extends BaseController {
 	public function store() {
 		$data = json_decode(file_get_contents("php://input"), true);
 		error_log("CartController::store - Received data: " . json_encode($data));
-		$userId = $data['user_id'] ?? null;
-		$sessionId = $data['session_id'] ?? null;
+
+		// Utiliser SessionManager pour récupérer l'utilisateur/session actuel
+		require_once __DIR__ . '/../../../../includes/SessionManager.class.php';
+		$sessionManager = SessionManager::getInstance();
+
+		$userId = $sessionManager->getUserId();
+		$sessionId = $sessionManager->getGuestSession();
 
 		if (!$userId && !$sessionId) {
-			return $this->sendError("User ID or Session ID is required", [], 400);
+			return $this->sendError("Authentication required", [], 401);
 		}
 
 		// Traiter les types de données
@@ -149,12 +171,15 @@ class CartController extends BaseController {
 			return $this->sendError("Cart item not found", [], 404);
 		}
 
-		// Vérifications de propriété (user_id ou session_id)
-		$userId = $data['user_id'] ?? null;
-		$sessionId = $data['session_id'] ?? null;
-		if ($userId) $userId = (int)$userId; // user_id comme entier
-		if ($sessionId) $sessionId = (string)$sessionId; // session_id comme chaîne
-		if (($userId && $cart->user_id != $userId) || ($sessionId && $cart->session_id != $sessionId)) {
+		// Utiliser SessionManager pour valider l'appartenance du panier
+		require_once __DIR__ . '/../../../../includes/SessionManager.class.php';
+		$sessionManager = SessionManager::getInstance();
+
+		$currentUserId = $sessionManager->getUserId();
+		$currentSessionId = $sessionManager->getGuestSession();
+
+		// Vérifier que le panier appartient bien à l'utilisateur/session actuel
+		if (($currentUserId && $cart->user_id != $currentUserId) || ($currentSessionId && $cart->session_id != $currentSessionId)) {
 			return $this->sendError("Unauthorized", [], 403);
 		}
 
@@ -182,12 +207,15 @@ class CartController extends BaseController {
 			return $this->sendError("Cart item not found", [], 404);
 		}
 
-		// Vérifications de propriété
-		$userId = $data['user_id'] ?? null;
-		$sessionId = $data['session_id'] ?? null;
-		if ($userId) $userId = (int)$userId; // user_id comme entier
-		if ($sessionId) $sessionId = (string)$sessionId; // session_id comme chaîne
-		if (($userId && $cart->user_id != $userId) || ($sessionId && $cart->session_id != $sessionId)) {
+		// Utiliser SessionManager pour valider l'appartenance du panier
+		require_once __DIR__ . '/../../../../includes/SessionManager.class.php';
+		$sessionManager = SessionManager::getInstance();
+
+		$currentUserId = $sessionManager->getUserId();
+		$currentSessionId = $sessionManager->getGuestSession();
+
+		// Vérifier que le panier appartient bien à l'utilisateur/session actuel
+		if (($currentUserId && $cart->user_id != $currentUserId) || ($currentSessionId && $cart->session_id != $currentSessionId)) {
 			return $this->sendError("Unauthorized", [], 403);
 		}
 
