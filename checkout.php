@@ -262,30 +262,55 @@
     // Function to update account menu based on login status
     function updateAccountMenu() {
       const accountMenu = document.querySelector('.account-menu');
-      const user = localStorage.getItem('user');
-      if (user) {
-        // Logged in: show My Account, My Orders, Account Settings, Address Book, Saved Items, Logout
-        accountMenu.innerHTML = `
-          <a href="myaccount.html">My Account</a>
-          <a href="#" onclick="event.preventDefault();">My Orders</a>
-          <a href="accountsetting.php">Account Settings</a>
-          <a href="#" onclick="event.preventDefault();">Address Book</a>
-          <a href="#" onclick="event.preventDefault();">Saved Items</a>
-          <a href="#" onclick="logout(event)">Logout</a>
-        `;
-      } else {
-        // Not logged in: show only Sign In
-        accountMenu.innerHTML = `
-          <a href="sign.php">Sign In</a>
-        `;
+      // Vérifier la session via API au lieu de localStorage
+      checkSessionStatus().then(isLoggedIn => {
+        if (isLoggedIn) {
+          // Logged in: show My Account, My Orders, Account Settings, Address Book, Saved Items, Logout
+          accountMenu.innerHTML = `
+            <a href="myaccount.html">My Account</a>
+            <a href="#" onclick="event.preventDefault();">My Orders</a>
+            <a href="accountsetting.php">Account Settings</a>
+            <a href="#" onclick="event.preventDefault();">Address Book</a>
+            <a href="#" onclick="event.preventDefault();">Saved Items</a>
+            <a href="#" onclick="logout(event)">Logout</a>
+          `;
+        } else {
+          // Not logged in: show only Sign In
+          accountMenu.innerHTML = `
+            <a href="sign.php">Sign In</a>
+          `;
+        }
+      });
+    }
+
+    // Function to check session status via API
+    async function checkSessionStatus() {
+      try {
+        const response = await fetch('session_check.php', {
+          method: 'GET',
+          credentials: 'same-origin' // Inclure les cookies de session
+        });
+        const result = await response.json();
+        return result.logged_in || false;
+      } catch (error) {
+        console.error('Erreur lors de la vérification de session:', error);
+        return false;
       }
     }
 
     // Function to handle logout
     function logout(e) {
       e.preventDefault();
-      localStorage.removeItem('user');
-      window.location.href = 'index.php';
+      // Appeler l'API pour détruire la session côté serveur
+      fetch('logout.php', {
+        method: 'POST',
+        credentials: 'same-origin'
+      }).then(() => {
+        window.location.href = 'index.php';
+      }).catch(error => {
+        console.error('Erreur lors de la déconnexion:', error);
+        window.location.href = 'index.php';
+      });
     }
 
     // Update menu on page load
@@ -439,8 +464,9 @@
 
     document.getElementById('checkout-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const user = JSON.parse(localStorage.getItem('user'));
-      if (!user) {
+      // Vérifier la session côté serveur au lieu de localStorage
+      const isLoggedIn = await checkSessionStatus();
+      if (!isLoggedIn) {
         Swal.fire({
           title: 'Erreur',
           text: 'Vous devez être connecté pour finaliser l\'achat.',
@@ -451,16 +477,25 @@
         });
         return;
       }
-      const userId = user.id;
-      const sessionId = localStorage.getItem('session_id') || ('guest_' + Date.now());
-      const form = new FormData(e.currentTarget);
-      const payload = Object.fromEntries(form.entries());
-      const order = {
-        ...payload,
-        session_id: sessionId,
-        user_id: userId
-      };
+      // Récupérer les informations utilisateur depuis la session
       try {
+        const sessionResponse = await fetch('session_check.php', {
+          method: 'GET',
+          credentials: 'same-origin'
+        });
+        const sessionData = await sessionResponse.json();
+        if (!sessionData.logged_in) {
+          throw new Error('Session invalide');
+        }
+        const userId = sessionData.user_id;
+        const sessionId = localStorage.getItem('session_id') || ('guest_' + Date.now());
+        const form = new FormData(e.currentTarget);
+        const payload = Object.fromEntries(form.entries());
+        const order = {
+          ...payload,
+          session_id: sessionId,
+          user_id: userId
+        };
         const res = await fetch('api/public/index.php?route=/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) });
         const data = await res.json();
         console.log('pay', data);

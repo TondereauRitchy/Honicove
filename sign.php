@@ -1,4 +1,9 @@
-<?php include 'load.php'; ?>
+<?php
+include 'load.php';
+include 'includes/SessionManager.class.php';
+
+$sessionManager = SessionManager::getInstance();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -220,30 +225,55 @@
     // Function to update account menu based on login status
     function updateAccountMenu() {
       const accountMenu = document.querySelector('.account-menu');
-      const user = localStorage.getItem('user');
-      if (user) {
-        // Logged in: show My Account, My Orders, Account Settings, Address Book, Saved Items, Logout
-        accountMenu.innerHTML = `
-          <a href="myaccount.html">My Account</a>
-          <a href="#" onclick="event.preventDefault();">My Orders</a>
-          <a href="accountsetting.php">Account Settings</a>
-          <a href="#" onclick="event.preventDefault();">Address Book</a>
-          <a href="#" onclick="event.preventDefault();">Saved Items</a>
-          <a href="#" onclick="logout(event)">Logout</a>
-        `;
-      } else {
-        // Not logged in: show only Sign In
-        accountMenu.innerHTML = `
-          <a href="sign.php">Sign In</a>
-        `;
+      // Vérifier la session via API au lieu de localStorage
+      checkSessionStatus().then(isLoggedIn => {
+        if (isLoggedIn) {
+          // Logged in: show My Account, My Orders, Account Settings, Address Book, Saved Items, Logout
+          accountMenu.innerHTML = `
+            <a href="myaccount.html">My Account</a>
+            <a href="#" onclick="event.preventDefault();">My Orders</a>
+            <a href="accountsetting.php">Account Settings</a>
+            <a href="#" onclick="event.preventDefault();">Address Book</a>
+            <a href="#" onclick="event.preventDefault();">Saved Items</a>
+            <a href="#" onclick="logout(event)">Logout</a>
+          `;
+        } else {
+          // Not logged in: show only Sign In
+          accountMenu.innerHTML = `
+            <a href="sign.php">Sign In</a>
+          `;
+        }
+      });
+    }
+
+    // Function to check session status via API
+    async function checkSessionStatus() {
+      try {
+        const response = await fetch('session_check.php', {
+          method: 'GET',
+          credentials: 'same-origin' // Inclure les cookies de session
+        });
+        const result = await response.json();
+        return result.logged_in || false;
+      } catch (error) {
+        console.error('Erreur lors de la vérification de session:', error);
+        return false;
       }
     }
 
     // Function to handle logout
     function logout(e) {
       e.preventDefault();
-      localStorage.removeItem('user');
-      window.location.href = 'index.php';
+      // Appeler l'API pour détruire la session côté serveur
+      fetch('logout.php', {
+        method: 'POST',
+        credentials: 'same-origin'
+      }).then(() => {
+        window.location.href = 'index.php';
+      }).catch(error => {
+        console.error('Erreur lors de la déconnexion:', error);
+        window.location.href = 'index.php';
+      });
     }
 
     // Initialize account menu on page load
@@ -276,8 +306,18 @@
         if (result.error) {
           showError(result.message || 'Erreur lors de la connexion.');
         } else {
-          // Connexion réussie - stocker les informations utilisateur et rediriger
-          localStorage.setItem('user', JSON.stringify(result.data));
+          // Connexion réussie - créer une session côté serveur et rediriger
+          // Appeler un endpoint pour établir la session
+          await fetch('login_session.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify(result.data)
+          });
+          // Supprimer les données sensibles de localStorage
+          localStorage.removeItem('user');
           window.location.href = 'index.php'; // Rediriger vers la page d'accueil
         }
       } catch (error) {
