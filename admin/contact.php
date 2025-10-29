@@ -26,13 +26,21 @@ $adminEmail = $_SESSION['email_admin'] ?? 'admin inconnu';
         <table id="contacts-table" class="display">
         <thead>
             <tr>
+            <th>Prénom</th>
             <th>Nom</th>
             <th>Email</th>
-            <th>Message</th>
+            <th>Téléphone</th>
+            <th>Adresse</th>
+            <th>Pays</th>
+            <th>Nom_Produit</th>
+            <th>Size</th>
+            <th>Quantite</th>
+            <th>Prix_produit</th>
+            <th>Statut</th>
             </tr>
         </thead>
         <tbody>
-         
+
         </tbody>
         </table>
 
@@ -47,9 +55,17 @@ fetch('../api/contacts')
     data.data.forEach(contact => {
       const row = document.createElement('tr');
       row.innerHTML = `
+        <td>${contact.prenom}</td>
         <td>${contact.nom}</td>
         <td>${contact.email}</td>
-        <td>${contact.message}</td>
+        <td>${contact.telephone}</td>
+        <td>${contact.adresse}</td>
+        <td>${contact.pays}</td>
+        <td>${contact.nom_produit}</td>
+        <td>${contact.size}</td>
+        <td>${contact.quantite}</td>
+        <td>${contact.prix_produit}</td>
+        <td>${contact.statut}</td>
       `;
       tbody.appendChild(row);
     });

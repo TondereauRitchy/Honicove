@@ -11,6 +11,7 @@ $adminLoggedIn = !empty($_SESSION['admin_logged_in']);
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="sweetalert2.min.js"></script>
   <title>Page Admin</title>
   <script>
     const adminLoggedIn = <?= $adminLoggedIn ? 'true' : 'false' ?>;
@@ -205,8 +206,14 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log(result);
 
       if (!result.error) {
-        alert('Connexion réussie 🎉');
-        window.location.reload(); // Recharge pour activer session
+        Swal.fire({
+          icon: 'success',
+          title: 'Connexion réussie 🎉',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          window.location.reload(); // Recharge pour activer session
+        });
       } else {
         alert('Erreur : ' + result.issues);
         // Hide loader and show text on error

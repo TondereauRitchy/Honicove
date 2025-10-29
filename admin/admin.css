@@ -264,8 +264,8 @@
 }
 /* Améliore l'apparence du conteneur du tableau */
 #contacts-table_wrapper {
-  margin: 40px 60px;
-  max-width: 900px;
+  margin: 40px auto;
+  max-width: 1070px;
   background: #fff;
   padding: 30px 20px 20px 20px;
   border-radius: 10px;

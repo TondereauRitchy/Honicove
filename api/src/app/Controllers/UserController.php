@@ -58,14 +58,14 @@ class UserController extends BaseController {
         // Chercher l'utilisateur par email
         $user = UserRepository::findWhere(['email'], [$email]);
         if (empty($user)) {
-            return $this->sendError("Erreur", "Utilisateur non trouvé");
+            return $this->sendError("Erreur", "Identifiants invalides");
         }
 
         $user = $user[0];
 
         // Vérifier le mot de passe haché
         if (!password_verify($password, $user->password)) {
-            return $this->sendError("Erreur", "Mot de passe incorrect");
+            return $this->sendError("Erreur", "Identifiants invalides");
         }
 
         // Connexion réussie - retourner les données utilisateur (sans le mot de passe)
