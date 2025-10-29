@@ -58,7 +58,7 @@
       Back to Shopping Bag
     </a>
     <div class="logo-primary" id="header-logo2">
-      <a href="index.php"><img src="logo/Secondary Mark, White.png" alt="Honicove Logo" class="logo-mark"></a>
+      <a href="index.php"><img src="logo/Secondary Mark, white.png" alt="Honicove Logo" class="logo-mark"></a>
     </div>
   </header>
 
