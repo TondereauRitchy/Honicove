@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout - Honicove</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     /* Minimal checkout-specific layout using existing style.css tokens */
     .checkout-container { max-width: 1100px; margin: 100px auto; padding: 0 16px; display: grid; grid-template-columns: 1fr 360px; gap: 32px; }
@@ -440,8 +441,14 @@
       e.preventDefault();
       const user = JSON.parse(localStorage.getItem('user'));
       if (!user) {
-        alert('Vous devez être connecté pour finaliser l\'achat.');
-        window.location.href = 'sign.php';
+        Swal.fire({
+          title: 'Erreur',
+          text: 'Vous devez être connecté pour finaliser l\'achat.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          window.location.href = 'sign.php';
+        });
         return;
       }
       const userId = user.id;
@@ -461,7 +468,12 @@
         if (!res.ok) throw new Error(data.message || 'Erreur de commande');
         window.location.href = data.data.payment_intent.url;
       } catch (err) {
-        alert('Impossible de finaliser la commande pour le moment.');
+        Swal.fire({
+          title: 'Erreur',
+          text: 'Impossible de finaliser la commande pour le moment.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
         console.error(err);
       }
     });
