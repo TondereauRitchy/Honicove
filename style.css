@@ -74,7 +74,7 @@
   display: none; /* caché par défaut */
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.25);
+  background: transparent;
   z-index: 10000;
 }
 
@@ -1185,6 +1185,40 @@ body.sign-page button.Card-icon span {
   border-color: black;
 }
 
+/* Saved Items page header styles */
+body.saved-items-page header.site-header,
+body.saved-items-page header.site-header a {
+  color: black;
+  background: white;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+body.saved-items-page header.site-header a.shop-link {
+  color: white !important;
+  background: transparent !important;
+  display: block;
+}
+
+body.saved-items-page .dropdown-toggle .arrow {
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+body.saved-items-page .brand a:hover,
+body.saved-items-page nav.main-nav a:hover {
+  background-color: #B22234 !important;
+  color: var(--white);
+}
+
+body.saved-items-page button.Card-icon span {
+  color: black;
+  border-color: black;
+}
+
+body.saved-items-page .wrap {
+  margin-top: 6rem;
+}
+
 /* Product page styles */
 .product {
   max-width: 900px;
@@ -1804,6 +1838,87 @@ header.site-header.scrolled {
 }
 
 /* =========================
+   Share Modal Styles (moved from saved-item.html)
+   ========================= */
+.share-header {
+  text-align: center;
+  margin-bottom: 8px;
+  color: #666;
+  font-size: .9rem;
+  letter-spacing: .05em;
+}
+
+.share-title {
+  font-family: 'Playfair Display', serif;
+  text-align: center;
+  margin: 6px 0 18px 0;
+  font-weight: 600;
+}
+
+.share-icons {
+  display: flex;
+  gap: 26px;
+  justify-content: center;
+  margin: 10px 0 6px 0;
+}
+
+.share-icons button {
+  background: #fff;
+  border: 1px solid #d8d8d8;
+  border-radius: 50%;
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.share-icons button:hover {
+  border-color: #000;
+}
+
+.share-labels {
+  display: flex;
+  gap: 26px;
+  justify-content: center;
+  color: #333;
+  font-size: .95rem;
+  margin-bottom: 18px;
+}
+
+.share-copy {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f5f5f5;
+  border: 1px solid #eee;
+  padding: 14px;
+  border-radius: 6px;
+}
+
+.share-copy input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: .95rem;
+}
+
+.modal.share .modal-content {
+  max-width: 640px;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Prevent scrolling when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* =========================
    Side Menu Overlay
    ========================= */
 .side-menu-backdrop {
@@ -2202,5 +2317,38 @@ header.site-header.scrolled {
 body {
   background: none !important;
 }
+/* Loader CSS */
+.loader {
+  width: 40px;
+  aspect-ratio: 1;
+  --c: linear-gradient(#000 0 0);
+  --r1: radial-gradient(farthest-side at bottom,#000 93%,#0000);
+  --r2: radial-gradient(farthest-side at top   ,#000 93%,#0000);
+  background:
+    var(--c) ,var(--r1),var(--r2),
+    var(--c) ,var(--r1),var(--r2),
+    var(--c) ,var(--r1),var(--r2);
+  background-repeat: no-repeat;
+  animation: l2 1s infinite alternate;
+}
+@keyframes l2 {
+  0%,25% {
+    background-size: 8px 0,8px 4px,8px 4px,8px 0,8px 4px,8px 4px,8px 0,8px 4px,8px 4px;
+    background-position: 0 50%,0 calc(50% - 2px),0 calc(50% + 2px),50% 50%,50% calc(50% - 2px),50% calc(50% + 2px),100% 50%,100% calc(50% - 2px),100% calc(50% + 2px);
+ }
+ 50% {
+    background-size: 8px 100%,8px 4px,8px 4px,8px 0,8px 4px,8px 4px,8px 0,8px 4px,8px 4px;
+    background-position: 0 50%,0 calc(0% - 2px),0 calc(100% + 2px),50% 50%,50% calc(50% - 2px),50% calc(50% + 2px),100% 50%,100% calc(50% - 2px),100% calc(50% + 2px);
+ }
+ 75% {
+    background-size: 8px 100%,8px 4px,8px 4px,8px 100%,8px 4px,8px 4px,8px 0,8px 4px,8px 4px;
+    background-position: 0 50%,0 calc(0% - 2px),0 calc(100% + 2px),50% 50%,50% calc(0% - 2px),50% calc(100% + 2px),100% 50%,100% calc(50% - 2px),100% calc(50% + 2px);
+ }
+ 95%,100% {
+    background-size: 8px 100%,8px 4px, 8px 4px,8px 100%,8px 4px,8px 4px,8px 100%,8px 4px,8px 4px;
+    background-position: 0 50%,0 calc(0% - 2px),0 calc(100% + 2px),50% 50%,50% calc(0% - 2px),50% calc(100% + 2px),100% 50%,100% calc(0% - 2px),100% calc(100% + 2px);
+ }
+}
+
 /* final */
 

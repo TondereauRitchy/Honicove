@@ -126,7 +126,10 @@
       </div>
     </div>
 
-    <button id="add-to-cart-btn" class="btn-add-to-cart">ADD TO CART</button>
+    <button id="add-to-cart-btn" class="btn-add-to-cart">
+      <span id="button-text">ADD TO CART</span>
+      <div id="loader" class="loader" style="display: none;"></div>
+    </button>
     <p class="shipping-note">Ships in 2 weeks</p>
 
     <div class="accordion">
@@ -704,6 +707,13 @@
           const productId = getQueryParam('id');
           const quantity = document.getElementById('quantity').value;
           const { userId, sessionId } = getUserIdentifier();
+
+          // Show loader and hide text
+          const buttonText = document.getElementById('button-text');
+          const loader = document.getElementById('loader');
+          buttonText.style.display = 'none';
+          loader.style.display = 'block';
+
           try {
             const cartData = {
               product_id: productId,
@@ -739,6 +749,10 @@
             openModalAnchored(e);
           } catch (error) {
             console.error('Error adding to cart:', error);
+          } finally {
+            // Hide loader and show text
+            loader.style.display = 'none';
+            buttonText.style.display = 'inline';
           }
         }
       });
